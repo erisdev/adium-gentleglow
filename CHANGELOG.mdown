@@ -1,5 +1,8 @@
 # Changes
 
+## Version 1.0.3: (12 October 2010)
+* wrap long links by inserting zero-width spaces
+
 ## Version 1.0.2: (12 October 2010)
 * timestamps show when the mouse is over any part of the message
 * status and consecutive messages have markers in the left margin

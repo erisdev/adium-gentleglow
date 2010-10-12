@@ -4,7 +4,12 @@ function appendMessage(html) {
 	if ( fragment.hasClass('message') )
 		$('.meta', fragment).colorHash('.sender', 0.6, 0.4);
 	
+	$('a', fragment).text(function(i, text) {
+		return text.replace(/[\/\+&;]+(?=\w)/g, '$&\u200b')
+	});
+	
 	$('button', fragment).button();
+	
 	
 	fragment.appendTo('#chat').fadeIn();
 }
