@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Gentle Glow 1.0 for Adium 1.4</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.damn-kitty.eris.adium.message-styles.GentleGlow</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.1</string>
+	<key>CFBundleName</key>
+	<string>Gentle Glow</string>
+	<key>CFBundlePackageType</key>
+	<string>AdIM</string>
+	<key>DefaultBackgroundColor</key>
+	<string>080808</string>
+	<key>DefaultFontFamily</key>
+	<string>Helvetica</string>
+	<key>DefaultFontSize</key>
+	<integer>10</integer>
+	<key>ShowIncomingFonts</key>
+	<false/>
+	<key>DisableCustomBackground</key>
+	<true/>
+	<key>AllowTextColors</key>
+	<false/>
+	<key>ShowsUserIcons</key>
+	<false/>
+	<key>DefaultVariant</key>
+	<string>Default</string>
+</dict>
+</plist>

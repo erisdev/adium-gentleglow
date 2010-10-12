@@ -1,0 +1,17 @@
+# Changes
+
+## Version 1.0.2: (12 October 2010)
+* timestamps show when the mouse is over any part of the message
+* status and consecutive messages have markers in the left margin
+    * for now, all status markers are the same
+* mockup replays its conversation for ease of debugging
+
+## Version 1.0.1: (11 October 2010)
+* improved color hashing based on the ELF hash function
+* mockup shows color hashing
+* incoming messages are colored purple
+* tweaked a few other colors
+* re-enabled small names and timestamps
+
+## Version 1.0.0: (11 October 2010)
+* Initial release, heavily refactored from 1337

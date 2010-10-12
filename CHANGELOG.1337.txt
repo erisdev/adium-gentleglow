@@ -1,0 +1,31 @@
+Version 0.1.4: Mon Dec 15 2008
+------------------------------
+  - Oh well, I'll never be able to properly align things as I'd like to!
+    I decided to use another (monospaced) font and all of a sudden, the 
+    "aligning gap" was way too wide... So here comes the "narrow" variations... 
+    Hopefully, with three different widths, you'll be able to have one to match 
+    your needs...
+    
+    Also, be aware that these "narrow" variations work for me and my particular
+    font (Fixed6x13, taken out of the Unix world) but they will look horrible 
+    with other, more standard, fonts.
+
+Version 0.1.3: Tue Jun 12 2007
+------------------------------
+  - Fixed chat alignment at the bottom of the chat window when used with
+    the last version of WebKit (coming with Safari 3 beta). Hopefully that
+    won't break things with earlier version...
+
+Version 0.1.2: Tue Apr 3 2007
+-----------------------------
+  - Fixed layout bug due to field overflow when 12-hour clock format was used.
+    Thus introduced "Wide" style variants.
+
+Version 0.1.1: Wed Mar 28 2007
+------------------------------
+  - Fixed to allow custom (transparent) background.
+  
+Version 0.1.0: Mon Mar 26 2007
+------------------------------
+  - Initial version.
+

@@ -1,0 +1,30 @@
+# Gentle Glow for Adium
+
+* Version 1.0
+* Eris <eris.discord@gmail.com>
+* Created 10 October 2010
+* Last Updated 11 October 2010
+
+## Credits & Acknowledgements
+Gentle Glow is loosely based on Ayumi Yonosa's [1337][] message style. It
+started life as a modification to support proportional fonts, but it ended up
+being a total refactor. All that really survives from the original is the
+colors and the glow effect. Still, I am grateful for the groundwork.
+
+Color hashing uses the Unix ELF hash algorithm, adapted from Ruby 1.8's
+implementation in `rb_str_hash`.
+
+JavaScript magic is provided by [jQuery][] and [jQuery UI][].
+
+## License
+Since the source material is released under a rather permissive license, it
+would only be fair to release a derivative work under similarly liberal terms.
+
+Consider this CC-BY-NC-SA. As with those who came before, I would appreciate
+acknowledgement if this style is used as a jumping off point for your own
+project. Don't try to sell it. If you to make derivative works, be liberal in
+your terms as well.
+
+[1337]: http://www.adiumxtras.com/index.php?a=xtras&xtra_id=4042
+[jQuery]: http://jquery.com
+[jQuery UI]: http://jqueryui.com

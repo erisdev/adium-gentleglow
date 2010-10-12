@@ -1,0 +1,190 @@
+/*
+ * Author : Ayumi Yonosa, with a little help from Catfish
+ * Date	  : Spring 2007
+ * Version: 0.1
+ *
+ * The look of the "1337" message style is inspired by the h4x0r message style 
+ * (hence the name) by phrenzy from previous work by Mark Fickett.
+ *
+ * See http://www.adiumxtras.com/index.php?a=xtras&xtra_id=1907 for the
+ * h4x0r style.
+ *
+ * This is my first attempt at style design. Things are probably a little
+ * rough...
+ *
+ * A special "thank you!" to Catfish (http://trac.adiumx.com/wiki/catfish_man) 
+ * who helped me to sort out bugs and find workarounds. Arigato gozaimasu!
+ */
+
+body {
+	margin  : 0;
+	padding : 2.5em 0 1em 0;
+	
+	background : #111 url(images/background.png) fixed;
+	color      : #999;
+	
+	overflow-x : hidden;
+	overflow-y : scroll;
+}
+
+section {
+	clear  : both;
+	margin : auto 1em;
+}
+
+img.scaledToFitImage {
+	width  : 100%;
+	height : auto;
+}
+
+:link, :visited {
+	text-decoration : none;
+}
+
+:link {
+	color       : #669;
+	text-shadow : 0px 0px 20px #44f;
+}
+
+:visited {
+	color       : #767;
+	text-shadow : 0px 0px 20px #a4a;
+}
+
+:link:hover, :visited:hover {
+	text-decoration : underline;
+}
+
+:link:active, :visited:active {
+	text-decoration : none;
+}
+
+#insert { display : none }
+
+#chat { overflow : hidden }
+
+#header, #topic {
+	position : fixed;
+	padding  : 0.5em;
+	top      : 0;
+	right    : 0;
+	left     : 0;
+	
+	background : rgba(9%, 9%, 9%, 0.7);
+	
+	z-index : 1000;
+	
+}
+
+#topic .topicEdit {
+	margin : auto 0;
+	width  : auto;
+}
+
+.meta {
+	float : left;
+	width : 5.5em;
+}
+
+.meta * {
+	float   : left;
+	margin  : -8px 0;
+	padding :  8px 0;
+	width   : 100%;
+	
+	text-align : right;
+	font-size  : small;
+	
+	-webkit-transition : opacity 0.4s linear;
+}
+
+              .meta      .alt  { opacity : 0.0 }
+              .meta :not(.alt) { opacity : 1.0 }
+section:hover .meta      .alt  { opacity : 1.0 }
+section:hover .meta :not(.alt) { opacity : 0.0 }
+
+.meta .alt        { margin-right : -100% }
+.meta .alt + .alt { margin-left  :  100% }
+
+.meta .sender {
+	overflow-x    : hidden;
+	text-overflow : ellipsis;
+	white-space   : nowrap;
+}
+
+.consecutive .meta .sender { display : none }
+
+.meta .marker {
+	font-family : 'Zapf Dingbats';
+	font-size   : large;
+}
+
+.consecutive .meta .marker:after { content : '\2761' }
+.status      .meta .marker:after { content : '\2740' }
+
+.content {
+	margin : 0 0 0 6em;
+	
+	text-align : justify;
+}
+
+.outgoing {
+	color: #578;
+	text-shadow: 0px 0px 20px #67a;
+}
+
+.incoming {
+	color: #647;
+	text-shadow: 0px 0px 20px #759;
+}
+
+.history {
+	opacity : 0.5;
+}
+
+.message {
+	padding : 0 6em 0 0;
+}
+
+.status, .event {
+	margin  : 0.5em 1em;
+	padding : 0.5em 6em 0.5em 0;
+	
+	background : rgba(9%, 9%, 9%, 0.7);
+	color      : #777;
+	
+	text-shadow : 0px 0px 20px #666;
+	
+	-webkit-border-radius : 5px;
+	
+}
+
+.status .content, .event .content {
+	text-indent : 1em;
+	font-style  : italic;
+}
+
+.status.away, .status.idle {
+	color       : #862;
+	text-shadow : 0px 0px 20px #654;
+}
+
+.status.offline, .status.contact_left {
+	color       : #000;
+	text-shadow : 0px 0px 20px #fff;
+}
+
+.status.online, .status.contact_joined {
+	color       : #686;
+	text-shadow : 0px 0px 20px #383;
+}
+
+.status.error, .status.timed_out {
+	color       : #744;
+	text-shadow : 0px 0px 20px #b33;
+}
+
+.status.return_away, .status.return_idle {
+	color       : #668;
+	text-shadow : 0px 0px 20px #44a;
+}
