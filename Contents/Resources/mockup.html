@@ -2,43 +2,102 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-		<base href="%@"/>
+		
 		<script type="text/javascript" src="js/ext/jquery-1.4.2.js"></script>
 		<script type="text/javascript" src="js/ext/jquery-ui-1.8.5.js"></script>
 		<script type="text/javascript" src="js/ext/jquery.scrollto-1.4.2.js"></script>
 		<script type="text/javascript" src="js/lib/jquery.color-hash.js"></script>
+		<script type="text/javascript" src="http://github.com/erisdiscord/jquery-plist/raw/master/lib/jquery.plist.js"></script>
 		<script type="text/javascript" src="js/theme.js"></script>
 		<script type="text/javascript">
 			var currentTimeout;
 			
-			$(document).ready(function() {
-				mockup_dequeueMessage();
+			var participants = { };
+			var messages     = [ ];
+		
+			var messageTemplate;
+			var statusTemplate;
+			
+			(function() {
 				
-				$(window).bind('keydown', function(event) {
-					switch ( event.which ) {
-						case 32  : mockup_finish(true);  break;
-						case 229 : mockup_finish(false); break;
-					}
-				});
-			})
-			
-			function mockup_finish(animate) {
-				$('#source > *').each(function(i, message) { appendMessage(message) });
-				clearTimeout(currentTimeout);
-				if ( animate )
-					scrollToBottom();
-			}
-			
-			function mockup_dequeueMessage() {
-				var message = $('#source > *:first').remove().get(0);
-				if ( message ) {
-					checkIfScrollToBottomIsNeeded();
-					appendMessage(message)
-					scrollToBottomIfNeeded();
-					currentTimeout = setTimeout(mockup_dequeueMessage, 1000);
+				$(document).ready(function() {
+					$.ajaxSetup({ async: false });
+					
+					$.get('incoming/Content.html',
+						function(html) { messageTemplate = html }, 'html');
+					$.get('Status.html',
+						function(html) { statusTemplate  = html }, 'html');
+					
+					$.get('Preview.plist', function(xml) {
+						var conversation = $.plist(xml)
+						
+						$.each(conversation['Participants'], function(i, record) {
+							participants[record['UID']] = record['Display Name'];
+						});
+						
+						$.each(conversation['Preview Messages'], function(i, record) {
+							var template  = messageTemplate;
+							var classes   = [ record['Type'].toLowerCase() ];
+							var uid       = record['From'];
+							var sender    = participants[uid];
+							
+							switch ( record['Type'] ) {
+							case 'Message': break;
+							case 'Status':
+								classes.push(record['Status Message Type']);
+							default:
+								template = statusTemplate;
+							}
+							
+							if ( record['Autoreply'] ) classes.push('autoreply');
+							if ( record['Outgoing']  ) classes.push('outgoing');
+							else                       classes.push('incoming');
+							
+							messages.push({
+								_template: template,
+								messageClasses: classes.join(' '),
+								time: record['Date'].slice(11, 19),
+								senderScreenName: uid,
+								sender: sender,
+								message: record['Message'].replace(/<[^>]+>/ig, '')
+							});
+						});
+						
+					}, 'xml');
+					
+					
+					mockup_dequeueMessage();
+					
+					$(window).bind('keydown', function(event) {
+						switch ( event.which ) {
+							case 32  : mockup_finish(true);  break;
+							case 229 : mockup_finish(false); break;
+						}
+					});
+				})
+				
+				function mockup_finish(animate) {
+					while ( messages.length > 0 ) mockup_dequeueMessage();
+					clearTimeout(currentTimeout);
+					if ( animate )
+						scrollToBottom();
 				}
-			}
-			
+				
+				function mockup_dequeueMessage() {
+					var message = messages.shift();
+					if ( message ) {
+						var html = message._template.replace(/%(\w+)%/g, function(all, key) {
+							return message[key];
+						});
+						
+						checkIfScrollToBottomIsNeeded();
+						appendMessage(html);
+						scrollToBottomIfNeeded();
+						currentTimeout = setTimeout(mockup_dequeueMessage, 1000);
+					}
+				}
+				
+			})();
 		</script>
 		
 		<style id="mainStyle" type="text/css" media="screen">
@@ -48,337 +107,6 @@
 	
 	</head>
 	<body>
-		<div id="source">
-			
-			<section class="incoming message history">
-				<div class="meta">
-					<div class="time alt">19:25:50</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">This is an old message...</div>
-			</section>
-
-			<section class="outgoing message history">
-				<div class="meta">
-					<div class="time alt">19:26:08</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-				</div>
-				<div class="content">A very last 'bye' before signing off...</div>
-			</section>
-
-			<section class="status date_separator">
-				<div class="meta">
-					<div class="time alt">19:22:53</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">2007, Apr 06</div>
-			</section>
-
-			<section class="status online">
-				<div class="meta">
-					<div class="time alt">19:23:06</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">tsukiyama signed on.</div>
-			</section>
-
-			<section class="outgoing message">
-				<div class="meta">
-					<div class="time alt">19:23:34</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-				</div>
-				<div class="content">That's me saying hello!</div>
-			</section>
-
-			<section class="incoming message">
-				<div class="meta">
-					<div class="time alt">19:24:01</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">And here is an incoming message...</div>
-			</section>
-
-			<section class="outgoing message">
-				<div class="meta">
-					<div class="time alt">19:25:12</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-				</div>
-				<div class="content">A <a href="http://www.google.com">link</a> you have
-					 likely visited today...
-				</div>
-			</section>
-
-			<section class="incoming message">
-				<div class="meta">
-					<div class="time alt">19:25:48</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">
-						And <a href="http://www.example.com/bogus.html">another one</a> you have 
-						probably never visited... This one is too long:
-						<a href="http://example.com/long/path/overflows/lorem+ipsum+dolor+sit+amet+consecteteur+adapiscing+elit">http://example.com/long/path/overflows/lorem+ipsum+dolor+sit+amet+consecteteur+adapiscing+elit</a>
-				</div>
-			</section>
-
-			<section class="outgoing action message">
-				<div class="meta">
-					<div class="time alt">19:25:59</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">*wonders what happens to long lines?*</div>
-			</section>
-
-			<section class="incoming message">
-				<div class="meta">
-					<div class="time alt">19:26:32</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">Long lines get wrapped of course! The nice thing is
-					that they nicely align, thus keeping the text easily readable. That was
-					actually my main motivation for hacking this style... Now, you may wonder
-					about status messages...
-				</div>
-			</section>
-
-			<section class="status away_message">
-				<div class="meta">
-					<div class="time alt">19:26:50</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">
-					Here is a status message. Again, this one is intentionally long so that
-					you can see what happens as the message gets wrapped... So, do you like
-					it? Here is a status message. Again, this one is intentionally long so 
-					that you can see what happens as the message gets wrapped... So, do you 
-					like it? Here is a status message. Again, this one is intentionally long 
-					so that you can see what happens as the message gets wrapped... So, do you 
-					like it? 
-				</div>
-			</section>
-
-			<section class="incoming message">
-				<div class="meta">
-					<div class="time alt">19:27:06</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">Not _that_ bad I guess... But what happens to
-					very long names? I'm sure long names will mess up everything!
-				</div>
-			</section>
-
-			<section class="outgoing message">
-				<div class="meta">
-					<div class="time alt">19:27:32</div>
-					<div class="sender">me (autoreply)</div>
-					<div class="sender_id">me (autoreply)</div>
-				</div>
-				<div class="content">I knew you would ask, so here is my autoreply...
-				 Notice how the name gets truncated...
-				</div>
-			</section>
-
-			<section class="incoming message">
-				<div class="meta">
-					<div class="time alt">19:27:51</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">Yeah, yeah... But what about status messages? Have you
-					thought about colors?
-				</div>
-			</section>
-
-			<section class="outgoing message">
-				<div class="meta">
-					<div class="time alt">19:28:12</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-				</div>
-				<div class="content">Sure! Let's have a look together!
-				</div>
-			</section>
-
-			<section class="status away_message">
-				<div class="meta">
-					<div class="time alt">19:28:14</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">
-					Away Message
-				</div>
-			</section>
-
-			<section class="status online">
-				<div class="meta">
-					<div class="time alt">19:28:16</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">
-					Online
-				</div>
-			</section>
-
-			<section class="status offline">
-				<div class="meta">
-					<div class="time alt">19:28:18</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">
-					Offline
-				</div>
-			</section>
-
-			<section class="status away">
-				<div class="meta">
-					<div class="time alt">19:28:20</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">
-					Away
-				</div>
-			</section>
-
-			<section class="status error">
-				<div class="meta">
-					<div class="time alt">19:28:22</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">
-					Error
-				</div>
-			</section>
-
-			<section class="status return_away">
-				<div class="meta">
-					<div class="time alt">19:28:24</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">
-					Return away
-				</div>
-			</section>
-
-			<section class="status idle">
-				<div class="meta">
-					<div class="time alt">19:28:26</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">
-					Idle
-				</div>
-			</section>
-
-			<section class="status return_idle">
-				<div class="meta">
-					<div class="time alt">19:28:28</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">
-					Return Idle
-				</div>
-			</section>
-
-			<section class="incoming message">
-				<div class="meta">
-					<div class="time alt">19:28:47</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">Yeah, yeah... I could have do it also... It's easy...
-					Now, what about header and footer? And images! I want to see my avatar!
-				</div>
-			</section>
-
-			<section class="outgoing message">
-				<div class="meta">
-					<div class="time alt">19:29:02</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-				</div>
-				<div class="content">Well, no such thing for the time alt being. I kind of
-				like this plain look... But anyway, if there are some nicely phrased
-				requests, I may have a look at these...
-				</div>
-			</section>
-
-			<section class="incoming message">
-				<div class="meta">
-					<div class="time alt">19:29:42</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">And by the way, how do you call this lame style?
-				</div>
-			</section>
-
-			<section class="outgoing message">
-				<div class="meta">
-					<div class="time alt">19:29:45</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-				</div>
-				<div class="content">1337</div>
-			</section>
-
-			<section class="incoming message">
-				<div class="meta">
-					<div class="time alt">19:29:51</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">1337?</div>
-			</section>
-
-			<section class="outgoing message">
-				<div class="meta">
-					<div class="time alt">19:29:56</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-				</div>
-				<div class="content">Yep!</div>
-			</section>
-
-			<section class="outgoing consecutive message">
-				<div class="meta">
-					<div class="time alt">19:29:58</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">So, what do you think?</div>
-			</section>
-
-			<section class="outgoing consecutive message">
-				<div class="meta">
-					<div class="time alt">19:30:01</div>
-					<div class="sender">me</div>
-					<div class="sender_id">me</div>
-					<div class="marker"></div>
-				</div>
-				<div class="content">Is that great or what?</div>
-			</section>
-
-			<section class="incoming message">
-				<div class="meta">
-					<div class="time alt">19:30:08</div>
-					<div class="sender">tsukiyama</div>
-					<div class="sender_id">tsukiyama</div>
-				</div>
-				<div class="content">How lame Ayumi-chan!</div>
-			</section>
-			
-		</div>
-		
 		<header id="topic">This is a topic.</header>
 		<div id="chat"> </div>
 		<footer id="footer"></footer>
