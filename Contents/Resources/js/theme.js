@@ -1,12 +1,32 @@
 function appendMessage(html) {
 	var fragment = $(html);
 	
-	if ( fragment.hasClass('message') )
+	if ( fragment.hasClass('message') ) {
 		$('.meta', fragment).colorHash('.sender_id', {
 			saturation: 0.6,
 			luminance:  0.4,
 			ignoreCase: true
 		});
+	}
+	
+	if ( fragment.hasClass('action') ) {
+		// reformat action text IRC style
+		
+		var sender = $('.meta .sender', fragment).text();
+		var content = $('.content', fragment);
+		
+		content.html(function(i, html) {
+			// strips asterisks
+			// we do this to the raw html to preserve formatting--gross, I know.
+			return html.slice(1, -1);
+		})
+		
+		// prepend the sender in a span of its own
+		$('<span>').
+			addClass('sender').
+			text(sender + ' ').
+			prependTo(content);
+	}
 	
 	$('a', fragment).text(function(i, text) {
 		return text.replace(/[\/\+&;]+(?=\w)/g, '$&\u200b')

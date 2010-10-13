@@ -9,17 +9,24 @@
 		<script type="text/javascript" src="js/lib/jquery.color-hash.js"></script>
 		<script type="text/javascript" src="js/theme.js"></script>
 		<script type="text/javascript">
+			var currentTimeout;
+			
 			$(document).ready(function() {
 				mockup_dequeueMessage();
 				
 				$(window).bind('keydown', function(event) {
-					if ( event.which == 32 ) mockup_finish();
+					switch ( event.which ) {
+						case 32  : mockup_finish(true);  break;
+						case 229 : mockup_finish(false); break;
+					}
 				});
 			})
 			
-			function mockup_finish() {
+			function mockup_finish(animate) {
 				$('#source > *').each(function(i, message) { appendMessage(message) });
-				scrollToBottom();
+				clearTimeout(currentTimeout);
+				if ( animate )
+					scrollToBottom();
 			}
 			
 			function mockup_dequeueMessage() {
@@ -28,7 +35,7 @@
 					checkIfScrollToBottomIsNeeded();
 					appendMessage(message)
 					scrollToBottomIfNeeded();
-					setTimeout(mockup_dequeueMessage, 1000);
+					currentTimeout = setTimeout(mockup_dequeueMessage, 1000);
 				}
 			}
 			
@@ -119,13 +126,14 @@
 				</div>
 			</section>
 
-			<section class="outgoing message">
+			<section class="outgoing action message">
 				<div class="meta">
 					<div class="time alt">19:25:59</div>
 					<div class="sender">me</div>
 					<div class="sender_id">me</div>
+					<div class="marker"></div>
 				</div>
-				<div class="content">What happens to long lines?</div>
+				<div class="content">*wonders what happens to long lines?*</div>
 			</section>
 
 			<section class="incoming message">

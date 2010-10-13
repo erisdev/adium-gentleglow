@@ -1,5 +1,9 @@
 # Changes
 
+## Version 1.0.6: (12 October 2010)
+* formats action messages IRC style, stripping asterisks
+* message metadata are bold
+
 ## Version 1.0.5: (12 October 2010)
 * checkIfScrollToBottomIsNeeded is much less strict
 * messages actually fade in as intended
