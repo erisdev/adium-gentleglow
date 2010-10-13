@@ -5,11 +5,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Gentle Glow 1.0 for Adium 1.4</string>
+	<string>Gentle Glow 1.0.5 for Adium 1.4</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.damn-kitty.eris.adium.message-styles.GentleGlow</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.4</string>
+	<string>1.0.5</string>
 	<key>CFBundleName</key>
 	<string>Gentle Glow</string>
 	<key>CFBundlePackageType</key>

@@ -1,5 +1,10 @@
 # Changes
 
+## Version 1.0.5: (12 October 2010)
+* checkIfScrollToBottomIsNeeded is much less strict
+* messages actually fade in as intended
+* color hashing uses the screen name rather than display name
+
 ## Version 1.0.4: (12 October 2010)
 * scrolling code cleaned up and outsourced to jQuery.scrollTo
 * removed superfluous %status% from status messages because its value is also

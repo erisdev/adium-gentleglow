@@ -2,7 +2,7 @@ function appendMessage(html) {
 	var fragment = $(html);
 	
 	if ( fragment.hasClass('message') )
-		$('.meta', fragment).colorHash('.sender', {
+		$('.meta', fragment).colorHash('.sender_id', {
 			saturation: 0.6,
 			luminance:  0.4,
 			ignoreCase: true
@@ -15,7 +15,7 @@ function appendMessage(html) {
 	$('button', fragment).button();
 	
 	
-	fragment.appendTo('#chat').fadeIn();
+	fragment.hide().appendTo('#chat').fadeIn();
 }
 
 function replaceLastMessage(html) {
@@ -26,8 +26,12 @@ function replaceLastMessage(html) {
 window.appendNextMessage = appendMessage;
 
 function checkIfScrollToBottomIsNeeded() {
+	var scroll = document.body.scrollTop,
+	    height = window.innerHeight,
+	    limit  = $.scrollTo.max(document.body);
+	
 	var need = checkIfScrollToBottomIsNeeded.isNeeded =
-		$.scrollTo.max(document.body) == document.body.scrollTop;
+		scroll - (height / 2) < limit;
 	return need;
 }
 checkIfScrollToBottomIsNeeded.isNeeded = true;

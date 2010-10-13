@@ -112,12 +112,14 @@ section:hover .meta :not(.alt) { opacity : 0.0 }
 	white-space   : nowrap;
 }
 
-.consecutive .meta .sender { display : none }
+.meta .sender_id { display : none }
 
 .meta .marker {
 	font-family : 'Zapf Dingbats';
 	font-size   : large;
 }
+
+.consecutive .meta .sender { display : none }
 
 .consecutive .meta .marker:after { content : '\2761' }
 .status      .meta .marker:after,
