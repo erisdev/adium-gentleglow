@@ -2,7 +2,11 @@ function appendMessage(html) {
 	var fragment = $(html);
 	
 	if ( fragment.hasClass('message') )
-		$('.meta', fragment).colorHash('.sender', 0.6, 0.4);
+		$('.meta', fragment).colorHash('.sender', {
+			saturation: 0.6,
+			luminance:  0.4,
+			ignoreCase: true
+		});
 	
 	$('a', fragment).text(function(i, text) {
 		return text.replace(/[\/\+&;]+(?=\w)/g, '$&\u200b')
@@ -22,34 +26,19 @@ function replaceLastMessage(html) {
 window.appendNextMessage = appendMessage;
 
 function checkIfScrollToBottomIsNeeded() {
-	checkIfScrollToBottomIsNeeded.isNeeded = document.body.scrollTop >=
-		(document.body.offsetHeight - (window.innerHeight * 1.2) );
-	return checkIfScrollToBottomIsNeeded.isNeeded;
+	var need = checkIfScrollToBottomIsNeeded.isNeeded =
+		$.scrollTo.max(document.body) == document.body.scrollTop;
+	return need;
 }
 checkIfScrollToBottomIsNeeded.isNeeded = true;
 
-function scrollPosition() {
-	return document.body.scrollTop / (document.body.scrollHeight - window.innerHeight);
-}
-
-function scrollTo(percent, time, easing) {
-	var target = percent * (document.body.scrollHeight - window.innerHeight);
-	if ( easing && time )
-		$('body').stop().animate({ scrollTop: target }, time, easing);
-	else
-		$('body').stop().scrollTop(target);
-}
-
 function scrollToBottom(immediate) {
-	if ( immediate )
-		scrollTo(1);
-	else
-		scrollTo(1, 700, 'easeOutBounce');
+	$.scrollTo('100%', 700, { easing: 'easeOutBounce' });
 }
 
-function scrollToBottomIfNeeded(immediate) {
+function scrollToBottomIfNeeded() {
 	if ( checkIfScrollToBottomIsNeeded.isNeeded )
-		scrollToBottom(immediate);
+		scrollToBottom();
 }
 
 
@@ -65,6 +54,4 @@ function setStylesheet(id, url) {
 	style.text('@import url(' + url + ')');
 }
 
-$(window).
-	load(function() { scrollToBottom(true) }).
-	resize(function() { scrollToBottomIfNeeded(true) });
+$(window).load(function() { $.scrollTo('100%') })

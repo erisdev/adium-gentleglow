@@ -1,5 +1,13 @@
 # Changes
 
+## Version 1.0.4: (12 October 2010)
+* scrolling code cleaned up and outsourced to jQuery.scrollTo
+* removed superfluous %status% from status messages because its value is also
+  included in %messageClasses%
+* color hash is calculated from lowercase sender name to avoid coloring the
+  same screen name differently
+    * behind the scenes improvements to the color hashing API
+
 ## Version 1.0.3: (12 October 2010)
 * wrap long links by inserting zero-width spaces
 

@@ -120,7 +120,8 @@ section:hover .meta :not(.alt) { opacity : 0.0 }
 }
 
 .consecutive .meta .marker:after { content : '\2761' }
-.status      .meta .marker:after { content : '\2740' }
+.status      .meta .marker:after,
+.event       .meta .marker:after { content : '\2740' }
 
 .content {
 	margin : 0 0 0 6em;

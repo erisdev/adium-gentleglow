@@ -15,22 +15,36 @@
 		return key;
 	}
 	
-	$.fn.colorHash = function(selector, sat, lum) {
-		var q = this;
+	var $ch = $.fn.colorHash = function(selector, options) {
+		var q = this, o = { };
 		
-		if ( sat == null ) sat = 1.0;
-		if ( lum == null ) lum = 0.5;
+		if ( arguments.length == 1 ) {
+			options  = selector;
+			selector = null;
+		}
+		
+		$.extend(o, $ch.DEFAULTS, options);
 		
 		this.css('color', function(i) {
-			var str = ( selector ? $(selector, q[i]) : $(q[i]) ).text();
+			var str;
+			
+			if ( selector     ) str = $(selector, q.get(i)).text();
+			else                str = $(q.get(i)).text();
+			if ( o.ignoreCase ) str = str.toLowerCase();
 			
 			return 'hsl(' + [
 				$hash(str) % 360,
-				$percent(sat),
-				$percent(lum)
+				$percent(o.saturation),
+				$percent(o.luminance)
 			].join(',') + ')';
 		})
 		
-	}
+	};
+	
+	$ch.DEFAULTS = {
+		saturation: 1.0,
+		luminance:  0.5,
+		ignoreCase: false
+	};
 	
 })(jQuery)
