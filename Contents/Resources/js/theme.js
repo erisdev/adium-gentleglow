@@ -57,6 +57,7 @@ function checkIfScrollToBottomIsNeeded() {
 checkIfScrollToBottomIsNeeded.isNeeded = true;
 
 function scrollToBottom(immediate) {
+	$('body').stop();
 	$.scrollTo('100%', 700, { easing: 'easeOutBounce' });
 }
 
