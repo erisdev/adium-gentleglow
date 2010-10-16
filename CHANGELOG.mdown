@@ -1,5 +1,13 @@
 # Changes
 
+## Version 1.0.7: (15 October 2010)
+* minor file transfer style improvements
+    * separately identifiable by the stylesheet
+    * buttons in more-standard order
+* mockup plays back standard Adium example
+* fixed scrolling for reals this time
+* actually bumped plist version this time!
+
 ## Version 1.0.6: (12 October 2010)
 * formats action messages IRC style, stripping asterisks
 * message metadata are bold
