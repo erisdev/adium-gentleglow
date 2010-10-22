@@ -18,7 +18,7 @@ function appendMessage(html) {
 		content.html(function(i, html) {
 			// strips asterisks
 			// we do this to the raw html to preserve formatting--gross, I know.
-			return html.replace(/^(<[^>]>)?\*(.+)\*(<[^>]>)?$/, '$1$2$3');
+			return html.replace(/^(<[^>]+>)?\*(.+)\*(<[^>]+>)?$/, '$1$2$3');
 		})
 		
 		// prepend the sender in a span of its own
