@@ -1,5 +1,8 @@
 # Changes
 
+## Version 1.0.8: (22 October 2010)
+* fixed "broken HTML" bug with action messages
+
 ## Version 1.0.7: (15 October 2010)
 * minor file transfer style improvements
     * separately identifiable by the stylesheet
