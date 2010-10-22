@@ -1,0 +1,14 @@
+#!/bin/sh
+
+typeset export_name="GentleGlow.AdiumMessageStyle"
+typeset export_path
+
+if [[ -n "$1" ]]; then
+    export_path="$1/$export_name"
+else
+    export_path="$HOME/Desktop/$export_name"
+fi
+
+[[ -d "$export_path" ]] || mkdir -p "$export_path"
+
+git --work-tree="$export_path" checkout
