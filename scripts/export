@@ -11,4 +11,4 @@ fi
 
 [[ -d "$export_path" ]] || mkdir -p "$export_path"
 
-git --work-tree="$export_path" checkout
+git --work-tree="$export_path" checkout .
