@@ -1,3 +1,13 @@
+var TMPL = {
+	textShadow: '0px 0px 20px #{color}'
+}
+
+function template(string, params) {
+	return string.replace(/#\{\s*([a-z0-9_]+)\s*\}/g, function(match, key) {
+		return params[key]
+	})
+}
+
 function appendMessage(html) {
 	var fragment = $(html);
 	
@@ -6,13 +16,15 @@ function appendMessage(html) {
 			saturation: 0.6,
 			luminance:  0.4,
 			ignoreCase: true
+		}).css('text-shadow', function(i, textShadow) {
+			return template(TMPL.textShadow, { color: $(this).css('color') })
 		});
 	}
 	
 	if ( fragment.hasClass('action') ) {
 		// reformat action text IRC style
 		
-		var sender = $('.meta .sender', fragment).text();
+		var sender  = $('.meta .sender', fragment).text();
 		var content = $('.content', fragment);
 		
 		content.html(function(i, html) {

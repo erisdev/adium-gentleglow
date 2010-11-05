@@ -39,6 +39,7 @@
 			].join(',') + ')';
 		})
 		
+		return this;
 	};
 	
 	$ch.DEFAULTS = {
