@@ -1,5 +1,8 @@
 # Changes
 
+## Version 1.0.9 (12 February 2011)
+* fancy fade-out at the top of the chat buffer
+
 ## Version 1.0.8: (22 October 2010)
 * fixed "broken HTML" bug with action messages
 
