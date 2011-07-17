@@ -1,5 +1,8 @@
 # Changes
 
+## Version 1.0.10: (17 July 2011)
+* lightened message colors for readability's sake
+
 ## Version 1.0.9 (12 February 2011)
 * fancy fade-out at the top of the chat buffer
 
