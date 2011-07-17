@@ -148,13 +148,13 @@ section:hover .meta :not(.alt) { opacity : 0.0 }
 .action .content .sender { font-weight : bold }
 
 .outgoing {
-	color: #578;
-	text-shadow: 0px 0px 20px #67a;
+	color: #89b;
+	text-shadow: 0px 0px 20px #78b;
 }
 
 .incoming {
-	color: #647;
-	text-shadow: 0px 0px 20px #759;
+	color: #98c;
+	text-shadow: 0px 0px 20px #86a;
 }
 
 .history {

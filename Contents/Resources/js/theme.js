@@ -13,8 +13,8 @@ function appendMessage(html) {
 	
 	if ( fragment.hasClass('message') ) {
 		$('.meta', fragment).colorHash('.sender_id', {
-			saturation: 0.6,
-			luminance:  0.4,
+			saturation: 0.5,
+			luminance:  0.6,
 			ignoreCase: true
 		}).css('text-shadow', function(i, textShadow) {
 			return template(TMPL.textShadow, { color: $(this).css('color') })
