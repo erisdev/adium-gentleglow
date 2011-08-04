@@ -29,6 +29,6 @@
 	<key>ShowsUserIcons</key>
 	<false/>
 	<key>DefaultVariant</key>
-	<string>Regular Kind</string>
+	<string>RegularKind</string>
 </dict>
 </plist>
