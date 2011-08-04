@@ -1,0 +1,11 @@
+@import url(../main.css);
+
+.incoming {
+  color : #cbb;
+  text-shadow-color : #cbb;
+}
+
+.outgoing {
+  color : #bbc;
+  text-shadow-color : #bbc;
+}
