@@ -1,9 +1,9 @@
 # Gentle Glow for Adium
 
-* Version 1.0
+* Version 1.0.11
 * Eris <eris.discord@gmail.com>
 * Created 10 October 2010
-* Last Updated 11 October 2010
+* Last Updated 3 August 2011
 
 ## Credits & Acknowledgements
 Gentle Glow is loosely based on Ayumi Yonosa's [1337][] message style. It
