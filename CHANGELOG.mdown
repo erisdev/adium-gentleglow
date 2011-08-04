@@ -1,5 +1,13 @@
 # Changes
 
+## Version 1.0.11: (3 August 2011)
+* new variant, _White Washed_, that makes message text nearly-white
+	* for you blind folks who can't see the original colors too well ;)
+  * incoming messages have a warmer hue
+  * outgoing messages are about 20% cooler
+* old message colors are restored for the default variant, now called
+  _Regular Kind_
+
 ## Version 1.0.10: (17 July 2011)
 * lightened message colors for readability's sake
 
