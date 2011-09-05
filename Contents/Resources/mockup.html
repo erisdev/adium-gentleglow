@@ -14,7 +14,11 @@
 			
 			var participants = { };
 			var messages     = [ ];
-		
+			
+			var bodyTemplate;
+			var headerTemplate;
+			var footerTemplate;
+			
 			var messageTemplate;
 			var statusTemplate;
 			
@@ -23,7 +27,16 @@
 				$(document).ready(function() {
 					$.ajaxSetup({ async: false });
 					
-					$.get('incoming/Content.html',
+					$.get('Template.html', function(html) {
+						// strip everything outside the body tag. gross.
+						bodyTemplate = html.replace(/[\s\S]*<body[^>]*>|<\/body>[\s\S]*/ig, '');
+					}, 'html');
+					
+					$.get('Header.html',
+					  function(html) { headerTemplate  = html }, 'html');
+					$.get('Footer.html',
+						function(html) { footerTemplate  = html }, 'html')
+					$.get('Incoming/Content.html',
 						function(html) { messageTemplate = html }, 'html');
 					$.get('Status.html',
 						function(html) { statusTemplate  = html }, 'html');
@@ -34,6 +47,28 @@
 						$.each(conversation['Participants'], function(i, record) {
 							participants[record['UID']] = record['Display Name'];
 						});
+						
+						(function() {
+							var innerTemplates = [ headerTemplate, footerTemplate ];
+							
+							var chat   = conversation['Chat'];
+							var source = chat['Source UID'];
+							var dest   = chat['Destination UID'];
+							
+							var html = bodyTemplate.replace(/%@/g, function() {
+								return mockup_fillTemplate(innerTemplates.shift() || '', {
+									chatName:               participants[dest],
+									sourceName:             source,
+									destinationName:        dest,
+									destinationDisplayName: participants[dest],
+									outgoingIconPath:       'data:application/octet-stream,',
+									incomingIconPath:       'data:application/octet-stream,',
+									timeOpened:             chat['Date Opened'] // TODO parse this probably
+								});
+							});
+							
+							$('body').html(html);
+						})();
 						
 						$.each(conversation['Preview Messages'], function(i, record) {
 							var template  = messageTemplate;
@@ -65,7 +100,6 @@
 						
 					}, 'xml');
 					
-					
 					mockup_dequeueMessage();
 					
 					$(window).bind('keydown', function(event) {
@@ -83,12 +117,16 @@
 						scrollToBottom();
 				}
 				
+				function mockup_fillTemplate(template, params) {
+					return template.replace(/%(\w+)%/g, function(all, key) {
+						return params[key];
+					});
+				}
+				
 				function mockup_dequeueMessage() {
 					var message = messages.shift();
 					if ( message ) {
-						var html = message._template.replace(/%(\w+)%/g, function(all, key) {
-							return message[key];
-						});
+						var html = mockup_fillTemplate(message._template, message);
 						
 						checkIfScrollToBottomIsNeeded();
 						appendMessage(html);
@@ -102,15 +140,10 @@
 		
 		<style id="mainStyle" type="text/css" media="screen">
 				@import url(main.css);
-				#source { display : none }
+				@import url(Variants/WhiteWashed.css);
 		</style>
 	
 	</head>
 	<body>
-		<header id="topic">This is a topic.</header>
-		<div id="top_shadow"></div>
-		<div id="chat">
-		</div>
-		<footer id="footer"></footer>
 	</body>
 </html>
