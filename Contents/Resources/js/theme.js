@@ -40,9 +40,11 @@ function appendMessage(html) {
 			prependTo(content);
 	}
 	
-	$('a', fragment).text(function(i, text) {
-		return text.replace(/[\/\+&;]+(?=\w)/g, '$&\u200b')
-	});
+	$('a', fragment).filter(function(i) {
+		return $(this).text() == $(this).attr('href');
+	}).text(function(i, text) {
+		return text.replace(/\w+:\/\/([^\/]+)(?:\/.*)?/, '$1\u2026');
+	}).addClass('shortened');
 	
 	$('button', fragment).button();
 	
