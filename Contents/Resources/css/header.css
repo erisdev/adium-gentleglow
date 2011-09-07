@@ -1,0 +1,116 @@
+#top_shadow {
+  position : fixed;
+  top      : 4em;
+  right    : 0;
+  left     : 0;
+  height   : 2.5em;
+  
+  z-index : 999;
+  
+  background: -webkit-gradient(linear, left top, left bottom,
+    from( rgba(0, 0, 0, 100) ),
+    to(   rgba(0, 0, 0, 0)   )
+  );
+}
+
+#header, #topic {
+	position : fixed;
+	padding  : 0.5em;
+	top      : 0;
+	right    : 0;
+	left     : 0;
+	height   : 3em;
+	
+	background : #111;
+	
+	z-index : 1000;
+}
+
+#header .chat-icon {
+  float      : right;
+  margin     : 0 0 1em 1em;
+  width      : auto;
+  height     : 3em;
+  width  : 3em;
+  height : 3em;
+  
+  z-index : 1;
+  
+  -webkit-transition:
+    -webkit-transform 200ms ease-in;
+}
+
+/* TODO enable this when it doesn't look totally embuggered in Adium */
+/*#header .chat-icon:hover {
+  -webkit-transform : translate(-100%, 100%) scale(3) rotate(15deg);
+}*/
+
+#header .chat-name {
+  float  : left;
+  margin : 0 -9999px 0 0;
+  
+  z-index : 0;
+  
+  font-family : 'Optima', sans-serif;
+  font-size   : 2.5em;
+  
+  color : #333;
+  
+  -webkit-transition:
+    color 400ms ease-in-out,
+    text-shadow 400ms ease-in-out;
+}
+
+#header .chat-name:hover {
+  color       : #aaa;
+  text-shadow : 0px 0px 10px #888;
+}
+
+#header .chat-name ~ * {
+  -webkit-transition:
+    opacity 400ms ease-in-out;
+}
+
+#header .chat-name:hover ~ * {
+  opacity : 0.0;
+}
+
+#header .chat-info {
+  margin  : 0 8em;
+  padding : 0 0.5em;
+  
+  z-index : 2;
+  
+  list-style    : none;
+  font-family : 'Optima', sans-serif;
+  font-size   : small;
+  
+  background : inherit;
+  color      : #aa6;
+  opacity    : 0.5; /* hax to overcome background bug */
+}
+
+#header .chat-info:hover {
+  opacity : 0.99;
+}
+
+#header .chat-info > * {
+  margin  : 0;
+  padding : 0;
+  
+  overflow       : hidden;
+  white-space    : nowrap;
+  text-overflow  : ellipsis;
+  text-transform : lowercase;
+  
+  -webkit-transition:
+    color 400ms ease-in-out;
+}
+
+#header .chat-info > *:hover {
+  color : #ff8;
+}
+
+#header .chat-info > * + * {
+  border-top : 1px dotted #884;
+}

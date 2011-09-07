@@ -18,7 +18,7 @@
 
 body {
 	margin  : 0;
-	padding : 2.5em 0 1em 0;
+	padding : 5em 0 1em 0;
 	
 	background : #111 url(images/background.png) fixed;
 	color      : #999;
@@ -59,37 +59,9 @@ img.scaledToFitImage {
 	text-decoration : none;
 }
 
-#top_shadow {
-  position : fixed;
-  top      : 0;
-  right    : 0;
-  left     : 0;
-  height   : 2.5em;
-  
-  z-index : 900;
-  
-  background: -webkit-gradient(linear, left top, left bottom,
-    from( rgba(0, 0, 0, 100) ),
-    to(   rgba(0, 0, 0, 0)   )
-  );
-}
-
 #insert { display : none }
 
 #chat { overflow : hidden }
-
-#header, #topic { display:none;
-	position : fixed;
-	padding  : 0.5em;
-	top      : 0;
-	right    : 0;
-	left     : 0;
-	
-	background : rgba(9%, 9%, 9%, 0.7);
-	
-	z-index : 1000;
-	
-}
 
 .meta {
 	float : left;
