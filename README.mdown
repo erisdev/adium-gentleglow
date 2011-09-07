@@ -1,6 +1,6 @@
 # Gentle Glow for Adium
 
-* Version 1.1.0
+* Version 1.2.0
 * Eris <eris.discord@gmail.com>
 * Created 10 October 2010
 * Last Updated 7 September 2011

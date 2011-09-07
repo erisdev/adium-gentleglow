@@ -1,5 +1,15 @@
 # Changes
 
+## Version 1.2.0: (7 September 2011)
+* automagically embed linked media
+    * experimental!
+    * only supports imgur so far
+* default buddy icon
+* corrected alt text for header icon
+* improved scrolling behavior
+    * disabled elastic scrolling
+    * fixed no-header scrolling and presentation
+
 ## Version 1.1.0: (7 September 2011)
 * fancy header with fancy CSS fade effects
 * bare links like `http://example.com/stuff` are displayed as `example.com…`
