@@ -48,3 +48,13 @@ Media.register(/^https?:\/\/(?:i\.)?imgur\.com\/([a-z0-9]+)(?:\..+)?$/i, functio
 		'http://i.imgur.com/' + id + 's.png',
 		title);
 });
+
+(function() {
+	var fn = function(title, uri, id) {
+		return Media.createImageCell(
+			uri, 'http://img.youtube.com/vi/' + id + '/1.jpg', title);
+	}
+	
+	Media.register(/youtube\.com\/watch.*v=([a-z0-9_]+)/i, fn);
+	Media.register(/youtu\.be\/([a-z0-9_]+)/i, fn);
+})();
