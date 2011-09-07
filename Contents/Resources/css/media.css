@@ -1,0 +1,17 @@
+.media {
+  margin : 1em 0 1em 6em;
+  
+  overflow : hidden;
+}
+
+.media:empty { display : none }
+
+.media .media-item {
+  max-width : 5em;
+  height    : 5em;
+}
+
+.media .media-item img {
+  max-width  : 100%;
+  max-height : 100%;
+}
