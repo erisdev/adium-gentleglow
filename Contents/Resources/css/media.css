@@ -1,5 +1,5 @@
 .media {
-  margin : 1em 0 1em 6em;
+  margin : 0 0 0 6em;
   
   overflow : hidden;
 }
@@ -8,12 +8,26 @@
 
 .media .media-item {
   float     : left;
-  margin    : 1em;
+  margin    : 0.5em;
   max-width : 5em;
   height    : 5em;
+  
+  overflow : hidden;
+  
+  border : 1px solid #000;
+  
+  -webkit-transition:
+    box-shadow 200ms ease-in-out;
+}
+
+.media .media-item:hover {
+  box-shadow : 0 0 20px #888;
 }
 
 .media .media-item img {
   max-width  : 100%;
   max-height : 100%;
 }
+
+.media .media-item,
+.media .media-item img { border-radius : 0.5em }
