@@ -60,19 +60,14 @@ function replaceLastMessage(html) {
 window.appendNextMessage = appendMessage;
 
 function checkIfScrollToBottomIsNeeded() {
-	var scroll = document.body.scrollTop,
-	    height = window.innerHeight,
-	    limit  = $.scrollTo.max(document.body);
-	
-	var need = checkIfScrollToBottomIsNeeded.isNeeded =
-		scroll - (height / 2) < limit;
-	return need;
+	// TODO write a version of this that actually works
+	return checkIfScrollToBottomIsNeeded.isNeeded = true;
 }
 checkIfScrollToBottomIsNeeded.isNeeded = true;
 
 function scrollToBottom(immediate) {
-	$('body').stop();
-	$.scrollTo('100%', 700, { easing: 'easeOutBounce' });
+	$('#chat').stop();
+	$('#chat').scrollTo('100%', 700, { easing: 'easeOutBounce' });
 }
 
 function scrollToBottomIfNeeded() {

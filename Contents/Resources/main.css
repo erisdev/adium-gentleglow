@@ -18,13 +18,12 @@
 
 body {
 	margin  : 0;
-	padding : 5em 0 1em 0;
+	padding : 0;
 	
 	background : #111 url(images/background.png) fixed;
 	color      : #999;
 	
-	overflow-x : hidden;
-	overflow-y : scroll;
+	overflow : hidden;
 }
 
 section {
@@ -61,7 +60,13 @@ img.scaledToFitImage {
 
 #insert { display : none }
 
-#chat { overflow : hidden }
+#chat {
+  position : absolute;
+  padding  : 1em 0;
+  top      : 0;
+  bottom   : 0;
+  overflow : scroll;
+}
 
 .meta {
 	float : left;
