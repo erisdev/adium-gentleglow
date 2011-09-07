@@ -143,6 +143,7 @@ section:hover .meta :not(.alt) { opacity : 0.0 }
 	margin : 0 0 0 6em;
 	
 	text-align : justify;
+	word-wrap  : break-word;
 }
 
 .action .content .sender { font-weight : bold }
