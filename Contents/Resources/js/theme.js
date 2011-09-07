@@ -3,8 +3,13 @@ var TMPL = {
 }
 
 function template(string, params) {
-	return string.replace(/#\{\s*([a-z0-9_]+)\s*\}/g, function(match, key) {
-		return params[key]
+	return string.replace(/#\{\s*([a-z0-9_]+)\s*\}|\$(\d+)/g, function(m, key, index) {
+		if ( m.charAt(0) == '#' )
+			return params[key];
+		else if ( m.charAt(0) == '$' )
+			return params[parseInt(index)]
+		else
+			return 'undefined';
 	})
 }
 
@@ -40,14 +45,15 @@ function appendMessage(html) {
 			prependTo(content);
 	}
 	
-	$('a', fragment).filter(function(i) {
+	$('a', fragment).each(function(i) {
+		Media.loadMedia(fragment, this);
+	}).filter(function(i) {
 		return $(this).text() == $(this).attr('href');
 	}).text(function(i, text) {
 		return text.replace(/\w+:\/\/([^\/]+)(?:\/.*)?/, '$1\u2026');
 	}).addClass('shortened');
 	
 	$('button', fragment).button();
-	
 	
 	fragment.hide().appendTo('#chat').fadeIn();
 }

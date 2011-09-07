@@ -123,6 +123,12 @@ section:hover .meta :not(.alt) { opacity : 0.0 }
 	word-wrap  : break-word;
 }
 
+.media {
+  margin : 1em 0 1em 6em;
+}
+
+.media:empty { display : none }
+
 .action .content .sender { font-weight : bold }
 
 .outgoing {
