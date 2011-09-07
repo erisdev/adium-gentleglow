@@ -63,7 +63,7 @@
 									destinationDisplayName: participants[dest],
 									outgoingIconPath:       'outgoing_icon.png',
 									incomingIconPath:       'incoming_icon.png',
-									timeOpened:             chat['Date Opened'] // TODO parse this probably
+									timeOpened:             chat['Date Opened'].slice(11, 19)
 								});
 							});
 							
