@@ -1,5 +1,12 @@
 # Changes
 
+## Version 1.1.0: (7 September 2011)
+* fancy header with fancy CSS fade effects
+* bare links like `http://example.com/stuff` are displayed as `example.com…`
+    * "pretty" links [like this one](#) are untouched
+    * no more intrusive zero-width spaces
+* ridiculously long words may be forcefully wrapped
+
 ## Version 1.0.11: (3 August 2011)
 * new variant, _White Washed_, that makes message text nearly-white
 	* for you blind folks who can't see the original colors too well ;)
