@@ -16,6 +16,8 @@ implementation in `rb_str_hash`.
 
 JavaScript magic is provided by [jQuery][] and [jQuery UI][].
 
+Default buddy icon is taken from [app-bits][]'s iPhone toolbar icon set.
+
 ## License
 Since the source material is released under a rather permissive license, it
 would only be fair to release a derivative work under similarly liberal terms.
@@ -25,6 +27,12 @@ acknowledgement if this style is used as a jumping off point for your own
 project. Don't try to sell it. If you to make derivative works, be liberal in
 your terms as well.
 
+### License for app-bits iPhone toolbar icons
+This license applies to `Contents/Resources/Incoming_icon.png`.
+
+These icons are released under the Creative Commons license and can be used on any media, for commercial or non-commercial purposes. The icons may not be modified in any way. We would appreciate if app-bits could be mentioned when the icons are used!
+
 [1337]: http://www.adiumxtras.com/index.php?a=xtras&xtra_id=4042
+[app-bits]: http://app-bits.com/
 [jQuery]: http://jquery.com
 [jQuery UI]: http://jqueryui.com
