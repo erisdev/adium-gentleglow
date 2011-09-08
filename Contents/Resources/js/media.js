@@ -42,7 +42,7 @@
 	
 })();
 
-Media.register(/^https?:\/\/(?:i\.)?imgur\.com\/([a-z0-9]+)(?:\..+)?$/i, function(link, match) {
+Media.register(/imgur\.com\/(?:gallery\/)?([a-z0-9]+)/i, function(link, match) {
 	return Media.createImageCell(
 		link.href, 'http://i.imgur.com/' + match[1] + 's.png', $(link).text());
 });
