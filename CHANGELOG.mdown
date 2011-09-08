@@ -1,5 +1,13 @@
 # Changes
 
+## Version 1.2.1: (7 September 2011)
+* broken images have a placeholder background
+* prettier presentation of embedded thumbnails
+    * now with more glow effect on mouseover
+    * thumbnails wrap instead of stacking
+* float embedded media thumbnails
+* youtube thumbnails
+
 ## Version 1.2.0: (7 September 2011)
 * automagically embed linked media
     * experimental!
