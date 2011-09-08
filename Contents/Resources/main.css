@@ -71,7 +71,9 @@ img.broken {
   top      : 0;
   bottom   : 0;
   width    : 100%;
-  overflow : scroll;
+  
+  overflow-x : hidden;
+  overflow-y : auto;
 }
 
 .meta {
