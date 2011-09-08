@@ -21,18 +21,17 @@
 	}
 	
 	Media.loadMedia = function(message, link) {
-		var handler, match, media, container, uri, title;
+		var handler, match, media, container, uri;
 		
 		container = $('.media', message);
 		uri       = link.href;
-		title     = $(link).text();
 		
 		for ( var i = 0, L = Media.handlers.length; i < L; ++i )
 		{
 			handler = this.handlers[i];
 			if ( match = uri.match(handler.pattern) )
 			{
-				media = handler.fn.apply(this, [title].concat(match));
+				media = handler.fn.apply(this, [link, match]);
 				$('<div>')
 					.addClass('media-item')
 					.append(media)
@@ -43,17 +42,15 @@
 	
 })();
 
-Media.register(/^https?:\/\/(?:i\.)?imgur\.com\/([a-z0-9]+)(?:\..+)?$/i, function(title, uri, id) {
+Media.register(/^https?:\/\/(?:i\.)?imgur\.com\/([a-z0-9]+)(?:\..+)?$/i, function(link, match) {
 	return Media.createImageCell(
-		'http://imgur.com/' + id,
-		'http://i.imgur.com/' + id + 's.png',
-		title);
+		link.href, 'http://i.imgur.com/' + match[1] + 's.png', $(link).text());
 });
 
 (function() {
-	var fn = function(title, uri, id) {
+	var fn = function(link, match) {
 		return Media.createImageCell(
-			uri, 'http://img.youtube.com/vi/' + id + '/1.jpg', title);
+			link.href, 'http://img.youtube.com/vi/' + match[1] + '/1.jpg', $(link).text());
 	}
 	
 	Media.register(/youtube\.com\/watch.*v=([a-z0-9_]+)/i, fn);
