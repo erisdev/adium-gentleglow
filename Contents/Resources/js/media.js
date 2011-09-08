@@ -14,6 +14,7 @@
 			.attr('href', imageUri)
 			.append(
 				$('<img>')
+				.error(function() { $(this).addClass('broken') })
 				.attr('src', thumbnailUri)
 				.attr('alt', title)
 				.attr('title', title)));
