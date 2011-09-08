@@ -31,11 +31,6 @@ section {
 	margin : auto 1em;
 }
 
-img.scaledToFitImage {
-	width  : 100%;
-	height : auto;
-}
-
 img.broken {
   background      : center no-repeat url(images/fire.png);
   background-size : contain;
@@ -129,6 +124,11 @@ section:hover .meta :not(.alt) { opacity : 0.0 }
 	
 	text-align : justify;
 	word-wrap  : break-word;
+}
+
+.content img {
+	max-width : 100%;
+	height    : auto;
 }
 
 .action .content .sender { font-weight : bold }
