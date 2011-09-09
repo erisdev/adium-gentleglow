@@ -40,6 +40,8 @@
   
   z-index : 1;
   
+  border-radius : 0.5em;
+  
   -webkit-transition:
     -webkit-transform 200ms ease-in;
 }
