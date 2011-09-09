@@ -49,6 +49,7 @@ end
 desc 'package for distribution'
 task :package => [:compile, PACKAGE_DIR, CONTENTS_DIR, RESOURCES_DIR] do
   package_name    = PACKAGE_INFO['package-name']
+  package_version = PACKAGE_INFO['package-version']
   scripts_dir     = BUILD_DIR / 'scripts'
   stylesheets_dir = BUILD_DIR / 'stylesheets'
   
@@ -68,7 +69,7 @@ task :package => [:compile, PACKAGE_DIR, CONTENTS_DIR, RESOURCES_DIR] do
   
   template_file 'templates/Info.plist', CONTENTS_DIR
   
-  sh 'tar', 'jcf', BUILD_DIR / "#{package_name}.tar.bz2",
+  sh 'tar', 'jcf', BUILD_DIR / "#{package_name}-#{package_version}.tar.bz2",
     '-C', BUILD_DIR, package_name
 end
 
