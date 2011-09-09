@@ -30,8 +30,8 @@ your terms as well.
 ### app-bits iPhone toolbar icons
 This license applies to the following files.
 
-* `Contents/Resources/Incoming_icon.png`
-* `Contents/Resources/images/fire.png`
+* `resources/Incoming_icon.png`
+* `resources/images/fire.png`
 
 These icons are released under the Creative Commons license and can be used on any media, for commercial or non-commercial purposes. The icons may not be modified in any way. We would appreciate if app-bits could be mentioned when the icons are used!
 
