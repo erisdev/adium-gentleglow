@@ -102,5 +102,5 @@ rule %r(\.css$) => [pathmap('%-1d/%n.less'), BUILD_DIR / 'stylesheets'] do |t|
 end
 
 rule %r(\.js$) => [pathmap('%-1d/%n.coffee'), BUILD_DIR / 'scripts'] do |t|
-  sh "coffee -o #{File.dirname t.name}, -c #{t.source}"
+  sh "coffee -o #{File.dirname t.name} -c #{t.source}"
 end
