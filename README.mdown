@@ -31,6 +31,7 @@ your terms as well.
 This license applies to the following files.
 
 * `resources/Incoming_icon.png`
+* `resources/images/camera.png`
 * `resources/images/fire.png`
 
 These icons are released under the Creative Commons license and can be used on any media, for commercial or non-commercial purposes. The icons may not be modified in any way. We would appreciate if app-bits could be mentioned when the icons are used!

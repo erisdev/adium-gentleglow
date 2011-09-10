@@ -104,4 +104,15 @@ class ImgurScraper extends Media.Scraper
       @setThumbnailImage data.image.links.small_square
       @setThumbnailLink data.image.links.imgur_page
 
+class GenericImageScraper extends Media.Scraper
+  Media.register this
+  
+  PATTERN = /// \. (?: bmp | gif | jp2 | jpe?g | png | tiff? ) (?: \? .+ | \# .+ )? $///i
+  
+  doesUriMatch: (uri) ->
+    uri.match(PATTERN)?
+  
+  loadThumbnailImage: ->
+    @setThumbnailImage 'images/camera.png'
+
 window.Media = Media;
