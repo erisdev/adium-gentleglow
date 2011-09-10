@@ -72,9 +72,21 @@ class YouTubeScraper extends Media.Scraper
   doesUriMatch: (uri) ->
     uri.match(LONG_PATTERN)? or uri.match(SHORT_PATTERN)?
   
-  loadThumbnailImage: ->
+  loadThumbnail: ->
     [_, id] = @uri.match(LONG_PATTERN) || @uri.match(SHORT_PATTERN)
-    @setThumbnailImage "http://img.youtube.com/vi/#{id}/1.jpg"
+    
+    $.get "https://gdata.youtube.com/feeds/api/videos/#{id}?v=2", (xml) =>
+      # jump through hoops for the XPath API
+      resolver = (ns) ->
+        if ns is 'atom'
+          xml.documentElement.namespaceURI
+        else
+          xml.lookupNamespaceURI ns
+      xpath = (query) -> xml.evaluate(query, xml, resolver, XPathResult.STRING_TYPE, null).stringValue
+      
+      @setThumbnailImage xpath '/atom:entry/media:group/media:thumbnail[@yt:name="default"]/@url'
+      @setThumbnailTitle xpath '/atom:entry/atom:title'
+      @setThumbnailLink @uri
 
 class ImgurScraper extends Media.Scraper
   Media.register this
