@@ -1,5 +1,9 @@
 # Changes
 
+## Version 1.2.3: (10 September 2011)
+* add generic image scraper with placeholder thumbnail
+* use YouTube GData API to get video thumbnail _and_ title
+
 ## Version 1.2.2: (10 September 2011)
 * bugfixes
     * make chat buffer scroll only vertically
