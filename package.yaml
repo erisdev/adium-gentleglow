@@ -1,7 +1,7 @@
 ---
 display-name: 'Gentle Glow'
 package-name: GentleGlow
-package-version: '1.2.1'
+package-version: '1.2.2'
 
 include-files:
   - README.mdown

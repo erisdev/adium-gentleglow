@@ -1,5 +1,27 @@
 # Changes
 
+## Version 1.2.2: (10 September 2011)
+* bugfixes
+    * make chat buffer scroll only vertically
+    * support imgur gallery links
+    * force images in messages to fit widthwise
+    * add thin bottom border to header to cover a tiny gap that would 
+      sometimes appear
+* cosmetic changes
+    * improve presentation of embedded media thumbnails
+    * scroll thumbnails horizontally
+    * display throbber while thumbnails are loading
+    * enlarge chat buffer top margin so initial messages aren't shadowed
+    * make header items subtly visible over highlighted chat name
+    * add rounded corners to header icon
+* behind the scenes improvements
+    * build and package with Rake
+    * compile scripts from CoffeeScript
+    * compile stylesheets from Less
+    * rewrite media scraping to be more extensible
+    * restructured source tree
+        * repository is no longer a valid message style, unfortunately
+
 ## Version 1.2.1: (7 September 2011)
 * broken images have a placeholder background
 * prettier presentation of embedded thumbnails
