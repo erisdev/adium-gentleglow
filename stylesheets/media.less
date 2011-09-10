@@ -1,9 +1,25 @@
-.media { margin : 0 0 0 6em }
+.media {
+  margin  : 0 0 0 6em;
+  padding : 0 1em;
+  
+  overflow-x  : auto;
+  overflow-y  : hidden;
+  white-space : nowrap;
+  
+  /* needlessly complex series of gradients to create 1em faded edges */
+  -webkit-mask-size : 1em 100%, 1em 100%, 100% 100%;
+  -webkit-mask:
+    no-repeat left    -webkit-gradient(linear, left top, right top, from(transparent), to(black) ),
+    no-repeat right   -webkit-gradient(linear, left top, right top, from(black),       to(transparent) ),
+    no-repeat content -webkit-gradient(linear, left top, right top, from(black) );
+}
 
-.media:empty { display : none }
+.media:empty {
+  display : none;
+}
 
 .media .media-item {
-  float     : left;
+  display   : inline-block;
   margin    : 0.5em;
   min-width : 5em;
   height    : 5em;
