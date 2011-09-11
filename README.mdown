@@ -36,6 +36,12 @@ This license applies to the following files.
 
 These icons are released under the Creative Commons license and can be used on any media, for commercial or non-commercial purposes. The icons may not be modified in any way. We would appreciate if app-bits could be mentioned when the icons are used!
 
+### Steven Levithan's parseUri
+The following is based on code by Steven Levithan and as such is available
+under the terms of the MIT license.
+
+* [scripts/uri.coffee][]
+
 [1337]: http://www.adiumxtras.com/index.php?a=xtras&xtra_id=4042
 [app-bits]: http://app-bits.com/
 [jQuery]: http://jquery.com
