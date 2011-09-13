@@ -21,14 +21,21 @@ class Media.Scraper
   constructor: (container, link, @uri) ->
     @container = $(container)
     @source    = $(link)
+    
+    @isCancelled = false
   
   scrape: ->
     try
       @container.append @createDefaultThumbnail()
       @loadThumbnail()
-      true
     catch ex
-      false
+      @cancel()
+    
+    not @isCancelled
+  
+  cancel: ->
+    @thumbnail.remove()
+    @isCancelled = true
   
   loadThumbnail: ->
     @loadThumbnailTitle()
