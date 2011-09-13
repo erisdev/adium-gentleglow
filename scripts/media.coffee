@@ -9,25 +9,23 @@ Media =
     uri       = new Uri link.href
     
     for scraper in @scrapers
-      break if new scraper(container, link, uri).scrape()
+      if scraper.doesUriMatch uri
+        break if new scraper(container, link, uri).scrape()
 
 class Media.Scraper
   THROBBER_URI  = 'images/throbber.gif'
   LOADING_TITLE = 'loading\u2026'
+  
+  @doesUriMatch: (uri) -> false
   
   constructor: (container, link, @uri) ->
     @container = $(container)
     @source    = $(link)
   
   scrape: ->
-    if @doesUriMatch @uri
-      @container.append @createDefaultThumbnail()
-      @loadThumbnail()
-      true
-    else
-      false
-  
-  doesUriMatch: (uri) -> false
+    @container.append @createDefaultThumbnail()
+    @loadThumbnail()
+    true
   
   loadThumbnail: ->
     @loadThumbnailTitle()
@@ -65,7 +63,7 @@ class Media.Scraper
 class YouTubeScraper extends Media.Scraper
   Media.register this
   
-  doesUriMatch: (uri) ->
+  @doesUriMatch: (uri) ->
     if uri.matchHost 'youtube.com'
       uri.query.v? or
       uri.matchPath '/v/'
@@ -95,7 +93,7 @@ class YouTubeScraper extends Media.Scraper
 class ImgurScraper extends Media.Scraper
   Media.register this
   
-  doesUriMatch: (uri) ->
+  @doesUriMatch: (uri) ->
     if uri.host is 'imgur.com' or uri.host is 'i.imgur.com'
       true
     else
@@ -115,7 +113,7 @@ class GenericImageScraper extends Media.Scraper
   
   PATTERN = /// \. (?: bmp | gif | jp2 | jpe?g | png | tiff? ) $///i
   
-  doesUriMatch: (uri) ->
+  @doesUriMatch: (uri) ->
     uri.path.match(PATTERN)?
   
   loadThumbnailImage: ->
