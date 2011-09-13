@@ -96,7 +96,7 @@
 								time: record['Date'].slice(11, 19),
 								senderScreenName: uid,
 								sender: sender,
-								message: record['Message'].replace(/<[^>]+>/ig, '')
+								message: record['Message']
 							});
 						});
 						
