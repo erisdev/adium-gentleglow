@@ -23,9 +23,12 @@ class Media.Scraper
     @source    = $(link)
   
   scrape: ->
-    @container.append @createDefaultThumbnail()
-    @loadThumbnail()
-    true
+    try
+      @container.append @createDefaultThumbnail()
+      @loadThumbnail()
+      true
+    catch ex
+      false
   
   loadThumbnail: ->
     @loadThumbnailTitle()
