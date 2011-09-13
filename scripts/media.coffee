@@ -40,6 +40,30 @@ class Media.BasicScraper
   notImplemented this, 'createDefaultPreview'
   notImplemented this, 'loadPreview'
 
+class Media.SummaryScraper extends Media.BasicScraper
+  
+  setPreviewLink: (uri) ->
+    $('.preview-link', @preview).attr href: uri
+  
+  setPreviewTitle: (title) ->
+    $('.preview-title', @preview).text title
+  
+  setPreviewText: (text) ->
+    $('.preview-text', @preview).text text
+  
+  createDefaultPreview: ->
+    @preview = $("""
+      <li class="link-preview">
+        <a class="preview-link preview-title"></a>
+        <div class="preview-text"></div>
+      </li>
+    """).appendTo $('.links', @message)
+    
+    @setPreviewLink @source[0].href
+    @setPreviewTitle @source.text()
+    
+    @preview
+
 class Media.ThumbnailScraper extends Media.BasicScraper
   THROBBER_URI  = 'images/throbber.gif'
   
