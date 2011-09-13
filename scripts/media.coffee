@@ -67,9 +67,9 @@ class YouTubeScraper extends Media.ThumbnailScraper
   Media.register this
   
   @doesUriMatch: (uri) ->
-    if uri.matchHost 'youtube.com'
+    if uri.isInDomain 'youtube.com'
       uri.query.v? or
-      uri.matchPath '/v/'
+      uri.globPath '/v/*'
     else
       uri.host is 'youtu.be'
   
@@ -77,7 +77,7 @@ class YouTubeScraper extends Media.ThumbnailScraper
     if @uri.host is 'youtu.be'
       id = uri.path.substring 1
     else
-      id = @uri.query.v ? @uri.path.match(/^\/v\/(.+)$/)?[1]
+      id = @uri.query.v ? @uri.path.match(///^ /v/ (.*) ///)?[1]
     
     if id?
       $.get "https://gdata.youtube.com/feeds/api/videos/#{id}?v=2", (xml) =>

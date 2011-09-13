@@ -4,6 +4,22 @@ isEmptyObject = (object) ->
     return false
   true
 
+regexpEscape = (string) ->
+  string.replace /[\/\.\*\+\?\|\(\)\[\]\{\}\\]/g, '\\$&'
+
+compilePathGlob = (pattern) ->
+  parsedPattern = pattern.replace /// \*\*/? | [\*\?.+] ///g, (wc)->
+    switch wc
+      when '?'   then '[^/]'
+      when '*'   then '[^/]*'
+      when '**'  then '.*'
+      when '**/' then '(?:[^/]+/)*'
+      else regexpEscape wc
+  new RegExp "^#{parsedPattern}$"
+
+compileDomainPattern = (domain) ->
+  new RegExp "(?:^|\.)#{regexpEscape domain}$"
+
 class Uri
   PARSER =
     # These horrifying, fabulous regexps are modified from Steven Levithan's
@@ -26,23 +42,20 @@ class Uri
     else
       null
   
-  matchHost: (query) ->
-    if query is @host
-      true
-    else if query.length > @host.length
+  isInDomain: (domain) ->
+    if not @host or @host.length < domain.length
       false
+    if domain is @host
+      true
     else
-      i = @host.lastIndexOf query
-      i is @host.length - query.length and
-        @host.charAt(i - 1) is '.'
+      compileDomainPattern(domain).test @host
   
-  matchPath: (query) ->
+  globPath: (query) ->
     if query is @path
       true
-    else if query.length > @path.length
-      false
     else
-      query is @path.substring(0, query.length)
+      compilePathGlob(query).test @path
+      
   
   toString: (context) ->
     string = ''
