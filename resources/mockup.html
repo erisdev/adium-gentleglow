@@ -102,6 +102,8 @@
 						
 					}, 'xml');
 					
+					$.ajaxSetup({ async: true });
+					
 					mockup_dequeueMessage();
 					
 					$(window).bind('keydown', function(event) {
