@@ -42,7 +42,7 @@
 			<key>From</key>
 			<string>eriscontrol</string>
 			<key>Message</key>
-			<string>check out these thumbnails</string>
+			<string>check out these link previews</string>
 			<key>Outgoing</key>
 			<true/>
 			<key>To</key>
@@ -60,7 +60,9 @@
 			<key>Message</key>
 			<string><![CDATA[
 				<a href="http://www.youtube.com/watch?v=GLnJG6U2bKM">Silverfish and Watermelons</a><br>
-				<a href="http://imgur.com/K2PNQ">Uncivil Engineering</a>
+				<a href="http://imgur.com/K2PNQ">Uncivil Engineering</a><br>
+				<a href="http://reddit.com/r/Minecraft/comments/kkc12/cobblestone_walls_a_modest_proposal_to_notch_or/">Cobblestone Walls: A Modest Proposal</a><br>
+				<a href="http://www.reddit.com/r/mylittlepony/comments/kkc2v/7000_bronies/">7,000 Bronies</a>
 			]]></string>
 			<key>Outgoing</key>
 			<true/>
