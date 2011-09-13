@@ -5,11 +5,11 @@
 	<key>Chat</key>
 	<dict>
 		<key>Date Opened</key>
-		<string>2004-04-19 12:45:47 -0500</string>
+		<string>2011-09-12 22:40:12 -0500</string>
 		<key>Destination UID</key>
-		<string>fetchgreebledonx</string>
+		<string>orangecolander</string>
 		<key>Source UID</key>
-		<string>TekJew</string>
+		<string>eriscontrol</string>
 		<key>Type</key>
 		<string>IM</string>
 	</dict>
@@ -17,19 +17,19 @@
 	<array>
 		<dict>
 			<key>Display Name</key>
-			<string>Evan</string>
+			<string>Eris</string>
 			<key>UID</key>
-			<string>TekJew</string>
+			<string>eriscontrol</string>
 			<key>UserIcon Name</key>
-			<string>SoulEdge.png</string>
+			<string>eriscontrol.png</string>
 		</dict>
 		<dict>
 			<key>Display Name</key>
-			<string>Jeff</string>
+			<string>Orange Colander</string>
 			<key>UID</key>
-			<string>fetchgreebledonx</string>
+			<string>orangecolander</string>
 			<key>UserIcon Name</key>
-			<string>terminator.png</string>
+			<string>orangecolander.png</string>
 		</dict>
 	</array>
 	<key>Preview Messages</key>
@@ -38,15 +38,15 @@
 			<key>Autoreply</key>
 			<false/>
 			<key>Date</key>
-			<string>2004-04-19 12:45:48 -0500</string>
+			<string>2011-09-12 22:39:15 -0500</string>
 			<key>From</key>
-			<string>TekJew</string>
+			<string>eriscontrol</string>
 			<key>Message</key>
-			<string>&lt;HTML&gt;So a priest, a rabbi, and a chicken walk into a bar.&lt;/HTML&gt;</string>
+			<string>check out these thumbnails</string>
 			<key>Outgoing</key>
 			<true/>
 			<key>To</key>
-			<string>fetchgreebledonx</string>
+			<string>orangecolander</string>
 			<key>Type</key>
 			<string>Message</string>
 		</dict>
@@ -54,47 +54,18 @@
 			<key>Autoreply</key>
 			<false/>
 			<key>Date</key>
-			<string>2004-04-19 12:46:07 -0500</string>
+			<string>2011-09-12 22:39:24 -0500</string>
 			<key>From</key>
-			<string>fetchgreebledonx</string>
+			<string>eriscontrol</string>
 			<key>Message</key>
-			<string>&lt;HTML&gt;&lt;BODY BGCOLOR=&quot;#FFFF00&quot;&gt;&lt;FONT FACE=&quot;Comic Sans MS&quot; SIZE=&quot;4&quot; COLOR=&quot;#FF0000&quot;&gt;I&apos;m pretty sure I&apos;ve heard this one before&lt;/FONT&gt;&lt;/BODY&gt;&lt;/HTML&gt;</string>
-			<key>Outgoing</key>
-			<false/>
-			<key>To</key>
-			<string>TekJew</string>
-			<key>Type</key>
-			<string>Message</string>
-		</dict>
-		<dict>
-			<key>Autoreply</key>
-			<false/>
-			<key>Date</key>
-			<string>2004-04-19 12:46:32 -0500</string>
-			<key>From</key>
-			<string>fetchgreebledonx</string>
-			<key>Message</key>
-			<string>&lt;HTML&gt;&lt;BODY BGCOLOR=&quot;#FFFF00&quot;&gt;&lt;FONT FACE=&quot;Comic Sans MS&quot; SIZE=&quot;4&quot; COLOR=&quot;#FF0000&quot;&gt;So what happens next?&lt;/FONT&gt;&lt;/BODY&gt;&lt;/HTML&gt;</string>
-			<key>Outgoing</key>
-			<false/>
-			<key>To</key>
-			<string>TekJew</string>
-			<key>Type</key>
-			<string>Message</string>
-		</dict>
-		<dict>
-			<key>Autoreply</key>
-			<false/>
-			<key>Date</key>
-			<string>2004-04-19 12:46:50 -0500</string>
-			<key>From</key>
-			<string>TekJew</string>
-			<key>Message</key>
-			<string>&lt;HTML&gt;If I remember correctly, they explode outward at the speed of light.&lt;/HTML&gt;</string>
+			<string><![CDATA[
+				<a href="http://www.youtube.com/watch?v=GLnJG6U2bKM">Silverfish and Watermelons</a><br>
+				<a href="http://imgur.com/K2PNQ">Uncivil Engineering</a>
+			]]></string>
 			<key>Outgoing</key>
 			<true/>
 			<key>To</key>
-			<string>fetchgreebledonx</string>
+			<string>orangecolander</string>
 			<key>Type</key>
 			<string>Message</string>
 		</dict>
@@ -102,57 +73,25 @@
 			<key>Autoreply</key>
 			<false/>
 			<key>Date</key>
-			<string>2004-04-19 12:47:00 -0500</string>
+			<string>2011-09-12 22:39:37 -0500</string>
 			<key>From</key>
-			<string>TekJew</string>
+			<string>orangecolander</string>
 			<key>Message</key>
-			<string>&lt;HTML&gt;But that might be if you cross the streams...&lt;/HTML&gt;</string>
-			<key>Outgoing</key>
-			<true/>
-			<key>To</key>
-			<string>fetchgreebledonx</string>
-			<key>Type</key>
-			<string>Message</string>
-		</dict>
-		<dict>
-			<key>Autoreply</key>
-			<false/>
-			<key>Date</key>
-			<string>2004-04-19 12:47:06 -0500</string>
-			<key>From</key>
-			<string>fetchgreebledonx</string>
-			<key>Message</key>
-			<string>&lt;HTML&gt;&lt;BODY BGCOLOR=&quot;#FFFF00&quot;&gt;&lt;FONT FACE=&quot;Comic Sans MS&quot; SIZE=&quot;4&quot; COLOR=&quot;#FF0000&quot;&gt;... thus negating all existence!&lt;/FONT&gt;&lt;/BODY&gt;&lt;/HTML&gt;</string>
+			<string>neat! this message style is legit awesome</string>
 			<key>Outgoing</key>
 			<false/>
 			<key>To</key>
-			<string>TekJew</string>
-			<key>Type</key>
-			<string>Message</string>
-		</dict>
-		<dict>
-			<key>Autoreply</key>
-			<false/>
-			<key>Date</key>
-			<string>2004-04-19 12:47:51 -0500</string>
-			<key>From</key>
-			<string>TekJew</string>
-			<key>Message</key>
-			<string>&lt;HTML&gt;Precisely! it&apos;s a risk one takes whenever one walks into a bar, I&apos;m afraid, especially if one is a chicken.&lt;/HTML&gt;</string>
-			<key>Outgoing</key>
-			<true/>
-			<key>To</key>
-			<string>fetchgreebledonx</string>
+			<string>eriscontrol</string>
 			<key>Type</key>
 			<string>Message</string>
 		</dict>
 		<dict>
 			<key>Date</key>
-			<string>2004-04-19 12:47:54 -0500</string>
+			<string>2011-09-39 22:40:01 -0500</string>
 			<key>From</key>
-			<string>fetchgreebledonx</string>
+			<string>orangecolander</string>
 			<key>Message</key>
-			<string>Jeff went away</string>
+			<string>Orange Colander went away</string>
 			<key>Status Message Type</key>
 			<string>away</string>
 			<key>Type</key>
@@ -160,11 +99,11 @@
 		</dict>
 		<dict>
 			<key>Date</key>
-			<string>2004-04-19 12:47:55 -0500</string>
+			<string>2011-09-12 22:40:01 -0500</string>
 			<key>From</key>
-			<string>fetchgreebledonx</string>
+			<string>orangecolander</string>
 			<key>Message</key>
-			<string>Away Message: &quot;Away for the sake of being away.&quot;</string>
+			<string>Away Message: &quot;I was never really here!&quot;</string>
 			<key>Status Message Type</key>
 			<string>away_message</string>
 			<key>Type</key>
@@ -172,33 +111,33 @@
 		</dict>
 		<dict>
 			<key>Autoreply</key>
-			<true/>
-			<key>Date</key>
-			<string>2004-04-19 12:47:51 -0500</string>
-			<key>From</key>
-			<string>fetchgreebledonx</string>
-			<key>Message</key>
-			<string>&lt;HTML&gt;&lt;BODY BGCOLOR=&quot;#FFFF00&quot;&gt;&lt;FONT FACE=&quot;Comic Sans MS&quot; SIZE=&quot;4&quot; COLOR=&quot;#FF0000&quot;&gt;Away for the sake of being away.&lt;/FONT&gt;&lt;/BODY&gt;&lt;/HTML&gt;</string>
-			<key>Outgoing</key>
 			<false/>
+			<key>Date</key>
+			<string>2011-09-12 22:40:07 -0500</string>
+			<key>From</key>
+			<string>eriscontrol</string>
+			<key>Message</key>
+			<string>gee, thanks, imaginary wish fulfillment puppet!</string>
+			<key>Outgoing</key>
+			<true/>
 			<key>To</key>
-			<string>TekJew</string>
+			<string>orangecolander</string>
 			<key>Type</key>
 			<string>Message</string>
 		</dict>
 		<dict>
 			<key>Autoreply</key>
-			<false/>
-			<key>Date</key>
-			<string>2004-04-19 12:48:02 -0500</string>
-			<key>From</key>
-			<string>TekJew</string>
-			<key>Message</key>
-			<string>&lt;HTML&gt;Gotta run; catch ya later ;)&lt;/HTML&gt;</string>
-			<key>Outgoing</key>
 			<true/>
+			<key>Date</key>
+			<string>2011-09-12 22:40:08 -0500</string>
+			<key>From</key>
+			<string>orangecolander</string>
+			<key>Message</key>
+			<string>I was never really here!</string>
+			<key>Outgoing</key>
+			<false/>
 			<key>To</key>
-			<string>fetchgreebledonx</string>
+			<string>eriscontrol</string>
 			<key>Type</key>
 			<string>Message</string>
 		</dict>
