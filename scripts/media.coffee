@@ -5,72 +5,65 @@ Media =
     @scrapers.push scraper
   
   loadMedia: (message, link) ->
-    container = $('.media', message)
-    uri       = new Uri link.href
+    uri = new Uri link.href
     
     for scraper in @scrapers
       if scraper.doesUriMatch uri
-        break if new scraper(container, link, uri).scrape()
+        break if new scraper(message, link, uri).scrape()
 
-class Media.Scraper
-  THROBBER_URI  = 'images/throbber.gif'
-  LOADING_TITLE = 'loading\u2026'
-  
+notImplemented = (constructor, method) ->
+  constructor::[method] = -> throw new Error "Method #{method} must be implemented by #{constructor}"
+
+class Media.BasicScraper
   @doesUriMatch: (uri) -> false
   
-  constructor: (container, link, @uri) ->
-    @container = $(container)
-    @source    = $(link)
+  constructor: (message, link, @uri) ->
+    @message = $(message)
+    @source  = $(link)
     
     @isCancelled = false
   
   scrape: ->
     try
-      @container.append @createDefaultThumbnail()
-      @loadThumbnail()
+      @createDefaultPreview()
+      @loadPreview()
     catch ex
+      console.log ex
       @cancel()
     
     not @isCancelled
   
   cancel: ->
-    @thumbnail.remove()
+    @preview.remove()
     @isCancelled = true
   
-  loadThumbnail: ->
-    @loadThumbnailTitle()
-    @loadThumbnailImage()
-    @loadThumbnailLink()
+  notImplemented this, 'createDefaultPreview'
+  notImplemented this, 'loadPreview'
+
+class Media.ThumbnailScraper extends Media.BasicScraper
+  THROBBER_URI  = 'images/throbber.gif'
   
-  loadThumbnailTitle: ->
-    @setThumbnailTitle @source.text()
-  
-  loadThumbnailImage: ->
-    null
-  
-  loadThumbnailLink: ->
-    @setThumbnailLink @source[0].href
-  
-  setThumbnailTitle: (title) ->
+  setPreviewTitle: (title) ->
     @thumbnailLink.attr title: title
     @thumbnailImage.attr alt: title
   
-  setThumbnailImage: (uri) ->
+  setPreviewImage: (uri) ->
     @thumbnailImage.attr src: uri
   
-  setThumbnailLink: (uri) ->
+  setPreviewLink: (uri) ->
     @thumbnailLink.attr href: uri
   
-  createDefaultThumbnail: ->
+  createDefaultPreview: ->
     @thumbnailImage = $('<img>')
-                      .attr(src: THROBBER_URI, alt: LOADING_TITLE)
+                      .attr(src: THROBBER_URI, alt: @source.text())
     @thumbnailLink  = $('<a>')
-                      .attr(href: @uri, title: LOADING_TITLE)
-    @thumbnail      = $('<div>')
+                      .attr(href: @source[0].href, title: @source.text())
+    @preview        = $('<div>')
                       .addClass('media-item')
                       .append(@thumbnailLink.append @thumbnailImage)
+    @preview.appendTo $('.media', @message)
 
-class YouTubeScraper extends Media.Scraper
+class YouTubeScraper extends Media.ThumbnailScraper
   Media.register this
   
   @doesUriMatch: (uri) ->
@@ -80,7 +73,7 @@ class YouTubeScraper extends Media.Scraper
     else
       uri.host is 'youtu.be'
   
-  loadThumbnail: ->
+  loadPreview: ->
     if @uri.host is 'youtu.be'
       id = uri.path.substring 1
     else
@@ -96,11 +89,11 @@ class YouTubeScraper extends Media.Scraper
             xml.lookupNamespaceURI ns
         xpath = (query) -> xml.evaluate(query, xml, resolver, XPathResult.STRING_TYPE, null).stringValue
         
-        @setThumbnailImage xpath '/atom:entry/media:group/media:thumbnail[@yt:name="default"]/@url'
-        @setThumbnailTitle xpath '/atom:entry/atom:title'
-        @setThumbnailLink @uri
+        @setPreviewImage xpath '/atom:entry/media:group/media:thumbnail[@yt:name="default"]/@url'
+        @setPreviewTitle xpath '/atom:entry/atom:title'
+        @setPreviewLink @uri
 
-class ImgurScraper extends Media.Scraper
+class ImgurScraper extends Media.ThumbnailScraper
   Media.register this
   
   @doesUriMatch: (uri) ->
@@ -109,16 +102,16 @@ class ImgurScraper extends Media.Scraper
     else
       false
   
-  loadThumbnail: ->
+  loadPreview: ->
     id = @uri.path.match(/// ([^/]+) (?: \. [^/]+ )? $ ///)?[1]
     
     if id?
       $.getJSON "http://api.imgur.com/2/image/#{id}", (data) =>
-        @setThumbnailTitle data.image.image.title ? @source.text()
-        @setThumbnailImage data.image.links.small_square
-        @setThumbnailLink data.image.links.imgur_page
+        @setPreviewTitle data.image.image.title ? @source.text()
+        @setPreviewImage data.image.links.small_square
+        @setPreviewLink data.image.links.imgur_page
 
-class GenericImageScraper extends Media.Scraper
+class GenericImageScraper extends Media.ThumbnailScraper
   Media.register this
   
   PATTERN = /// \. (?: bmp | gif | jp2 | jpe?g | png | tiff? ) $///i
@@ -126,7 +119,7 @@ class GenericImageScraper extends Media.Scraper
   @doesUriMatch: (uri) ->
     uri.path.match(PATTERN)?
   
-  loadThumbnailImage: ->
-    @setThumbnailImage 'images/camera.png'
+  loadPreview: ->
+    @setPreviewImage 'images/camera.png'
 
 window.Media = Media;
