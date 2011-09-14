@@ -99,7 +99,7 @@ class YouTubeScraper extends Media.ThumbnailScraper
   
   loadPreview: ->
     if @uri.host is 'youtu.be'
-      id = uri.path.substring 1
+      id = @uri.path.substring 1
     else
       id = @uri.query.v ? @uri.path.match(///^ /v/ (.*) ///)?[1]
     
