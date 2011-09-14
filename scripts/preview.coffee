@@ -43,21 +43,21 @@ class Media.BasicScraper
 class Media.SummaryScraper extends Media.BasicScraper
   
   setPreviewLink: (uri) ->
-    $('.preview-link', @preview).attr href: uri
+    $('.snippet-link', @preview).attr href: uri
   
   setPreviewTitle: (title) ->
-    $('.preview-title', @preview).text title
+    $('.snippet-title', @preview).text title
   
   setPreviewText: (text) ->
-    $('.preview-text', @preview).text text
+    $('.snippet-text', @preview).text text
   
   createDefaultPreview: ->
     @preview = $("""
-      <li class="link-preview">
-        <a class="preview-link preview-title"></a>
-        <div class="preview-text"></div>
+      <li class="snippet-item">
+        <a class="snippet-link snippet-title"></a>
+        <div class="snippet-text"></div>
       </li>
-    """).appendTo $('.links', @message)
+    """).appendTo $('.snippets', @message)
     
     @setPreviewLink @source[0].href
     @setPreviewTitle @source.text()
@@ -83,9 +83,9 @@ class Media.ThumbnailScraper extends Media.BasicScraper
     @thumbnailLink  = $('<a>')
                       .attr(href: @source[0].href, title: @source.text())
     @preview        = $('<div>')
-                      .addClass('media-item')
+                      .addClass('thumbnail-item')
                       .append(@thumbnailLink.append @thumbnailImage)
-    @preview.appendTo $('.media', @message)
+    @preview.appendTo $('.thumbnails', @message)
 
 class YouTubeScraper extends Media.ThumbnailScraper
   Media.register this

@@ -1,4 +1,4 @@
-.media {
+.thumbnails {
   margin  : 0 0 0 6em;
   padding : 0 1em;
   
@@ -14,11 +14,11 @@
     no-repeat content -webkit-gradient(linear, left top, right top, from(black) );
 }
 
-.media:empty {
+.thumbnails:empty {
   display : none;
 }
 
-.media .media-item {
+.thumbnails .thumbnail-item {
   display   : inline-block;
   margin    : 0.5em;
   min-width : 5em;
@@ -32,16 +32,16 @@
     box-shadow 200ms ease-in-out;
 }
 
-.media .media-item:hover {
+.thumbnails .thumbnail-item:hover {
   box-shadow : 0 0 20px #888;
 }
 
-.media .media-item img {
+.thumbnails .thumbnail-item img {
   display : block;
   margin  : 0 auto;
   width   : auto;
   height  : 100%;
 }
 
-.media .media-item,
-.media .media-item img { border-radius : 0.5em }
+.thumbnails .thumbnail-item,
+.thumbnails .thumbnail-item img { border-radius : 0.5em }
