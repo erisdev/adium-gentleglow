@@ -122,12 +122,16 @@ class ImgurScraper extends Media.ThumbnailScraper
   
   @doesUriMatch: (uri) ->
     if uri.host is 'imgur.com' or uri.host is 'i.imgur.com'
-      true
+      isAlbum = uri.globPath '/a/**'
+      not isAlbum or (isAlbum and uri.fragment?)
     else
       false
   
   loadPreview: ->
-    id = @uri.path.match(/// ([^/]+) (?: \. [^/]+ )? $ ///)?[1]
+    if @uri.globPath('/a/**')
+      id = @uri.fragment
+    else
+      id = @uri.path.match(/// ([^/\.]+) (?: \. [^/\.]+ )? $ ///)?[1]
     
     if id?
       $.getJSON "http://api.imgur.com/2/image/#{id}", (data) =>
