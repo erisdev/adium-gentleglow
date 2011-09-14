@@ -104,7 +104,7 @@ class YouTubeScraper extends Media.ThumbnailScraper
       id = @uri.query.v ? @uri.path.match(///^ /v/ (.*) ///)?[1]
     
     if id?
-      $.get "https://gdata.youtube.com/feeds/api/videos/#{id}?v=2", (xml) =>
+      $.get("https://gdata.youtube.com/feeds/api/videos/#{id}?v=2", (xml) =>
         # jump through hoops for the XPath API
         resolver = (ns) ->
           if ns is 'atom'
@@ -116,6 +116,8 @@ class YouTubeScraper extends Media.ThumbnailScraper
         @setPreviewImage xpath '/atom:entry/media:group/media:thumbnail[@yt:name="default"]/@url'
         @setPreviewTitle xpath '/atom:entry/atom:title'
         @setPreviewLink @uri
+      )
+      .error => @cancel()
 
 class ImgurScraper extends Media.ThumbnailScraper
   Media.register this
@@ -134,10 +136,12 @@ class ImgurScraper extends Media.ThumbnailScraper
       id = @uri.path.match(/// ([^/\.]+) (?: \. [^/\.]+ )? $ ///)?[1]
     
     if id?
-      $.getJSON "http://api.imgur.com/2/image/#{id}", (data) =>
+      $.getJSON("http://api.imgur.com/2/image/#{id}", (data) =>
         @setPreviewTitle data.image.image.title ? @source.text()
         @setPreviewImage data.image.links.small_square
         @setPreviewLink data.image.links.imgur_page
+      )
+      .error => @cancel()
 
 class GenericImageScraper extends Media.ThumbnailScraper
   Media.register this
