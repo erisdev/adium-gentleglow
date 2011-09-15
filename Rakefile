@@ -17,10 +17,12 @@ def template_file template_path, output_path
 end
 
 PACKAGE_INFO    = YAML.load_file 'package.yaml'
+BUNDLE_NAME     = "#{PACKAGE_INFO['package-name']}.AdiumMessageStyle"
 
 BUILD_DIR       = 'build'
 PACKAGE_DIR     = BUILD_DIR / PACKAGE_INFO['package-name']
-CONTENTS_DIR    = PACKAGE_DIR / "#{PACKAGE_INFO['package-name']}.AdiumMessageStyle/Contents"
+BUNDLE_DIR      = PACKAGE_DIR / BUNDLE_NAME
+CONTENTS_DIR    = BUNDLE_DIR / "Contents"
 RESOURCES_DIR   = CONTENTS_DIR / 'Resources'
 
 COFFEE_FILES    = FileList['scripts/**/*.coffee']
@@ -81,6 +83,13 @@ task :package => [:compile, PACKAGE_DIR, CONTENTS_DIR, RESOURCES_DIR] do
   
   sh 'tar', 'jcf', BUILD_DIR / "#{package_name}-#{package_version}.tar.bz2",
     '-C', BUILD_DIR, package_name
+end
+
+desc "install to Adium's Message Styles folder"
+task :install => :package do
+  message_styles_dir = ENV['HOME'] / 'Library/Application Support/Adium 2.0/Message Styles'
+  sh "rm -R '#{message_styles_dir / BUNDLE_NAME}'"
+  sh "cp -R #{BUNDLE_DIR} '#{message_styles_dir}'"
 end
 
 namespace :clean do
