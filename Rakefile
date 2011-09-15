@@ -97,10 +97,10 @@ def pathmap spec
   proc { |file| file.pathmap spec }
 end
 
-rule %r(\.css$) => [pathmap('%-1d/%n.less'), BUILD_DIR / 'stylesheets'] do |t|
+rule %r(\.css$) => [pathmap('%{^build/,}d/%n.less'), BUILD_DIR / 'stylesheets'] do |t|
   sh "lessc #{t.source} > #{t.name}"
 end
 
-rule %r(\.js$) => [pathmap('%-1d/%n.coffee'), BUILD_DIR / 'scripts'] do |t|
+rule %r(\.js$) => [pathmap('%{^build/,}d/%n.coffee'), BUILD_DIR / 'scripts'] do |t|
   sh "coffee -o #{File.dirname t.name} -c #{t.source}"
 end
