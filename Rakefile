@@ -1,5 +1,6 @@
 require 'less'
 require 'yaml'
+require 'json'
 
 class String
   def / (other) File.join(self, other); end
@@ -54,7 +55,7 @@ namespace :compile do
   task :scripts => JS_FILES
   
   desc 'compile variant stylesheets'
-  task :variants => VARIANT_FILES
+  task :variants => [*VARIANT_FILES, BUILD_DIR / 'variants/variants.json']
   
 end
 
@@ -111,6 +112,10 @@ directory BUILD_DIR / 'variants'
 directory PACKAGE_DIR
 directory CONTENTS_DIR
 directory RESOURCES_DIR
+
+file BUILD_DIR / 'variants/variants.json' do |t|
+  File.open(t.name, 'w') { |io| io.write PACKAGE_INFO['variants'].keys.to_json }
+end
 
 def pathmap spec
   proc { |file| file.pathmap spec }
