@@ -28,6 +28,8 @@
 	<false/>
 	<key>ShowsUserIcons</key>
 	<false/>
+	<key>MessageViewVersion</key>
+	<string>4</string>
 	<key>DefaultVariant</key>
 	<string>RegularKind</string>
 </dict>
