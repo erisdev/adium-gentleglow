@@ -4,21 +4,14 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 		
 		<script type="text/javascript" src="scripts/ext/jquery-1.6.3.js"></script>
-		<script type="text/javascript" src="scripts/ext/jquery-ui-1.8.5.js"></script>
-		<script type="text/javascript" src="scripts/ext/jquery.scrollto-1.4.2.js"></script>
-		<script type="text/javascript" src="scripts/lib/jquery.color-hash.js"></script>
 		<script type="text/javascript" src="http://github.com/erisdiscord/jquery-plist/raw/master/lib/jquery.plist.js"></script>
-		<script type="text/javascript" src="scripts/uri.js"></script>
-		<script type="text/javascript" src="scripts/preview.js"></script>
-		<script type="text/javascript" src="scripts/preview/youtube.js"></script>
-		<script type="text/javascript" src="scripts/preview/imgur.js"></script>
-		<script type="text/javascript" src="scripts/preview/any_image.js"></script>
-		<script type="text/javascript" src="scripts/theme.js"></script>
 		<script type="text/javascript">
 			var currentTimeout;
 			
 			var participants = { };
 			var messages     = [ ];
+			
+			var scripts = [ ];
 			
 			var bodyTemplate;
 			var headerTemplate;
@@ -35,6 +28,11 @@
 					$.get('Template.html', function(html) {
 						// strip everything outside the body tag. gross.
 						bodyTemplate = html.replace(/[\s\S]*<body[^>]*>|<\/body>[\s\S]*/ig, '');
+						
+						// extract scripts
+						html.replace(/<script[^>]+src="([^"]+)"/ig, function(m, src) {
+							scripts.push(src);
+						})
 					}, 'html');
 					
 					$.get('Header.html',
@@ -74,6 +72,10 @@
 							
 							$('body').html(html);
 						})();
+						
+						$.each(scripts, function(i, script) {
+							$.getScript(script);
+						});
 						
 						$.each(conversation['Preview Messages'], function(i, record) {
 							var template  = messageTemplate;
@@ -131,13 +133,16 @@
 				}
 				
 				function mockup_dequeueMessage() {
-					var message = messages.shift();
-					if ( message ) {
-						var html = mockup_fillTemplate(message._template, message);
+					if ( messages.length > 0 ) {
+						if ( window.appendMessage ) {
+							var message = messages.shift();
+							var html = mockup_fillTemplate(message._template, message);
+
+							checkIfScrollToBottomIsNeeded();
+							appendMessage(html);
+							scrollToBottomIfNeeded();
+						}
 						
-						checkIfScrollToBottomIsNeeded();
-						appendMessage(html);
-						scrollToBottomIfNeeded();
 						currentTimeout = setTimeout(mockup_dequeueMessage, 1000);
 					}
 				}
