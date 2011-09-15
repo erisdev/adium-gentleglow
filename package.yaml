@@ -7,3 +7,12 @@ include-files:
   - README.mdown
   - CHANGELOG.mdown
 
+default-stylesheets: 
+
+variants:
+  RegularKind:
+    - stylesheets/regular-kind.less
+    - stylesheets/lib/*.less
+  WhiteWashed:
+    - stylesheets/white-washed.less
+    - stylesheets/lib/*.less

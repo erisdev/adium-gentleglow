@@ -3,6 +3,7 @@ require 'yaml'
 
 class String
   def / (other) File.join(self, other); end
+  def basename(*args) File.basename(self, *args); end
 end
 
 def template_file template_path, output_path
@@ -25,24 +26,33 @@ RESOURCES_DIR   = CONTENTS_DIR / 'Resources'
 COFFEE_FILES    = FileList['scripts/**/*.coffee']
 JS_FILES        = COFFEE_FILES.pathmap BUILD_DIR / '%X.js'
 
-LESS_FILES      = FileList['stylesheets/**/*.less']
-CSS_FILES       = LESS_FILES.pathmap BUILD_DIR / '%X.css'
+VARIANT_FILES   = FileList[ ]
+
+PACKAGE_INFO['variants'].each do |name, files|
+  output_name = BUILD_DIR / 'variants' / "#{name}.css"
+  
+  VARIANT_FILES << output_name
+  file output_name => FileList[files, BUILD_DIR / 'variants'] do
+    sh "lessc #{files.join ' '} > #{output_name}"
+  end
+end
+
 
 task :default => :compile
 
 desc 'compile scripts and stylesheets'
-task :compile => %w[ compile:scripts compile:styles ]
+task :compile => %w[ compile:scripts compile:variants ]
 
 desc 'remove all build products'
-task :clean => %w[ clean:scripts clean:styles clean:package ]
+task :clean => %w[ clean:scripts clean:variants clean:package ]
 
 namespace :compile do
   
   desc 'compile scripts'
   task :scripts => JS_FILES
   
-  desc 'compile stylesheets'
-  task :styles  => CSS_FILES
+  desc 'compile variant stylesheets'
+  task :variants => VARIANT_FILES
   
 end
 
@@ -51,7 +61,7 @@ task :package => [:compile, PACKAGE_DIR, CONTENTS_DIR, RESOURCES_DIR] do
   package_name    = PACKAGE_INFO['package-name']
   package_version = PACKAGE_INFO['package-version']
   scripts_dir     = BUILD_DIR / 'scripts'
-  stylesheets_dir = BUILD_DIR / 'stylesheets'
+  variants_dir    = BUILD_DIR / 'variants'
   
   PACKAGE_INFO['include-files'].each do |file|
     if file.is_a? Hash
@@ -62,8 +72,8 @@ task :package => [:compile, PACKAGE_DIR, CONTENTS_DIR, RESOURCES_DIR] do
   end
   
   sh "rsync --recursive resources/ #{RESOURCES_DIR}"
-  sh "rsync --recursive #{stylesheets_dir} #{RESOURCES_DIR}" \
-    if File.directory? stylesheets_dir
+  sh "rsync --recursive #{variants_dir} #{RESOURCES_DIR}" \
+    if File.directory? variants_dir
   sh "rsync --recursive #{scripts_dir} #{RESOURCES_DIR}" \
     if File.directory? scripts_dir
   
@@ -78,8 +88,8 @@ namespace :clean do
   desc 'remove compiled scripts'
   task(:scripts) { system 'rm', '-f', *JS_FILES.existing }
   
-  desc 'remove compiled stylesheets'
-  task(:styles) { system 'rm', '-f', *CSS_FILES.existing }
+  desc 'remove compiled variant stylesheets'
+  task(:variants) { system 'rm', '-f', *VARIANT_FILES.existing }
   
   desc 'remove distribution package'
   task(:package) { system 'rm', '-R', 'build' if File.exist? 'build' }
@@ -88,7 +98,7 @@ end
 
 directory BUILD_DIR
 directory BUILD_DIR / 'scripts'
-directory BUILD_DIR / 'stylesheets'
+directory BUILD_DIR / 'variants'
 directory PACKAGE_DIR
 directory CONTENTS_DIR
 directory RESOURCES_DIR
@@ -97,10 +107,6 @@ def pathmap spec
   proc { |file| file.pathmap spec }
 end
 
-rule %r(\.css$) => [pathmap('%{^build/,}d/%n.less'), BUILD_DIR / 'stylesheets'] do |t|
-  sh "lessc #{t.source} > #{t.name}"
-end
-
-rule %r(\.js$) => [pathmap('%{^build/,}d/%n.coffee'), BUILD_DIR / 'scripts'] do |t|
+rule %r(\.js$) => [pathmap("%{^build/,}d/%n.coffee"), BUILD_DIR / 'scripts'] do |t|
   sh "coffee -o #{File.dirname t.name} -c #{t.source}"
 end
