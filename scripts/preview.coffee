@@ -1,10 +1,10 @@
-Media =
+Preview =
   scrapers: [ ]
   
   register: (scraper) ->
     @scrapers.push scraper
   
-  loadMedia: (message, link) ->
+  loadPreviews: (message, link) ->
     uri = new Uri link.href
     
     for scraper in @scrapers
@@ -14,7 +14,7 @@ Media =
 notImplemented = (constructor, method) ->
   constructor::[method] = -> throw new Error "Method #{method} must be implemented by #{constructor}"
 
-class Media.BasicScraper
+class Preview.BasicScraper
   @doesUriMatch: (uri) -> false
   
   constructor: (message, link, @uri) ->
@@ -40,7 +40,7 @@ class Media.BasicScraper
   notImplemented this, 'createDefaultPreview'
   notImplemented this, 'loadPreview'
 
-class Media.SummaryScraper extends Media.BasicScraper
+class Preview.SummaryScraper extends Preview.BasicScraper
   
   setPreviewLink: (uri) ->
     $('.snippet-link', @preview).attr href: uri
@@ -64,7 +64,7 @@ class Media.SummaryScraper extends Media.BasicScraper
     
     @preview
 
-class Media.ThumbnailScraper extends Media.BasicScraper
+class Preview.ThumbnailScraper extends Preview.BasicScraper
   THROBBER_URI  = 'images/throbber.gif'
   
   setPreviewTitle: (title) ->
@@ -87,8 +87,8 @@ class Media.ThumbnailScraper extends Media.BasicScraper
                       .append(@thumbnailLink.append @thumbnailImage)
     @preview.appendTo $('.thumbnails', @message)
 
-class YouTubeScraper extends Media.ThumbnailScraper
-  Media.register this
+class YouTubeScraper extends Preview.ThumbnailScraper
+  Preview.register this
   
   @doesUriMatch: (uri) ->
     if uri.isInDomain 'youtube.com'
@@ -119,8 +119,8 @@ class YouTubeScraper extends Media.ThumbnailScraper
       )
       .error => @cancel()
 
-class ImgurScraper extends Media.ThumbnailScraper
-  Media.register this
+class ImgurScraper extends Preview.ThumbnailScraper
+  Preview.register this
   
   @doesUriMatch: (uri) ->
     if uri.host is 'imgur.com' or uri.host is 'i.imgur.com'
@@ -143,8 +143,8 @@ class ImgurScraper extends Media.ThumbnailScraper
       )
       .error => @cancel()
 
-class GenericImageScraper extends Media.ThumbnailScraper
-  Media.register this
+class GenericImageScraper extends Preview.ThumbnailScraper
+  Preview.register this
   
   PATTERN = /// \. (?: bmp | gif | jp2 | jpe?g | png | tiff? ) $///i
   IMAGE_TYPES = [
@@ -168,4 +168,4 @@ class GenericImageScraper extends Media.ThumbnailScraper
           @cancel()
       error: => @cancel()
 
-window.Media = Media;
+window.Preview = Preview;

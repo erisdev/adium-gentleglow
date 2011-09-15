@@ -41,7 +41,7 @@ appendMessage = (html) ->
     .prependTo(content)
   
   $('a', fragment)
-  .each( (i) -> Media.loadMedia fragment, this )
+  .each( (i) -> Preview.loadPreviews fragment, this )
   .filter( (i) -> $(@).text() is $(@).attr('href') )
   .text( (i, text) -> text.replace /// \w+ :// ([^/]+) (?: /.* )? ///, '$1\u2026' )
   .addClass('shortened')
