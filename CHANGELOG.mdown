@@ -1,5 +1,25 @@
 # Changes
 
+## Version 1.2.4: (15 September 2011)
+### FIXES & IMPROVEMENTS
+* use message view version 4, for real
+* check content-type of "potential" image links to avoid false positives
+  * still no _actual_ thumbnails, but that's coming
+* catch errors in preview scrapers
+* imgur album links slightly supported (selected image only)
+  * damnit, imgur, add an album info API
+
+### COSMETICS
+* make background striping slightly less subtle
+
+### BEHIND THE CURTAIN
+* beginning support for text snippet previews (some day, Reddit support!)
+* re-enable async for ajax calls in mockup.html after templates are loaded
+* use new Uri class to scrape for previewable links
+* only instantiate scraper if it matches the uri
+* _actually_ update jQuery to 1.6.3, like, for real this time
+* rewrite sample conversation to show off link previews
+
 ## Version 1.2.3: (10 September 2011)
 * add generic image scraper with placeholder thumbnail
 * use YouTube GData API to get video thumbnail _and_ title
