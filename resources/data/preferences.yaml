@@ -25,3 +25,11 @@ enableEmbedly:
     
     <p>This option has no effect on links to supported sites that offer their
       own API.</p>
+danbooruSites:
+  # TODO support some kind of proper array preference type
+  type: 'string'
+  default: ''
+  label: 'Danbooru sites'
+  more: >
+    <p>This option is a space-separated list of hosts that support the
+      Danbooru API.</p>
