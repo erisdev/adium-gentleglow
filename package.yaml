@@ -14,5 +14,6 @@ variants:
     - stylesheets/regular-kind.less
     - stylesheets/lib/*.less
   WhiteWashed:
+    - stylesheets/regular-kind.less
     - stylesheets/white-washed.less
     - stylesheets/lib/*.less

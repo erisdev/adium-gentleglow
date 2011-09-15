@@ -41,13 +41,13 @@ img.broken {
 }
 
 :link {
-	color       : #669;
-	text-shadow : 0px 0px 20px #44f;
+	color       : @link-color;
+	text-shadow : 0px 0px 20px @link-shadow;
 }
 
 :visited {
-	color       : #767;
-	text-shadow : 0px 0px 20px #a4a;
+	color       : @visited-color;
+	text-shadow : 0px 0px 20px @visited-shadow;
 }
 
 :link:hover, :visited:hover {
@@ -155,10 +155,10 @@ section:hover .meta :not(.alt) { opacity : 0.0 }
 	margin  : 0.5em 1em;
 	padding : 0.5em 6em 0.5em 0;
 	
-	background : rgba(9%, 9%, 9%, 0.7);
-	color      : #777;
+	background : @event-background;
+	color      : @event-color;
 	
-	text-shadow : 0px 0px 20px #666;
+	text-shadow : 0px 0px 20px @event-shadow;
 	
 	-webkit-border-radius : 5px;
 }
@@ -168,29 +168,52 @@ section:hover .meta :not(.alt) { opacity : 0.0 }
 	font-style  : italic;
 }
 
-.status.away, .status.idle {
-	color       : #862;
-	text-shadow : 0px 0px 20px #654;
+.text-color(@color, @shadow) {
+	color       : @color;
+	text-shadow : 0 0 20px @shadow;
 }
 
-.status.offline, .status.contact_left {
-	color       : #000;
-	text-shadow : 0px 0px 20px #fff;
-}
-
-.status.online, .status.contact_joined {
-	color       : #686;
-	text-shadow : 0px 0px 20px #383;
-}
-
-.status.error, .status.timed_out {
-	color       : #744;
-	text-shadow : 0px 0px 20px #b33;
-}
-
-.status.return_away, .status.return_idle {
-	color       : #668;
-	text-shadow : 0px 0px 20px #44a;
+.status {
+	
+	&.away {
+		.text-color(@away-color, @away-shadow);
+	}
+	
+	&.idle {
+		.text-color(@idle-color, @idle-shadow);
+	}
+	
+	&.offline {
+		.text-color(@offline-color, @offline-shadow);
+	}
+	
+	&.contact_left {
+		.text-color(@depart-color, @depart-shadow);
+	}
+	
+	&.online {
+		.text-color(@online-color, @online-shadow);
+	}
+	
+	&.contact_joined {
+		.text-color(@join-color, @join-shadow);
+	}
+	
+	&.error {
+		.text-color(@error-color, @error-shadow);
+	}
+	
+	&.timed_out {
+		.text-color(@time-out-color, @time-out-shadow);
+	}
+	
+	&.return_away,  {
+		.text-color(@return-away-color, @return-away-shadow);
+	}
+	
+	&.return_idle {
+		.text-color(@return-idle-color, @return-idle-shadow);
+	}
 }
 
 .file-transfer {
