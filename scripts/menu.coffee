@@ -2,10 +2,9 @@ $ ->
   currentVariant = do ->
     $('#mainStyle').text().match(///
       url\( "? variants/ ([^\s"]+) \.css "? \)
-    ///)?[1]
+    ///i)?[1]
   
   for variant of MessageStyle.variants
-    console.log variant
     $('<option>')
     .text(variant)
     .appendTo('#variant-selector')
