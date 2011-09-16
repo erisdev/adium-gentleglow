@@ -22,23 +22,8 @@ appendMessage = (html, scroll = true) ->
       template TMPL.textShadow, color: $(this).css('color') )
   
   if fragment.hasClass 'action'
-    # reformat action text IRC style
-    
-    sender  = $('.meta .sender', fragment).text()
-    content = $ '.content', fragment
-    
-    content.html (i, html) ->
-      # strips asterisks
-      # we do this to the raw html to preserve formatting--gross, I know.
-      html
-      .replace(///^   ( < [^>]+ > )? \* ///, '$1')
-      .replace(/// \* ( < [^>]+ > )?   $///, '$1')
-    
-    # prepend the sender in a span of its own
-    $('<span>')
-    .addClass('sender')
-    .text(sender + ' ')
-    .prependTo(content)
+    $('.actionMessageUserName', fragment).addClass('sender')
+    $('.actionMessageBody', fragment).text (i, text) -> " #{text}"
   
   $('a', fragment)
   .each( (i) -> Preview.loadPreviews fragment, this )
