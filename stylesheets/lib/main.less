@@ -20,7 +20,7 @@ body {
 	margin  : 0;
 	padding : 0;
 	
-	background : #111 url(../images/background.png) fixed;
+	background : @background;
 	color      : #999;
 	
 	overflow : hidden;
@@ -62,13 +62,15 @@ img.broken {
 
 #chat {
   position : absolute;
-  padding  : 3em 0 1em 0;
+  padding  : 2em 0 1em 0;
   top      : 0;
   bottom   : 0;
   width    : 100%;
   
   overflow-x : hidden;
   overflow-y : auto;
+  
+  -webkit-mask : no-repeat top -webkit-gradient(linear, center top, center bottom, from(transparent), color-stop(20%, black) );
 }
 
 .meta {
