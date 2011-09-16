@@ -1,5 +1,19 @@
 # Changes
 
+## Version 1.2.5: (16 September 2011)
+### FIXES & IMPROVEMENTS
+* fix partial update to message style version 4
+  * remove emote handling code because Adium does this natively now
+  * add missing JavaScript functions; remove unused
+* add ability to switch variants per conversation
+* remove minimum thumbnail width
+* use mask instead of an empty div for top fadeout effect
+
+## BEHIND THE CURTAIN
+* begin converting stylesheets to less so variants will be easily maintainable
+* install task for easier testing with the real thing
+* mockup.html loads scripts from template.html
+
 ## Version 1.2.4: (15 September 2011)
 ### FIXES & IMPROVEMENTS
 * use message view version 4, for real
