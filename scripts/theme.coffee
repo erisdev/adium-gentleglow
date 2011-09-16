@@ -9,7 +9,7 @@ template = (string, params) ->
       when '$' then params[parseInt index]
       else          'undefined'
   
-appendMessage = (html) ->
+appendMessage = (html, scroll = true) ->
   fragment = $ html
   
   if fragment.hasClass 'message'
@@ -49,23 +49,18 @@ appendMessage = (html) ->
   $('button', fragment).button()
   
   fragment.hide().appendTo('#chat').fadeIn()
+  scrollToBottom() if scroll
 
 replaceLastMessage = (html) ->
   $('#chat > section:last').remove()
   appendMessage html
 
-checkIfScrollToBottomIsNeeded = ->
-  # TODO write a version of this that actually works
-  checkIfScrollToBottomIsNeeded.isNeeded = true
-
-checkIfScrollToBottomIsNeeded.isNeeded = true
-
-scrollToBottom = (immediate) ->
+scrollToBottom = ->
   $('#chat').stop()
   $('#chat').scrollTo '100%', 700, easing: 'easeOutBounce'
 
-scrollToBottomIfNeeded = ->
-  scrollToBottom() if checkIfScrollToBottomIsNeeded.isNeeded
+alignChat = (shouldScroll) ->
+  scrollToBottom() if shouldScroll
 
 setStylesheet = (id, url) ->
   style = $ "#stylesheet-#{id}"
@@ -80,10 +75,12 @@ setStylesheet = (id, url) ->
 
 $ -> $.scrollTo '100%'
 
-window.appendMessage = appendMessage
-window.appendNextMessage = appendMessage
+window.appendMessage = (html) -> appendMessage html, true
+window.appendMessageNoScroll = (html) -> appendMessage html, false
+
+window.appendNextMessage = window.appendMessage
+window.appendNextMessageNoScroll = window.appendMessageNoScroll
 window.replaceLastMessage = replaceLastMessage
-window.checkIfScrollToBottomIsNeeded = checkIfScrollToBottomIsNeeded
 window.scrollToBottom = scrollToBottom
-window.scrollToBottomIfNeeded = scrollToBottomIfNeeded
+window.alignChat = alignChat
 window.setStylesheet = setStylesheet

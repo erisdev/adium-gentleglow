@@ -137,10 +137,9 @@
 						if ( window.appendMessage ) {
 							var message = messages.shift();
 							var html = mockup_fillTemplate(message._template, message);
-
-							checkIfScrollToBottomIsNeeded();
+							
 							appendMessage(html);
-							scrollToBottomIfNeeded();
+							scrollToBottom();
 						}
 						
 						currentTimeout = setTimeout(mockup_dequeueMessage, 1000);
