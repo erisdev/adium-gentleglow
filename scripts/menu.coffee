@@ -4,6 +4,14 @@ $ ->
       url\( "? variants/ ([^\s"]+) \.css "? \)
     ///)?[1]
   
+  for variant of MessageStyle.variants
+    console.log variant
+    $('<option>')
+    .text(variant)
+    .appendTo('#variant-selector')
+  
+  $('#variant-selector').val currentVariant
+  
   $('.menu-panel .menu-toggle').click (event) ->
     $(this).closest('.menu-panel').toggleClass 'open'
   
@@ -13,10 +21,3 @@ $ ->
     $('#main-menu').removeClass 'open'
     scrollToBottom()
   
-  $.getJSON 'variants/variants.json', (variants) ->
-    for variantName in variants
-      $('<option>')
-      .text(variantName)
-      .appendTo('#variant-selector')
-    
-    $('#variant-selector').val currentVariant

@@ -52,10 +52,10 @@ task :clean => %w[ clean:scripts clean:variants clean:package ]
 namespace :compile do
   
   desc 'compile scripts'
-  task :scripts => JS_FILES
+  task :scripts => [*JS_FILES, BUILD_DIR / 'scripts/message-style.js']
   
   desc 'compile variant stylesheets'
-  task :variants => [*VARIANT_FILES, BUILD_DIR / 'variants/variants.json']
+  task :variants => VARIANT_FILES
   
 end
 
@@ -113,12 +113,13 @@ directory PACKAGE_DIR
 directory CONTENTS_DIR
 directory RESOURCES_DIR
 
-file BUILD_DIR / 'variants/variants.json' do |t|
-  File.open(t.name, 'w') { |io| io.write PACKAGE_INFO['variants'].keys.to_json }
-end
-
 def pathmap spec
   proc { |file| file.pathmap spec }
+end
+
+file BUILD_DIR / 'scripts/message-style.js' => 'package.yaml' do |t|
+  puts "writing package info to #{t.name}"
+  File.open(t.name, 'w') { |io| io.puts "window.MessageStyle = #{PACKAGE_INFO.to_json}" }
 end
 
 rule %r(\.js$) => [pathmap("%{^build/,}d/%n.coffee"), BUILD_DIR / 'scripts'] do |t|
