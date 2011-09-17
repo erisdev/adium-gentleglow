@@ -13,7 +13,8 @@ class AnyImageScraper extends Preview.ThumbnailScraper
     uri.path.match(PATTERN)?
   
   loadPreview: ->
-    $.ajax @uri, type: 'HEAD',
+    $.ajax @uri.toString(),
+      type: 'HEAD'
       success: (_, status, response) =>
         contentType = response.getResponseHeader 'Content-Type'
         if contentType in IMAGE_TYPES
