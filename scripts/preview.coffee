@@ -41,23 +41,34 @@ class Preview.BasicScraper
   notImplemented this, 'loadPreview'
 
 class Preview.SummaryScraper extends Preview.BasicScraper
+  PREVIEW_TEMPLATE = '''
+    <article>
+      <div class="thumbnail">
+        <a><img alt></a>
+      </div>
+      <div class="snippet">
+        <h1 class="title">
+          <a>lorem ipsum</a>
+        </h1>
+        <p class="content"></p>
+      </div>
+    </article>
+  '''
   
   setPreviewLink: (uri) ->
-    $('.snippet-link', @preview).attr href: uri
+    $('.thumbnail a, .title a', @preview).attr href: uri
   
   setPreviewTitle: (title) ->
-    $('.snippet-title', @preview).text title
+    $('.title a', @preview).text title
   
-  setPreviewText: (text) ->
-    $('.snippet-text', @preview).text text
+  setPreviewText: (text, rich = false) ->
+    if rich
+      $('.content', @preview).html text
+    else
+      $('.content', @preview).text text
   
   createDefaultPreview: ->
-    @preview = $("""
-      <li class="snippet-item">
-        <a class="snippet-link snippet-title"></a>
-        <div class="snippet-text"></div>
-      </li>
-    """).appendTo $('.snippets', @message)
+    @preview = $(PREVIEW_TEMPLATE).appendTo $('.previews', @message)
     
     @setPreviewLink @source[0].href
     @setPreviewTitle @source.text()

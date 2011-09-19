@@ -15,7 +15,7 @@
 }
 
 .thumbnails:empty,
-.snippets:empty {
+.previews:empty {
   display : none;
 }
 
@@ -46,8 +46,32 @@
 .thumbnails .thumbnail-item,
 .thumbnails .thumbnail-item img { border-radius : 0.5em }
 
-.snippets {
-  .snippet-item {
-    /* TODO style this stuff */
+
+.previews {
+  margin  : 0 0 0 3em;
+  
+  & > * {
+    margin : 1em 0;
+    
+    .thumbnail {
+      float  : left;
+      margin : 0 0.5em 0 0;
+    }
+    
+    .snippet {
+      overflow : hidden;
+    }
+    
+    .title {
+      margin : 0 0 0.5em 0;
+      padding : 0;
+      
+      overflow      : hidden;
+      text-overflow : ellipsis;
+      white-space   : nowrap;
+      
+      font-size : medium;
+    }
+    
   }
 }
