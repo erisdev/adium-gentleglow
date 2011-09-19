@@ -6,7 +6,8 @@ class RedditScraper extends Preview.SummaryScraper
   
   POST_META_TEMPLATE = '''
     <p class="reddit-meta">
-      <a class="reddit-domain">example.com</a>
+      (<a class="reddit-domain">example.com</a>)
+      <span class="reddit-karma">37 karma</span>
       submitted <time class="reddit-timestamp" pubdate>ages ago</time>
       by <a class="reddit-author">nobody</a>
       to <a class="reddit-subreddit">subreddit</a>
@@ -55,6 +56,8 @@ class RedditScraper extends Preview.SummaryScraper
           title: "Find all posts from #{post.domain} on Reddit" )
         .text(post.domain)
         
+        $('.reddit-karma', meta).text "#{post.score} karma"
+        
         # TODO title => pretty date, text => "xxxx ago" date
         $('.reddit-timestamp', meta)
         .attr(
@@ -69,6 +72,15 @@ class RedditScraper extends Preview.SummaryScraper
         $('.reddit-subreddit', meta)
         .attr(href: "http://#{@uri.host}/r/#{post.subreddit}")
         .text(post.subreddit)
-    
+        
+        if post.is_self
+          # Ugh, dirty hax. Why doesn't JavaScript come with this?
+          selftext = $('<div>').html(post.selftext_html).text()
+          $('.content', @preview)
+          .replaceWith(
+            $('<div>')
+            .addClass('content')
+            .html(selftext) )
+      
     else
       @cancel()
