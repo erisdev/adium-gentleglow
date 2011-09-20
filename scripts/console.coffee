@@ -21,8 +21,45 @@ yield = (obj, fn) ->
   obj
 
 class Console
-  constructor: (root) ->
-    @root = $(root)
+  constructor: (root, buffer, input) ->
+    @root   = $(root)
+    @buffer = if buffer? then $(buffer) else $('.console-buffer', @root)
+    @input  = if input?  then $(input)  else $('.console-input',  @root)
+    
+    @input.keypress (event) => @processInput() if event.charCode is 13
+  
+  processInput: ->
+    try
+      @dump CoffeeScript.eval @input.val(), bare: true
+      @clearInput()
+    catch ex
+      @error ex
+    
+    @scrollToBottom()
+    return
+  
+  clearInput: ->
+    @input.val null
+    return
+  
+  scrollToBottom: ->
+    @root.scrollTo '100%'
+    return
+  
+  log: (message, options) ->
+    options = $.merge
+      class: 'console-message'
+      options
+    
+    $('<div>')
+    .addClass(options.class)
+    .text("#{message}")
+    .appendTo(@buffer)
+    return
+  
+  info:  (message) -> @log message, class: 'console-info'
+  warn:  (message) -> @log message, class: 'console-warning'
+  error: (message) -> @log message, class: 'console-error'
   
   @valueToHtml: (object) ->
     type = typeof object
@@ -71,6 +108,14 @@ class Console
         html
   
   dump: (object) ->
-    @root.append @objectToHtml object
+    try
+      @buffer.append '<hr>'
+      @buffer.append Console.valueToHtml object
+    finally
+      @scrollToBottom()
+
+debugConsole = null
+$ ->
+  debugConsole = new Console '#debug-console'
 
 window.Console = Console
