@@ -155,8 +155,10 @@ class Console
   
   dump: (object) ->
     try
-      @buffer.append '<hr>'
-      @buffer.append Console.valueToHtml object
+      $('<div>')
+      .addClass('console-dump')
+      .append(Console.valueToHtml(object))
+      .appendTo(@buffer)
     finally
       @scrollToBottom()
 
