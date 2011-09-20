@@ -46,8 +46,11 @@ under the terms of the MIT license.
 * [scripts/uri.coffee](scripts/uri.coffee)
 
 ### My Reddit Ponies
-The pony emotes have been taken more-or-less wholesale from r/mylittlepony.
-I claim no authorship rights for this stylesheet, but its license is unclear.
+The pony emotes have been taken more-or-less wholesale from
+[r/mylittlepony][]. I claim no authorship rights for this stylesheet; it was
+created by one or more of that subreddit's admins.
+
+[Used with permission][ponythread].
 
 * [stylesheets/lib/preview/reddit-ponies.less](styleshets/lib/preview/reddit-ponies.less)
 
@@ -55,3 +58,5 @@ I claim no authorship rights for this stylesheet, but its license is unclear.
 [app-bits]: http://app-bits.com/
 [jQuery]: http://jquery.com
 [jQuery UI]: http://jqueryui.com
+[ponythread]: http://www.reddit.com/r/mylittlepony/comments/km0gz/rmylittlepony_admins_under_what_terms_am_i/
+[r/mylittlepony]: http://www.reddit.com/r/mylittlepony
