@@ -36,6 +36,8 @@ class Console
     @history.limit = 100
     @history.index = -1
     
+    @bufferLimit = 20
+    
     @input.keydown (event) => @handleKey(event)
   
   handleKey: (event) ->
@@ -88,6 +90,12 @@ class Console
     @root.scrollTo '100%'
     return
   
+  cullBuffer: ->
+    children = @buffer.children()
+    overflow = children.length - @bufferLimit
+    if overflow > 0
+      children.slice(0, overflow).remove()
+  
   # I'd love to use CSS transitions but they don't work when the display
   # style changes.
   show: ->
@@ -104,6 +112,7 @@ class Console
     .addClass(options?.class ? 'console-message')
     .text("#{message}")
     .appendTo(@buffer)
+    @cullBuffer()
     return
   
   info:  (message) -> @log message, class: 'console-info'
@@ -177,11 +186,13 @@ class Console
   
   dump: (object) ->
     try
+      html = Console.valueToHtml object, collapse: true
       $('<div>')
       .addClass('console-dump')
-      .append(Console.valueToHtml(object))
+      .append(html)
       .appendTo(@buffer)
     finally
+      @cullBuffer()
       @scrollToBottom()
 
 $ ->
