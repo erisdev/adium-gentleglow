@@ -102,15 +102,27 @@ class Console
     type = typeof object
     converter = @valueConverters[type] ? @valueConverters['default']
     
-    if options?.collapse
-      stub = @valueConverters.default(object, type).addClass('debug-collapsed')
+    if options?.collapse and @valueIsCollapsible(object, type)
+      firstLine = "#{object}".match(/^.+$/m)[0]
+      stub = $('<pre>').addClass('debug-collapsed').text(firstLine)
       stub.click (event) -> stub.replaceWith(Console.valueToHtml(object))
     else
       converter object, type
   
+  @valueIsCollapsible: (object, type) ->
+    if type is 'object'
+      if $.isArray(object)
+        object.length > 0
+      else
+        object not instanceof Date
+    else if type is 'function'
+      true
+    else
+      false
+  
   @valueConverters:
     default: (value, type) ->
-      $('<span>').addClass("debug-#{type}").text("#{value}")
+      $('<pre>').addClass("debug-#{type}").text("#{value}")
     undefined: (value) ->
       $('<span>').addClass('debug-undefined').text('undefined')
     string: (string) ->
