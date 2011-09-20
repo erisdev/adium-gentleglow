@@ -1,5 +1,14 @@
 # Changes
 
+## Version 1.3.0: (20 September 2011)
+* add preview scraper for reddit links
+  * major feature! warrants a minor version increase! I guess!
+  * shows full text of self posts
+  * includes support for pony emotes [](/joy)
+* make "session settings" menu open on hover
+  * clicking the header now pins it open
+* a few more tweaks and improvements behind the scenes
+
 ## Version 1.2.5: (16 September 2011)
 ### FIXES & IMPROVEMENTS
 * fix partial update to message style version 4
