@@ -66,6 +66,7 @@ class Console
   pushHistory: (command) ->
     command ?= @input.val()
     @history.unshift command
+    @history.index = 0
     @history.pop() while @history.length > @history.limit
     return
   
