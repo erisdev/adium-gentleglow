@@ -45,6 +45,12 @@ under the terms of the MIT license.
 
 * [scripts/uri.coffee](scripts/uri.coffee)
 
+### My Reddit Ponies
+The pony emotes have been taken more-or-less wholesale from r/mylittlepony.
+I claim no authorship rights for this stylesheet, but its license is unclear.
+
+* [stylesheets/lib/preview/reddit-ponies.less](styleshets/lib/preview/reddit-ponies.less)
+
 [1337]: http://www.adiumxtras.com/index.php?a=xtras&xtra_id=4042
 [app-bits]: http://app-bits.com/
 [jQuery]: http://jquery.com
