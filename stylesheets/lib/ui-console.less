@@ -65,10 +65,16 @@
 
 .console {
   
+  pre {
+    margin  : 0;
+    padding : 0;
+    
+    font : inherit;
+  }
+  
   .console-error   { color : #d42 }
   .console-warning { color : #db4 }
   .console-info    { color : #bdf }
-  
   
   *:before, *::after { color : #00ffbc }
   
@@ -155,6 +161,11 @@
   }
   
   .debug-collapsed {
+    max-width  : 20em;
+    
+    overflow      : hidden;
+    text-overflow : ellipsis;
+    
     color      : #fd5ef0;
     background : #562d56;
     
