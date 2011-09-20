@@ -121,6 +121,8 @@ class Console
       $('<span>').addClass('debug-string').text(escapeString string)
     boolean: (flag) ->
       $('<span>').addClass('debug-boolean').text(flag ? 'true' : 'false')
+    function: (fn) ->
+      $('<pre>').addClass('debug-function').text("#{fn}")
     object: (object) ->
       if object is null
         $('<span>').addClass('debug-null').text('null')
