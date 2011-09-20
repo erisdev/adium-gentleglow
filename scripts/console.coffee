@@ -102,15 +102,20 @@ class Console
   warn:  (message) -> @log message, class: 'console-warning'
   error: (message) -> @log message, class: 'console-error'
   
-  @valueToHtml: (object) ->
+  @valueToHtml: (object, options) ->
     type = typeof object
     converter = @valueConverters[type] ? @valueConverters['default']
-    converter object, type
+    
+    if options?.collapse
+      stub = @valueConverters.default(object, type).addClass('debug-collapsed')
+      stub.click (event) -> stub.replaceWith(Console.valueToHtml(object))
+    else
+      converter object, type
   
   @valueConverters:
     default: (value, type) ->
       $('<span>').addClass("debug-#{type}").text("#{value}")
-    undefined: ->
+    undefined: (value) ->
       $('<span>').addClass('debug-undefined').text('undefined')
     string: (string) ->
       $('<span>').addClass('debug-string').text(escapeString string)
@@ -124,7 +129,7 @@ class Console
           for value in object
             $('<li>')
             .addClass('debug-array-entry')
-            .append(Console.valueToHtml value)
+            .append(Console.valueToHtml(value, collapse: true))
             .appendTo(html)
         
       else if object instanceof Date
@@ -144,7 +149,7 @@ class Console
           .append(
             $('<div>')
             .addClass('debug-object-value')
-            .append(Console.valueToHtml(value)) )
+            .append(Console.valueToHtml(value, collapse: true)) )
           .appendTo(html)
         html
   
