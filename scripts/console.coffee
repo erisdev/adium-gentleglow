@@ -88,12 +88,8 @@ class Console
     return
   
   log: (message, options) ->
-    options = $.merge
-      class: 'console-message'
-      options
-    
     $('<div>')
-    .addClass(options.class)
+    .addClass(options?.class ? 'console-message')
     .text("#{message}")
     .appendTo(@buffer)
     return
