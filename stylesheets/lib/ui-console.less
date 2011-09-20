@@ -1,0 +1,103 @@
+#debug-console {
+  position : fixed;
+  right    : 0;
+  bottom   : 0;
+  left     : 0;
+  height   : 20em;
+  z-index  : 2000;
+  
+  overflow-x : hidden;
+  overflow-y : auto;
+  
+  background : rgba(0, 0, 0, 0.7);
+}
+
+@object-indent: 6em; // wider to make room for keys
+@array-indent: 3em;
+
+.console {
+  
+  *:before, *::after { color : #00ffbc }
+  
+  .debug-object,
+  .debug-array {
+    margin  : 0;
+    padding : 0;
+    
+    list-style : none;
+  }
+  
+  .debug-object {
+    &::before { content : '{ ' }
+    &::after  { content : ' }' }
+    
+    .debug-object-entry:not(:last-child)::after { content : ', ' }
+    
+    .debug-object-entry {
+      margin : 0 0 0 @object-indent;
+    }
+    
+    .debug-object-key,
+    .debug-object-value {
+      display : inline-block;
+    }
+    
+    .debug-object-key {
+      float    : left;
+      margin   : 0 0.5em 0 -@object-indent;
+      width    : @object-indent;
+      overflow : hidden;
+      
+      color : #5789ff;
+      
+      text-overflow : ellipsis;
+      text-align    : right;
+      
+      &::after { content : ': ' }
+    }
+  }
+  
+  .debug-array {
+    &::before { content : '[ ' }
+    &::after  { content : ' ]' }
+    
+    .debug-array-entry {
+      margin : 0 0 0 @array-indent;
+    }
+  }
+  
+  .debug-object,
+  .debug-array {
+    display : inline-block;
+  }
+  
+  .debug-object > .debug-object-entry,
+  .debug-array  > .debug-array-entry {
+    &:not(:last-child)::after {
+      display : inline;
+      content : ', '
+    }
+  }
+  
+  .debug-null,
+  .debug-undefined {
+    color       : #444;
+  }
+  
+  .debug-boolean {
+    color : #ff3854;
+  }
+  
+  .debug-number {
+    color : #0a9cff;
+  }
+  
+  .debug-string {
+    display : inline-block;
+    
+    color      : #8eff57;
+    background : #0f2621;
+    
+    &::before, &::after { content: '"' }
+  }
+}
