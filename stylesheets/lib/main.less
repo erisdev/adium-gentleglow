@@ -31,6 +31,10 @@ section {
 	margin : auto 1em;
 }
 
+img:not([src]) {
+  display : none;
+}
+
 img.broken {
   background      : center no-repeat url(../images/fire.png);
   background-size : contain;
@@ -57,5 +61,3 @@ img.broken {
 :link:active, :visited:active {
 	text-decoration : none;
 }
-
-#insert { display : none }
