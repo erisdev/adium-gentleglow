@@ -21,25 +21,66 @@ yield = (obj, fn) ->
   obj
 
 class Console
+  KEY_RETURN = 13
+  KEY_LEFT   = 37
+  KEY_UP     = 38
+  KEY_RIGHT  = 39
+  KEY_DOWN   = 40
+  
   constructor: (root, buffer, input) ->
     @root   = $(root)
     @buffer = if buffer? then $(buffer) else $('.console-buffer', @root)
     @input  = if input?  then $(input)  else $('.console-input',  @root)
     
-    @input.keypress (event) => @processInput() if event.charCode is 13
+    @history = [ ]
+    @history.limit = 100
+    @history.index = -1
+    
+    @input.keydown (event) => @handleKey(event)
+  
+  handleKey: (event) ->
+    if event.altKey
+      switch event.which
+        when KEY_UP   then @selectHistory +1; event.preventDefault()
+        when KEY_DOWN then @selectHistory -1; event.preventDefault()
+    else
+      switch event.which
+        when KEY_RETURN then @processInput(); event.preventDefault()
   
   processInput: ->
     try
       @dump CoffeeScript.eval @input.val(), bare: true
+      @pushHistory()
       @clearInput()
     catch ex
       @error ex
+      @input.select()
     
     @scrollToBottom()
     return
   
   clearInput: ->
     @input.val null
+    return
+  
+  pushHistory: (command) ->
+    command ?= @input.val()
+    @history.unshift command
+    @history.pop() while @history.length > @history.limit
+    return
+  
+  selectHistory: (offset) ->
+    index = @history.index + offset
+    console.log index
+    if index >= @history.length
+      undefined # TODO play donk sound or something
+    else if index < 0
+      @clearInput()
+      @history.index = -1
+    else
+      @history.index = index
+      command = @history[index]
+      @input.val(command).select()
     return
   
   scrollToBottom: ->
