@@ -88,6 +88,11 @@ class Console
     @root.scrollTo '100%'
     return
   
+  # I'd love to use CSS transitions but they don't work when the display
+  # style changes.
+  show: -> @root.show arguments...
+  hide: -> @root.hide arguments...
+  
   log: (message, options) ->
     $('<div>')
     .addClass(options?.class ? 'console-message')
@@ -173,8 +178,14 @@ class Console
     finally
       @scrollToBottom()
 
-debugConsole = null
 $ ->
   debugConsole = new Console '#debug-console'
+  debugConsole.hide()
+  
+  $('#console-toggle').click (event) ->
+    if $(this).is(':checked')
+      debugConsole.show 'normal'
+    else
+      debugConsole.hide 'normal'
 
 window.Console = Console
