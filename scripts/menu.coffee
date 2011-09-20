@@ -12,11 +12,11 @@ $ ->
   $('#variant-selector').val currentVariant
   
   $('.menu-panel .menu-toggle').click (event) ->
-    $(this).closest('.menu-panel').toggleClass 'open'
+    $(this).closest('.menu-panel').toggleClass 'pinned'
   
   $('#variant-selector').change ->
     currentVariant = $(this).val()
     $('#mainStyle').text(""" @import url("variants/#{currentVariant}.css"); """)
     $('#main-menu').removeClass 'open'
     scrollToBottom()
-  
+
