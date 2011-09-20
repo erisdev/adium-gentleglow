@@ -90,8 +90,14 @@ class Console
   
   # I'd love to use CSS transitions but they don't work when the display
   # style changes.
-  show: -> @root.show arguments...
-  hide: -> @root.hide arguments...
+  show: ->
+    @root.show arguments...
+    @scrollToBottom
+    return
+  
+  hide: ->
+    @root.hide arguments...
+    return
   
   log: (message, options) ->
     $('<div>')
