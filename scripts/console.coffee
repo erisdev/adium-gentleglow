@@ -27,6 +27,19 @@ class Console
   KEY_RIGHT  = 39
   KEY_DOWN   = 40
   
+  @instance =
+    dump:  -> console?.log   arguments...
+    log:   -> console?.log   arguments...
+    info:  -> console?.info  arguments...
+    warn:  -> console?.warn  arguments...
+    error: -> console?.error arguments...
+  
+  @dump:  -> @instance.dump  arguments...
+  @log:   -> @instance.log   arguments...
+  @info:  -> @instance.info  arguments...
+  @warn:  -> @instance.warn  arguments...
+  @error: -> @instance.error arguments...
+  
   constructor: (root, buffer, input) ->
     @root   = $(root)
     @buffer = if buffer? then $(buffer) else $('.console-buffer', @root)
@@ -196,13 +209,13 @@ class Console
       @scrollToBottom()
 
 $ ->
-  debugConsole = new Console '#debug-console'
-  debugConsole.hide()
+  Console.instance = new Console '#debug-console'
+  Console.instance.hide()
   
   $('#console-toggle').click (event) ->
     if $(this).is(':checked')
-      debugConsole.show 'normal'
+      Console.instance.show 'normal'
     else
-      debugConsole.hide 'normal'
+      Console.instance.hide 'normal'
 
 window.Console = Console
