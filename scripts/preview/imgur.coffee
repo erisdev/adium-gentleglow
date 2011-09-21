@@ -8,16 +8,20 @@ class ImgurScraper extends Preview.ThumbnailScraper
     else
       false
   
-  loadPreview: ->
+  scrape: ->
     if @uri.globPath('/a/**')
       id = @uri.fragment
     else
       id = @uri.path.match(/// ([^/\.]+) (?: \. [^/\.]+ )? $ ///)?[1]
     
     if id?
-      $.getJSON("http://api.imgur.com/2/image/#{id}", (data) =>
-        @setPreviewTitle data.image.image.title ? @source.text()
-        @setPreviewImage data.image.links.small_square
-        @setPreviewLink data.image.links.imgur_page
-      )
-      .error => @cancel()
+      $.ajax "http://api.imgur.com/2/image/#{id}",
+        type: 'get', dataType: 'json', error: @pass
+        success: (data) =>
+          { image, links } = data.image
+          @createPreview
+            uri: links.imgur_page
+            title: image.title
+            thumbnail: links.small_square
+    else
+      @pass()

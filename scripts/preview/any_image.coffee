@@ -13,19 +13,14 @@ class AnyImageScraper extends Preview.ThumbnailScraper
   @doesUriMatch: (uri) ->
     uri.path.match(PATTERN)?
   
-  loadPreview: ->
+  scrape: ->
     $.ajax @uri.toString(),
-      type: 'HEAD'
+      type: 'head', error: @pass
       success: (_, status, response) =>
         contentType = response.getResponseHeader 'Content-Type'
         contentLength = response.getResponseHeader 'Content-Length'
-        if contentType in IMAGE_TYPES
-          if contentLength < MAX_DOWNLOAD_SIZE
-            @setPreviewImage @uri
-          else
-            @setPreviewImage 'images/camera.png'
-          @setPreviewTitle @uri.path.split('/').pop()
+        if  contentLength <  MAX_DOWNLOAD_SIZE \
+        and contentType   in IMAGE_TYPES
+          @createPreview thumbnail: "#{@uri}"
         else
-          @cancel()
-      error: =>
-        @cancel()
+          @pass()

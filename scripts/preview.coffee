@@ -5,11 +5,19 @@ Preview =
     @scrapers.push scraper
   
   loadPreviews: (message, link) ->
+    scraperQueue = [ ]
+    
     uri = new Uri link.href
     
-    for scraper in @scrapers
-      if scraper.doesUriMatch uri
-        break if new scraper(message, link, uri).scrape()
+    link = $(link)
+    title = link.attr('title') ? link.text()
+    
+    for Scraper in @scrapers
+      if Scraper.doesUriMatch uri
+        scraperQueue.push new Scraper(scraperQueue, message, uri, title)
+    
+    if scraperQueue.length > 0
+      scraperQueue.shift().scrapeOrPass()
 
 notImplemented = (constructor, method) ->
   constructor::[method] = -> throw new Error "Method #{method} must be implemented by #{constructor}"
@@ -17,30 +25,32 @@ notImplemented = (constructor, method) ->
 class Preview.BasicScraper
   @doesUriMatch: (uri) -> false
   
-  constructor: (message, link, @uri) ->
+  constructor: (@queue, message, @uri, @title) ->
     @message = $(message)
-    @source  = $(link)
-    
     @isCancelled = false
   
-  scrape: ->
+  scrapeOrPass: ->
     try
-      @createDefaultPreview()
-      @loadPreview()
+      @scrape()
     catch ex
-      console.log ex
-      @cancel()
-    
-    not @isCancelled
+      # pass to the next scraper in line on error
+      @pass() unless @isCancelled
+    return
   
-  cancel: ->
-    @preview.remove()
+  pass: =>
+    if @queue?.length > 0
+      @queue.shift().scrapeOrPass()
+    return
+  
+  cancel: =>
     @isCancelled = true
+    return
   
-  notImplemented this, 'createDefaultPreview'
-  notImplemented this, 'loadPreview'
+  notImplemented this, 'createPreview'
+  notImplemented this, 'scrape'
 
 class Preview.SummaryScraper extends Preview.BasicScraper
+  DEFAULT_THUMBNAIL = 'images/camera.png'
   PREVIEW_TEMPLATE = '''
     <article>
       <div class="thumbnail">
@@ -55,47 +65,48 @@ class Preview.SummaryScraper extends Preview.BasicScraper
     </article>
   '''
   
-  setPreviewLink: (uri) ->
-    $('.thumbnail a, .title a', @preview).attr href: uri
-  
-  setPreviewTitle: (title) ->
-    $('.title a', @preview).text title
-  
-  setPreviewText: (text, rich = false) ->
-    if rich
-      $('.content', @preview).html text
+  createPreview: ({uri, title, thumbnail, snippet} = { }) ->
+    preview = $(PREVIEW_TEMPLATE)
+    
+    uri ?= "#{@uri}"
+    title ?= @title
+    thumbnail ?= DEFAULT_THUMBNAIL
+    snippet ?= ''
+    
+    $('.thumbnail a, .title a', preview).attr title: "#{title}", href: uri
+    $('.thumbnail img',         preview).attr title: "#{title}", src: thumbnail
+    
+    if typeof title is 'string'
+      $('.title a', preview).text title
     else
-      $('.content', @preview).text text
-  
-  createDefaultPreview: ->
-    @preview = $(PREVIEW_TEMPLATE).appendTo $('.previews', @message)
+      $('.title a', preview).empty().append title
     
-    @setPreviewLink @source[0].href
-    @setPreviewTitle @source.text()
+    if typeof snippet is 'string'
+      $('.content', preview).text snippet
+    else
+      $('.content', preview).empty().append snippet
     
-    @preview
+    preview.appendTo $('.previews', @message)
 
 class Preview.ThumbnailScraper extends Preview.BasicScraper
   THROBBER_URI  = 'images/throbber.gif'
   
-  setPreviewTitle: (title) ->
-    @thumbnailLink.attr title: title
-    @thumbnailImage.attr alt: title
+  PREVIEW_TEMPLATE = '''
+    <div class="thumbnail-item">
+      <a><img alt></a>
+    </div>
+  '''
   
-  setPreviewImage: (uri) ->
-    @thumbnailImage.attr src: uri
-  
-  setPreviewLink: (uri) ->
-    @thumbnailLink.attr href: uri
-  
-  createDefaultPreview: ->
-    @thumbnailImage = $('<img>')
-                      .attr(src: THROBBER_URI, alt: @source.text())
-    @thumbnailLink  = $('<a>')
-                      .attr(href: @source[0].href, title: @source.text())
-    @preview        = $('<div>')
-                      .addClass('thumbnail-item')
-                      .append(@thumbnailLink.append @thumbnailImage)
-    @preview.appendTo $('.thumbnails', @message)
+  createPreview: ({uri, title, thumbnail} = { }) ->
+    preview = $(PREVIEW_TEMPLATE)
+    
+    uri ?= "#{@uri}"
+    title ?= "#{@title}"
+    thumbnail ?= THROBBER_URI
+    
+    $('a',   preview).attr title: title, href: uri
+    $('img', preview).attr title: title, src: thumbnail
+    
+    preview.appendTo $('.thumbnails', @message)
 
 window.Preview = Preview;
