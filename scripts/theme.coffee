@@ -25,11 +25,12 @@ appendMessage = (html, scroll = true) ->
     $('.actionMessageUserName', fragment).addClass('sender')
     $('.actionMessageBody', fragment).text (i, text) -> " #{text}"
   
-  $('a', fragment)
-  .each( (i) -> Preview.loadPreviews fragment, this )
-  .filter( (i) -> $(@).text() is $(@).attr('href') )
-  .text( (i, text) -> text.replace /// \w+ :// ([^/]+) (?: /.* )? ///, '$1\u2026' )
-  .addClass('shortened')
+  unless fragment.hasClass 'history'
+    $('a', fragment)
+    .each( (i) -> Preview.loadPreviews fragment, this )
+    .filter( (i) -> $(@).text() is $(@).attr('href') )
+    .text( (i, text) -> text.replace /// \w+ :// ([^/]+) (?: /.* )? ///, '$1\u2026' )
+    .addClass('shortened')
   
   $('button', fragment).button()
   
