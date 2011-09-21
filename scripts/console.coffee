@@ -81,13 +81,12 @@ class Console
   pushHistory: (command) ->
     command ?= @input.val()
     @history.unshift command
-    @history.index = 0
+    @history.index = -1
     @history.pop() while @history.length > @history.limit
     return
   
   selectHistory: (offset) ->
     index = @history.index + offset
-    console.log index
     if index >= @history.length
       undefined # TODO play donk sound or something
     else if index < 0
