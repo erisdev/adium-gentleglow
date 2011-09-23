@@ -51,6 +51,12 @@ class Console
     
     @bufferLimit = 20
     
+    if @input.is 'textarea'
+      @input.keyup (event) => @autosizeInput()
+      @input.css
+        resize: 'none'
+        height: '1.5em'
+    
     @input.keydown (event) => @handleKey(event)
   
   handleKey: (event) ->
@@ -67,6 +73,7 @@ class Console
       @dump CoffeeScript.eval @input.val(), bare: true
       @pushHistory()
       @clearInput()
+      @input.css height: '1.5em'
     catch ex
       @error ex
       @input.select()
@@ -77,6 +84,18 @@ class Console
   clearInput: ->
     @input.val null
     return
+  
+  autosizeInput: ->
+    input = @input[0]
+    
+    outerHeight = input.clientHeight
+    innerHeight = input.scrollHeight
+    
+    adjustedHeight = Math.max outerHeight, innerHeight
+    adjustedHeight = Math.min adjustedHeight, @root[0].clientHeight / 2
+    
+    if adjustedHeight != input.clientHeight
+      @input.css height: adjustedHeight
   
   pushHistory: (command) ->
     command ?= @input.val()
