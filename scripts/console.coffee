@@ -20,95 +20,86 @@ yield = (obj, fn) ->
   fn(obj)
   obj
 
-class Console
-  KEY_TAB    =  9
-  KEY_RETURN = 13
-  KEY_LEFT   = 37
-  KEY_UP     = 38
-  KEY_RIGHT  = 39
-  KEY_DOWN   = 40
+class Editor
+  KEYS =
+    codesByName: { }
+    namesByCode: { }
+    namesByAlias: { }
   
-  @instance =
-    dump:  -> console?.log   arguments...
-    log:   -> console?.log   arguments...
-    info:  -> console?.info  arguments...
-    warn:  -> console?.warn  arguments...
-    error: -> console?.error arguments...
+  defineKey = (code, name, aliases...) ->
+    for alias in [name, aliases...]
+      KEYS.codesByName[alias] = code
+      KEYS.namesByAlias[alias] = name
+    
+    KEYS.namesByCode[code] = name
   
-  @dump:  -> @instance.dump  arguments...
-  @log:   -> @instance.log   arguments...
-  @info:  -> @instance.info  arguments...
-  @warn:  -> @instance.warn  arguments...
-  @error: -> @instance.error arguments...
+  for letter in 'abcdefghijklmnopqrstuvwxyz01234567890'.split('')
+    defineKey letter, letter
   
-  constructor: (root, buffer, input) ->
-    @root   = $(root)
-    @buffer = if buffer? then $(buffer) else $('.console-buffer', @root)
-    @input  = if input?  then $(input)  else $('.console-input',  @root)
+  defineKey   9, 'tab',    "\t"
+  defineKey  13, 'return', "\n"
+  defineKey  37, 'left'
+  defineKey  38, 'up'
+  defineKey  39, 'right'
+  defineKey  40, 'down'
+  
+  keysymFromEvent = (event) ->
+    mod = [
+      '^' if event.ctrlKey
+      '@' if event.altKey
+      '$' if event.shiftKey ].sort().join('')
+    name = KEYS.namesByCode[event.which]
+    "#{mod}#{name}"
+  
+  normalizeKeysym = (sym) ->
+    m = sym.match ///^ ([\^@\$]*) ([a-z][a-z0-9\-]*) $///i
+    name = KEYS.namesByAlias[m[2]]
+    mod = m[1].split('').sort().join('')
+    "#{mod}#{name}"
+  
+  constructor: (input) ->
+    @input = $(input)
     
-    @history = [ ]
-    @history.limit = 100
-    @history.index = -1
+    @bindings = { }
     
-    @bufferLimit = 20
-    
-    if @input.is 'textarea'
-      @input.keyup (event) => @autosizeInput()
-      @input.css
-        resize: 'none'
-        height: '1.5em'
-    
-    @input.keydown (event) => @handleKey(event)
+    @input.keydown (event) => @handleKey event
+    @input.keyup (event) => @fitContent()
+    @input.css resize: 'none'
+    @shrink()
+  
+  bindKey: (sym, options, fn) ->
+    [options, fn] = [{ }, options] if options and not fn
+    sym = normalizeKeysym sym
+    fn = @[fn] if typeof fn is 'string'
+    @bindings[sym] =
+      preventDefault: options?.preventDefault ? true
+      fn: fn
   
   handleKey: (event) ->
-    if event.altKey
-      switch event.which
-        when KEY_UP   then @selectHistory +1; event.preventDefault()
-        when KEY_DOWN then @selectHistory -1; event.preventDefault()
-    else if event.shiftKey
-      switch event.which
-        when KEY_TAB then @indentInput(-1); event.preventDefault()
+    sym = keysymFromEvent event
+    if binding = @bindings[sym]
+      binding.fn.call this, event
+      event.preventDefault() if binding.preventDefault
+  
+  insertText: (toInsert, select = false) ->
+    {begin, end} = @getSelection false
+    
+    oldText = @input.val()
+    newText = oldText[0...begin] + toInsert + oldText[end...]
+    
+    @input.val newText
+    
+    if select
+      end = begin + toInsert.length
     else
-      switch event.which
-        when KEY_TAB    then @indentInput(+1); event.preventDefault()
-        when KEY_RETURN then @processInput(); event.preventDefault()
+      begin = end = begin + toInsert.length
+    
+    @setSelection {begin, end}
   
-  processInput: ->
-    try
-      @dump CoffeeScript.eval @input.val(), bare: true
-      @pushHistory()
-      @clearInput()
-      @input.css height: '1.5em'
-    catch ex
-      @error ex
-      @input.select()
-    
-    @scrollToBottom()
-    return
-  
-  clearInput: ->
-    @input.val null
-    return
-  
-  getLineAtPosition: (index) ->
-    input = @input[0]
-    
-    index ?= input.selectionStart
-    text = @input.val()
-    
-    begin = text.lastIndexOf '\n', index - 1
-    end = text.indexOf '\n', index
-    
-    if begin < 0 then begin  = 0 \
-                 else begin += 1
-    if end   < 0 then end    = text.length
-    
-    { begin, end, text: text[begin...end] }
-  
-  indentInput: (levels = 1) ->
+  indent: (levels = 1) ->
     input = @input[0]
     begin = input.selectionStart
-    end =input.selectionEnd
+    end = input.selectionEnd
     
     line = @getLineAtPosition()
     oldText = @input.val()
@@ -129,17 +120,105 @@ class Console
     
     newText
   
-  autosizeInput: ->
+  insertNewLineAndIndent: ->
+    @insertText "\n"
+    # TODO indent to match previous line
+  
+  getLineAtPosition: (index) ->
+    input = @input[0]
+    
+    index ?= input.selectionStart
+    text = @input.val()
+    
+    begin = text.lastIndexOf '\n', index - 1
+    end = text.indexOf '\n', index
+    
+    if begin < 0 then begin  = 0 \
+                 else begin += 1
+    if end   < 0 then end    = text.length
+    
+    { begin, end, text: text[begin...end] }
+  
+  getSelection: (getText = true) ->
+    input = @input[0]
+    begin = input.selectionStart
+    end = input.selectionEnd
+    { begin, end, text: @input.val()[begin...end] if getText }
+  
+  setSelection: (selection) ->
+    @input[0].setSelectionRange selection.begin, selection.end
+  
+  clear: ->
+    @input.val null
+    @shrink()
+    return
+  
+  fitContent: ->
     input = @input[0]
     
     outerHeight = input.clientHeight
     innerHeight = input.scrollHeight
     
     adjustedHeight = Math.max outerHeight, innerHeight
-    adjustedHeight = Math.min adjustedHeight, @root[0].clientHeight / 2
+    adjustedHeight = Math.min adjustedHeight, @input.parent()[0].clientHeight / 2
     
     if adjustedHeight != input.clientHeight
       @input.css height: adjustedHeight
+    
+    return
+  
+  shrink: ->
+    @input.css height: '1.5em'
+    return
+
+class Console
+  
+  @instance =
+    dump:  -> console?.log   arguments...
+    log:   -> console?.log   arguments...
+    info:  -> console?.info  arguments...
+    warn:  -> console?.warn  arguments...
+    error: -> console?.error arguments...
+  
+  @dump:  -> @instance.dump  arguments...
+  @log:   -> @instance.log   arguments...
+  @info:  -> @instance.info  arguments...
+  @warn:  -> @instance.warn  arguments...
+  @error: -> @instance.error arguments...
+  
+  constructor: (root, buffer, input) ->
+    @root   = $(root)
+    @buffer = if buffer? then $(buffer) else $('.console-buffer', @root)
+    @input  = if input?  then $(input)  else $('.console-input',  @root)
+    
+    @editor = new Editor @input
+    
+    @editor.bindKey '@up',     => @selectHistory +1
+    @editor.bindKey '@down',   => @selectHistory -1
+    
+    @editor.bindKey 'tab',     -> @indent()
+    @editor.bindKey '$tab',    -> @indent -1
+    
+    @editor.bindKey "@return", -> @insertNewLineAndIndent()
+    @editor.bindKey "return",  => @processInput()
+    
+    @history = [ ]
+    @history.limit = 100
+    @history.index = -1
+    
+    @bufferLimit = 20
+  
+  processInput: ->
+    try
+      @dump CoffeeScript.eval @input.val(), bare: true
+      @pushHistory()
+      @editor.clear()
+    catch ex
+      @error ex
+      @input.select()
+    
+    @scrollToBottom()
+    return
   
   pushHistory: (command) ->
     command ?= @input.val()
@@ -153,7 +232,7 @@ class Console
     if index >= @history.length
       undefined # TODO play donk sound or something
     else if index < 0
-      @clearInput()
+      @editor.clear()
       @history.index = -1
     else
       @history.index = index
