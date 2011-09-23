@@ -21,6 +21,7 @@ yield = (obj, fn) ->
   obj
 
 class Console
+  KEY_TAB    =  9
   KEY_RETURN = 13
   KEY_LEFT   = 37
   KEY_UP     = 38
@@ -64,8 +65,12 @@ class Console
       switch event.which
         when KEY_UP   then @selectHistory +1; event.preventDefault()
         when KEY_DOWN then @selectHistory -1; event.preventDefault()
+    else if event.shiftKey
+      switch event.which
+        when KEY_TAB then @indentInput(-1); event.preventDefault()
     else
       switch event.which
+        when KEY_TAB    then @indentInput(+1); event.preventDefault()
         when KEY_RETURN then @processInput(); event.preventDefault()
   
   processInput: ->
@@ -84,6 +89,45 @@ class Console
   clearInput: ->
     @input.val null
     return
+  
+  getLineAtPosition: (index) ->
+    input = @input[0]
+    
+    index ?= input.selectionStart
+    text = @input.val()
+    
+    begin = text.lastIndexOf '\n', index - 1
+    end = text.indexOf '\n', index
+    
+    if begin < 0 then begin  = 0 \
+                 else begin += 1
+    if end   < 0 then end    = text.length
+    
+    { begin, end, text: text[begin...end] }
+  
+  indentInput: (levels = 1) ->
+    input = @input[0]
+    begin = input.selectionStart
+    end =input.selectionEnd
+    
+    line = @getLineAtPosition()
+    oldText = @input.val()
+    newText = oldText[0...line.begin]
+    
+    if levels >= 0
+      newText += '  ' for i in [0...levels]
+      newText += line.text
+    else
+      newText += line.text.replace ///^ [ ]{2} {0, #{Math.abs levels} } ///, ''
+    
+    newText += oldText[line.end...]
+    
+    @input.val newText
+    input.setSelectionRange(
+      Math.max(line.begin, begin + levels)
+      Math.max(line.begin, end   + levels) )
+    
+    newText
   
   autosizeInput: ->
     input = @input[0]
