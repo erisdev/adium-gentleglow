@@ -3,6 +3,8 @@
 ## Version 1.3.1: (24 September 2011)
 * add broader thumbnail support using oEmbed API
   * Vimeo, YouTube, too many to really list.
+* make botched release attempt
+* remove old default style, renamed WhiteWashed to RegularKind in its place.
 * lots of refactoring to the preview code to make it cleaner ;)
 
 ## Version 1.3.0: (20 September 2011)
