@@ -49,8 +49,10 @@ class OEmbedScraper extends Preview.ThumbnailScraper
       @pass()
 
 do ->
-  # List of providers found at <http://www.oembed.com/#section7>.
   provider = -> OEmbedScraper.registerProvider arguments...
+  
+  # List of providers found at <http://www.oembed.com/#section7>.
+  ##
   
   provider 'YouTube', 'http://www.youtube.com/oembed'
     scheme: (uri) -> uri.isInDomain('youtube.com') or uri.host is 'youtu.be'
@@ -80,3 +82,24 @@ do ->
   
   provider 'SlideShare', 'http://www.slideshare.net/api/oembed/2'
     scheme: (uri) -> uri.isInDomain('slideshare.net') and uri.globPath('/*/*')
+  
+  # Additional providers found on my many voyages across this vast Internet.
+  # Ordered alphabetically for convenience and for the sake of not showing
+  # favoritism.
+  ##
+  
+  provider 'Blip.tv', 'http://blip.tv/oembed/'
+    scheme: (uri) -> uri.isInDomain('blip.tv') and uri.globPath('/file/*')
+  
+  provider 'DailyMotion', 'http://www.dailymotion.com/api/oembed'
+    scheme: (uri) -> uri.isInDomain 'dailymotion.com'
+  
+  provider 'Funny or Die', 'http://www.funnyordie.com/oembed'
+    scheme: (uri) -> uri.isInDomain('funnyordie.com') and uri.globPath('/videos/*')
+  
+  provider 'PhotoBucket', 'http://photobucket.com/oembed'
+    scheme: (uri) ->
+      uri.isInDomain('photobucket.com') and
+      (uri.globPath('/albums/*') or uri.globPath('/groups/*'))
+
+  
