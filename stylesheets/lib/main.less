@@ -45,13 +45,11 @@ img.broken {
 }
 
 :link {
-	color       : @link-color;
-	text-shadow : 0px 0px 20px @link-shadow;
+	.glowing-text(@link-color, @link-shadow);
 }
 
 :visited {
-	color       : @visited-color;
-	text-shadow : 0px 0px 20px @visited-shadow;
+	.glowing-text(@visited-color, @visited-shadow);
 }
 
 :link:hover, :visited:hover {

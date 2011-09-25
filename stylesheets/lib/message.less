@@ -75,13 +75,11 @@
     }
     
     &.outgoing {
-      color: @outgoing-color;
-      text-shadow: 0px 0px 20px @outgoing-color;
+      .glowing-text(@outgoing-color, @outgoing-color);
     }
     
     &.incoming {
-      color: @incoming-color;
-      text-shadow: 0px 0px 20px @incoming-color;
+      .glowing-text(@incoming-color, @incoming-color);
     }
     
     &.history {
