@@ -1,3 +1,4 @@
+require 'coffee-script'
 require 'less'
 require 'yaml'
 require 'json'
@@ -133,5 +134,15 @@ file BUILD_DIR / 'scripts/message-style.js' => 'package.yaml' do |t|
 end
 
 rule %r(\.js$) => [pathmap("%{^build/,}d/%n.coffee"), BUILD_DIR / 'scripts'] do |t|
-  sh "coffee -o #{File.dirname t.name} -c #{t.source}"
+  dir = File.dirname t.name
+  mkdir_p dir unless File.exist? dir
+  
+  $stderr.puts "coffee -o #{File.dirname t.name} -c #{t.source}"
+  
+  js = File.open(t.source) do |io|
+    # I wish there was a :helpers => false option!
+    CoffeeScript.compile io, :filename => t.name
+  end
+  
+  File.open(t.name, 'w') { |io| io.write js }
 end
