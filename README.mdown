@@ -5,6 +5,15 @@
 * Created 10 October 2010
 * Last Updated 16 September 2011
 
+## Using Embed.ly
+
+Support for Embed.ly is now included in the source, but—in the interest of
+_not_ spreading around an API key—is disabled by default. To enable it, you
+will need to get an Embed.ly API key then run the following command to
+compile.
+
+    EMBEDLY_KEY='your_api_key' rake clean package
+
 ## Credits & Acknowledgements
 Gentle Glow is loosely based on Ayumi Yonosa's [1337][] message style. It
 started life as a modification to support proportional fonts, but it ended up
