@@ -10,15 +10,6 @@ include-files:
   - README.mdown
   - CHANGELOG.mdown
 
-default-stylesheets: 
-
 variants:
-  RegularKind:
-    - stylesheets/regular-kind.less
-    - stylesheets/lib/*.less
-    - stylesheets/lib/**/*.less
-  WhiteWashed:
-    - stylesheets/regular-kind.less
-    - stylesheets/white-washed.less
-    - stylesheets/lib/*.less
-    - stylesheets/lib/**/*.less
+  RegularKind: stylesheets/regular-kind.less
+  WhiteWashed: stylesheets/white-washed.less
