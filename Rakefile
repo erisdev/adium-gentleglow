@@ -31,6 +31,11 @@ JS_FILES        = COFFEE_FILES.pathmap BUILD_DIR / '%X.js'
 
 VARIANT_FILES   = FileList[ ]
 
+PACKAGE_INFO['environment'] =
+PACKAGE_INFO['include-environment'].inject({}) do |vars, name|
+  vars.merge! name => ENV[name]
+end
+
 PACKAGE_INFO['variants'].each do |name, files|
   output_name = BUILD_DIR / 'variants' / "#{name}.css"
   
