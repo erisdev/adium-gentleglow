@@ -9,7 +9,7 @@ class EmbedlyScraper extends Preview.SummaryScraper
   scrape: ->
     $.ajax 'http://api.embed.ly/1/oembed'
       type: 'get', dataType: 'json'
-      error: (=> console.log arguments...; @pass arguments...)
+      error: @pass
       success: @embed
       data:
         url: "#{@uri}"
@@ -17,7 +17,6 @@ class EmbedlyScraper extends Preview.SummaryScraper
         words: 37
   
   embed: (oembed) =>
-    console.log "YEP"
     preview = @createPreview
       title: oembed.title
       thumbnail: oembed.thumbnail_url
