@@ -94,6 +94,10 @@ do ->
   provider 'DailyMotion', 'http://www.dailymotion.com/api/oembed'
     scheme: (uri) -> uri.isInDomain 'dailymotion.com'
   
+  provider 'DeviantART', 'http://backend.deviantart.com/oembed',
+    scheme: (uri) -> uri.isInDomain('fav.me') or 
+      (uri.isInDomain('deviantart.com') and uri.globPath('/art/*'))
+  
   provider 'Funny or Die', 'http://www.funnyordie.com/oembed'
     scheme: (uri) -> uri.isInDomain('funnyordie.com') and uri.globPath('/videos/*')
   
