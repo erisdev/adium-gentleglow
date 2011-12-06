@@ -1,4 +1,4 @@
-class ImgurScraper extends Preview.ThumbnailScraper
+class ImgurScraper extends Preview.BasicScraper
   Preview.register this
   
   @doesUriMatch: (uri) ->

@@ -1,4 +1,4 @@
-class EmbedlyScraper extends Preview.SummaryScraper
+class EmbedlyScraper extends Preview.BasicScraper
   Preview.register this
   
   # This scraper is optimistic because its scope is so broad. Now that

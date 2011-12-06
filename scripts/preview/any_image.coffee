@@ -1,4 +1,4 @@
-class AnyImageScraper extends Preview.ThumbnailScraper
+class AnyImageScraper extends Preview.BasicScraper
   Preview.register this
   
   PATTERN = /// \. (?: bmp | gif | jp2 | jpe?g | png | tiff? ) $///i

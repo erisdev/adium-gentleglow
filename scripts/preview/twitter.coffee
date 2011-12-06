@@ -1,7 +1,7 @@
 escapeEntities = (str) ->
   $('<div>').text(str).html()
 
-class TwitterScraper extends Preview.SummaryScraper
+class TwitterScraper extends Preview.BasicScraper
   Preview.register this
   
   TWEET_PATTERN = /// /status/ (\d+) $///

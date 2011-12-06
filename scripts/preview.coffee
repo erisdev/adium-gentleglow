@@ -23,6 +23,22 @@ notImplemented = (constructor, method) ->
   constructor::[method] = -> throw new Error "Method #{method} must be implemented by #{constructor}"
 
 class Preview.BasicScraper
+  THROBBER_URI  = 'images/throbber.gif'
+  DEFAULT_THUMBNAIL = 'images/camera.png'
+  PREVIEW_TEMPLATE = '''
+    <article>
+      <div class="thumbnail">
+        <a><img alt></a>
+      </div>
+      <div class="snippet">
+        <h1 class="title">
+          <a>lorem ipsum</a>
+        </h1>
+        <p class="content"></p>
+      </div>
+    </article>
+  '''
+  
   @doesUriMatch: (uri) -> false
   
   constructor: (@queue, message, @uri, @title) ->
@@ -46,25 +62,6 @@ class Preview.BasicScraper
     @isCancelled = true
     return
   
-  notImplemented this, 'createPreview'
-  notImplemented this, 'scrape'
-
-class Preview.SummaryScraper extends Preview.BasicScraper
-  DEFAULT_THUMBNAIL = 'images/camera.png'
-  PREVIEW_TEMPLATE = '''
-    <article>
-      <div class="thumbnail">
-        <a><img alt></a>
-      </div>
-      <div class="snippet">
-        <h1 class="title">
-          <a>lorem ipsum</a>
-        </h1>
-        <p class="content"></p>
-      </div>
-    </article>
-  '''
-  
   createPreview: ({uri, title, thumbnail, snippet} = { }) ->
     preview = $(PREVIEW_TEMPLATE)
     
@@ -87,26 +84,7 @@ class Preview.SummaryScraper extends Preview.BasicScraper
       $('.content', preview).empty().append snippet
     
     preview.appendTo $('.previews', @message)
-
-class Preview.ThumbnailScraper extends Preview.BasicScraper
-  THROBBER_URI  = 'images/throbber.gif'
   
-  PREVIEW_TEMPLATE = '''
-    <div class="thumbnail-item">
-      <a><img alt></a>
-    </div>
-  '''
-  
-  createPreview: ({uri, title, thumbnail} = { }) ->
-    preview = $(PREVIEW_TEMPLATE)
-    
-    uri ?= "#{@uri}"
-    title ?= "#{@title}"
-    thumbnail ?= THROBBER_URI
-    
-    $('a',   preview).attr title: title, href: uri
-    $('img', preview).attr title: title, src: thumbnail
-    
-    preview.appendTo $('.thumbnails', @message)
+  notImplemented this, 'scrape'
 
-window.Preview = Preview;
+window.Preview = Preview

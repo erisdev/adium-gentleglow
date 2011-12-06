@@ -2,7 +2,7 @@ unescapeEntities = (str) ->
   # Ugh, dirty hax. Why doesn't JavaScript come with this?
   $('<div>').html(str).text()
 
-class RedditScraper extends Preview.SummaryScraper
+class RedditScraper extends Preview.BasicScraper
   Preview.register this
   
   COMMENT_PATTERN = ///^ /r/ [^/]+ /comments/ [a-z0-9]+ / [^/]+ / ([a-z0-9]+) ///

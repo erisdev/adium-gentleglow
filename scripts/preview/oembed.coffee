@@ -15,7 +15,7 @@ class OEmbedProvider
   # This method is overridden in the constructor anyway.
   doesUriMatch: -> false 
 
-class OEmbedScraper extends Preview.ThumbnailScraper
+class OEmbedScraper extends Preview.BasicScraper
   Preview.register this
   
   @SUPPORTED_TYPES = ['video', 'photo']
@@ -41,6 +41,7 @@ class OEmbedScraper extends Preview.ThumbnailScraper
   
   embed: (oembed) =>
     if oembed.type in OEmbedScraper.SUPPORTED_TYPES
+      console.log oembed
       preview = @createPreview
         title: oembed.title
         thumbnail: oembed.thumbnail_url
