@@ -174,6 +174,7 @@ class Editor
     return
 
 class Console
+  COFFEESCRIPT_URI = 'https://raw.github.com/jashkenas/coffee-script/1.1.3/extras/coffee-script.js'
   
   @instance =
     dump:  -> console?.log   arguments...
@@ -211,15 +212,18 @@ class Console
     @bufferLimit = 20
   
   processInput: ->
-    try
-      @dump CoffeeScript.eval @input.val(), bare: true
-      @pushHistory()
-      @editor.clear()
-    catch ex
-      @error ex
-      @input.select()
-    
-    @scrollToBottom()
+    if CoffeeScript?
+      try
+        @dump CoffeeScript.eval @input.val(), bare: true
+        @pushHistory()
+        @editor.clear()
+      catch ex
+        @error ex
+        @input.select()
+      
+      @scrollToBottom()
+    else
+      $.getScript COFFEESCRIPT_URI, => this.processInput()
     return
   
   pushHistory: (command) ->
