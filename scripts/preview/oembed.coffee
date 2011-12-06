@@ -18,6 +18,14 @@ class OEmbedProvider
 class OEmbedScraper extends Preview.BasicScraper
   Preview.register this
   
+  SNIPPET_TEMPLATE = '''
+    <p class="snippet-meta">
+      <span class="oembed-type">some kind of media</span>
+      by <a class="oembed-author">unknown author</a>
+      via <a class="oembed-provider">unknown provider</a>.
+    </p>
+  '''
+  
   @SUPPORTED_TYPES = ['video', 'photo']
   @PROVIDERS = { }
   
@@ -44,10 +52,26 @@ class OEmbedScraper extends Preview.BasicScraper
       console.log oembed
       preview = @createPreview
         title: oembed.title
+        snippet: @createSnippet(oembed)
         thumbnail: oembed.thumbnail_url
         embed: oembed.html
     else
       @pass()
+  
+  createSnippet: (oembed) ->
+    snippet = $(SNIPPET_TEMPLATE)
+    
+    $('.oembed-type', snippet).text oembed.type
+    
+    $('.oembed-author', snippet)
+      .attr(href: oembed.author_url)
+      .text(oembed.author_name ? 'unknown author')
+    
+    $('.oembed-provider', snippet)
+      .attr(href: oembed.provider_url)
+      .text(oembed.provider_name ? 'unknown provider')
+    
+    snippet
 
 do ->
   provider = -> OEmbedScraper.registerProvider arguments...
