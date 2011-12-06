@@ -1,12 +1,4 @@
 
-isEmptyObject = (object) ->
-  for own key of object
-    return false
-  true
-
-regexpEscape = (string) ->
-  string.replace /[\/\.\*\+\?\|\(\)\[\]\{\}\\]/g, '\\$&'
-
 compilePathGlob = (pattern) ->
   parsedPattern = pattern.replace /// \*\*/? | [\*\?.+] ///g, (wc)->
     switch wc
@@ -14,11 +6,11 @@ compilePathGlob = (pattern) ->
       when '*'   then '[^/]*'
       when '**'  then '.*'
       when '**/' then '(?:[^/]+/)*'
-      else regexpEscape wc
+      else RegExp.escape wc
   new RegExp "^#{parsedPattern}$"
 
 compileDomainPattern = (domain) ->
-  new RegExp "(?:^|\.)#{regexpEscape domain}$"
+  new RegExp "(?:^|\.)#{RegExp.escape domain}$"
 
 class Uri
   PARSER =
@@ -79,7 +71,7 @@ class Uri
       else
         string += @path
     
-    string += "?#{@getQueryString()}" unless isEmptyObject(@query)
+    string += "?#{@getQueryString()}" unless @query.isEmpty()
     string += "##{@fragment}" if @fragment?
     
     string

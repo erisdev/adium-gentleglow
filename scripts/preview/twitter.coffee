@@ -1,6 +1,3 @@
-escapeEntities = (str) ->
-  $('<div>').text(str).html()
-
 class TwitterScraper extends Preview.BasicScraper
   Preview.register this
   
@@ -38,11 +35,11 @@ class TwitterScraper extends Preview.BasicScraper
     if tweet.entities?
       indexMap = { }
       for item in tweet.entities.urls
-        indexMap[item.indices[0]] = [item.indices[1], (text) -> "<a href='#{escapeEntities item.url}'>#{escapeEntities text}</a>" ]
+        indexMap[item.indices[0]] = [item.indices[1], (text) -> "<a href='#{item.url.escapeEntities()}'>#{text.escapeEntities()}</a>" ]
       for item in tweet.entities.hashtags
-        indexMap[item.indices[0]] = [item.indices[1], (text) -> "<a href='http://twitter.com/search?q=#{escapeEntities item.text}'>#{escapeEntities text}</a>" ]
+        indexMap[item.indices[0]] = [item.indices[1], (text) -> "<a href='http://twitter.com/search?q=#{item.text.escapeEntities()}'>#{text.escapeEntities()}</a>" ]
       for item in tweet.entities.user_mentions
-        indexMap[item.indices[0]] = [item.indices[1], (text) -> "<a href='http://twitter.com/#{item.screen_name}' title='#{escapeEntities item.name}'>#{escapeEntities text}</a>" ]
+        indexMap[item.indices[0]] = [item.indices[1], (text) -> "<a href='http://twitter.com/#{item.screen_name}' title='#{item.name.escapeEntities()}'>#{text.escapeEntities()}</a>" ]
       
       html = ''
       lastIndex = 0
@@ -51,15 +48,15 @@ class TwitterScraper extends Preview.BasicScraper
         if entry = indexMap[index]
           [end, fn] = entry
           if index > lastIndex
-            html += escapeEntities tweet.text.substring(lastIndex, index)
+            html += tweet.text.substring(lastIndex, index).escapeEntities()
           html += fn tweet.text.substring(index, end)
           index = end - 1
           lastIndex = end
       
       if index > lastIndex
-        html += escapeEntities tweet.text.substring(lastIndex, i)
+        html += tweet.text.substring(lastIndex, i).escapeEntities()
       
       # span? more hax.
       $('<span>').html(html)
     else
-      escapeEntities tweet.text
+      tweet.text.escapeEntities()

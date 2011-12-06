@@ -1,14 +1,6 @@
 TMPL =
   textShadow: '0px 0px 20px #{color}'
 
-template = (string, params) ->
-  pattern = /// \#\{ \s* ([a-z0-9_]+) \s* \} | \$ (\d+) ///ig
-  string.replace pattern, (m, key, index) ->
-    switch m.charAt 0
-      when '#' then params[key]
-      when '$' then params[parseInt index]
-      else          'undefined'
-  
 appendMessage = (html, scroll = true) ->
   fragment = $ html
   
@@ -19,7 +11,7 @@ appendMessage = (html, scroll = true) ->
       luminance:  0.6,
       ignoreCase: true )
     .css('text-shadow', (i, textShadow) ->
-      template TMPL.textShadow, color: $(this).css('color') )
+      TMPL.textShadow.template color: $(this).css('color') )
   
   if fragment.hasClass 'action'
     $('.actionMessageUserName', fragment).addClass('sender')

@@ -19,9 +19,6 @@ Preview =
     if scraperQueue.length > 0
       scraperQueue.shift().scrapeOrPass()
 
-notImplemented = (constructor, method) ->
-  constructor::[method] = -> throw new Error "Method #{method} must be implemented by #{constructor}"
-
 class Preview.BasicScraper
   THROBBER_URI  = 'images/throbber.gif'
   DEFAULT_THUMBNAIL = 'images/camera.png'
@@ -85,6 +82,6 @@ class Preview.BasicScraper
     
     preview.appendTo $('.previews', @message)
   
-  notImplemented this, 'scrape'
+  Object.notImplemented this, 'scrape'
 
 window.Preview = Preview

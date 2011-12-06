@@ -1,7 +1,3 @@
-unescapeEntities = (str) ->
-  # Ugh, dirty hax. Why doesn't JavaScript come with this?
-  $('<div>').html(str).text()
-
 class RedditScraper extends Preview.BasicScraper
   Preview.register this
   
@@ -81,7 +77,7 @@ class RedditScraper extends Preview.BasicScraper
     .text(post.subreddit)
     
     if post.is_self
-      html = unescapeEntities post.selftext_html
+      html = post.selftext_html.unescapeEntities()
       snippet.push $(html).children()...
     
     # make sure to return this!

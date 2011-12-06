@@ -4,21 +4,12 @@ characterEscapes =
   '\\': '\\'
   '"' : '"'
 
-padDigits = (number, length, base = 10) ->
-  string = number.toString(base)
-  string = "0#{string}" while string.length < length
-  string
-
 escapeString = (string) ->
   string.replace /[\\"\n]/g, (ch) ->
     if escape = characterEscapes[ch]
       "\\#{escape}"
     else
-      "\\u#{padDigits ch.charCodeAt(0), 4, 16}"
-
-yield = (obj, fn) ->
-  fn(obj)
-  obj
+      "\\u#{ch.charCodeAt(0).toPaddedString(4, 16)}"
 
 class Editor
   KEYS =
@@ -316,7 +307,7 @@ class Console
       if object is null
         $('<span>').addClass('debug-null').text('null')
       else if $.isArray object
-        yield $('<ol>').addClass('debug-array'), (html) =>
+        $('<ol>').addClass('debug-array').tap (html) =>
           for value in object
             $('<li>')
             .addClass('debug-array-entry')
