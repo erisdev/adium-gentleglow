@@ -34,7 +34,7 @@ class Preview.BasicScraper
         <h1 class="title">
           <a>lorem ipsum</a>
         </h1>
-        <p class="content"></p>
+        <div class="content"></div>
       </div>
     </article>
   '''
@@ -73,15 +73,15 @@ class Preview.BasicScraper
     $('.thumbnail a, .title a', preview).attr title: "#{title}", href: uri
     $('.thumbnail img',         preview).attr title: "#{title}", src: thumbnail
     
-    if typeof title is 'string'
-      $('.title a', preview).text title
-    else
+    if title instanceof jQuery
       $('.title a', preview).empty().append title
-    
-    if typeof snippet is 'string'
-      $('.content', preview).text snippet
     else
+      $('.title a', preview).text title
+    
+    if snippet instanceof jQuery
       $('.content', preview).empty().append snippet
+    else
+      $('.content', preview).empty().append $('<p>').text("#{snippet}")
     
     preview.appendTo $('.previews', @message)
   
