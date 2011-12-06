@@ -8,8 +8,8 @@ class RedditScraper extends Preview.BasicScraper
   COMMENT_PATTERN = ///^ /r/ [^/]+ /comments/ [a-z0-9]+ / [^/]+ / ([a-z0-9]+) ///
   POST_PATTERN    = ///^ /r/ [^/]+ /comments/ ([a-z0-9]+) ///i
   
-  POST_META_TEMPLATE = '''
-    <p class="reddit-meta">
+  SNIPPET_TEMPLATE = '''
+    <p class="snippet-meta">
       (<a class="reddit-domain">example.com</a>)
       <span class="reddit-karma">37 karma</span>
       submitted <time class="reddit-timestamp" pubdate>ages ago</time>
@@ -45,49 +45,45 @@ class RedditScraper extends Preview.BasicScraper
     preview = @createPreview(
       uri: "http://#{@uri.host}#{post.permalink}"
       title: post.title
+      snippet: @createPostSnippet(post)
       thumbnail: thumbnail )
     .addClass('reddit')
-    
-    # remove content paragraph; this will be replaced with our own content.
-    $('.content', preview).remove()
-    
-    @createPostSnippet $('.snippet', preview), post
     
     # override thumbnail link :O
     $('.thumbnail a', preview).attr href: post.url
   
-  createPostSnippet: (snippet, post) ->
-    meta = $(POST_META_TEMPLATE).appendTo(snippet)
+  createPostSnippet: (post) ->
+    snippet = $(SNIPPET_TEMPLATE)
     
     timestamp = new Date(post.created * 1000)
     
-    $('.reddit-domain', meta)
+    $('.reddit-domain', snippet)
     .attr(
       href: "http://#{@uri.host}/domain/#{post.domain}",
       title: "Find all posts from #{post.domain} on Reddit" )
     .text(post.domain)
     
-    $('.reddit-karma', meta).text "#{post.score} karma"
+    $('.reddit-karma', snippet).text "#{post.score} karma"
     
     # TODO title => pretty date, text => "xxxx ago" date
-    $('.reddit-timestamp', meta)
+    $('.reddit-timestamp', snippet)
     .attr(
       title: timestamp.toLocaleString(),
       datetime: timestamp.toISOString() )
     .text(timestamp.toLocaleString())
     
-    $('.reddit-author', meta)
+    $('.reddit-author', snippet)
     .attr(href: "http://#{@uri.host}/user/#{post.author}")
     .text(post.author)
     
-    $('.reddit-subreddit', meta)
+    $('.reddit-subreddit', snippet)
     .attr(href: "http://#{@uri.host}/r/#{post.subreddit}")
     .text(post.subreddit)
     
     if post.is_self
       html = unescapeEntities post.selftext_html
-      $(html).addClass('content').appendTo(snippet)
+      snippet.push $(html).children()...
     
     # make sure to return this!
-    meta
+    snippet
     

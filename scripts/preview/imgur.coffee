@@ -2,17 +2,15 @@ class ImgurScraper extends Preview.BasicScraper
   Preview.register this
   
   SNIPPET_TEMPLATE = '''
-    <div class="content">
-      <p class="imgur-meta">
-        <span class="imgur-dimensions">pretty small</span>
-        (<span class="imgur-size">1337 bytes</span>)
-        <span class="imgur-animated">animated</span>
-        <span class="imgur-type">image/png</span>;
-        <span class="imgur-views">some views</span>,
-        uploaded <time class="imgur-timestamp" pubdate>some time ago</time>.
-      </p>
-      <p class="imgur-caption"></p>
-    </div>
+    <p class="snippet-meta">
+      <span class="imgur-dimensions">pretty small</span>
+      (<span class="imgur-size">1337 bytes</span>)
+      <span class="imgur-animated">animated</span>
+      <span class="imgur-type">image/png</span>;
+      <span class="imgur-views">some views</span>,
+      uploaded <time class="imgur-timestamp" pubdate>some time ago</time>.
+    </p>
+    <p class="imgur-caption"></p>
   '''
   
   @doesUriMatch: (uri) ->
