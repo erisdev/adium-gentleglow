@@ -74,7 +74,12 @@
 						})();
 						
 						$.each(scripts, function(i, script) {
-							$.getScript(script);
+							if ( !script.match(/\bjquery-\d+\.\d+\.\d+\.js$/) ) {
+								console.log("Loading " + script);
+								$.getScript(script);
+							}
+							else
+								console.log("Skipping " + script);
 						});
 						
 						$.each(conversation['Preview Messages'], function(i, record) {
