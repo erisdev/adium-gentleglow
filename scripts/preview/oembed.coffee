@@ -49,7 +49,6 @@ class OEmbedScraper extends Preview.BasicScraper
   
   embed: (oembed) =>
     if oembed.type in OEmbedScraper.SUPPORTED_TYPES
-      console.log oembed
       preview = @createPreview
         title: oembed.title
         snippet: @createSnippet(oembed)

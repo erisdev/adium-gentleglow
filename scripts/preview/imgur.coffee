@@ -43,7 +43,7 @@ class ImgurScraper extends Preview.BasicScraper
     snippet = $(SNIPPET_TEMPLATE)
     
     # TODO parse the date. why can't everyone just do it the right way?
-    # console.log timestamp = Date.parse image.datetime
+    # timestamp = Date.parse image.datetime
     # $('.imgur-timestamp', snippet)
     #   .attr(
     #     title: timestamp.toLocaleString(),
