@@ -105,8 +105,10 @@ class Editor
     oldText = @input.val()
     newText = oldText[0...line.begin]
     
+    tab = '  '
+    
     if levels >= 0
-      newText += '  ' for i in [0...levels]
+      newText += tab for i in [0...levels]
       newText += line.text
     else
       newText += line.text.replace ///^ [ ]{2} {0, #{Math.abs levels} } ///, ''
@@ -115,8 +117,8 @@ class Editor
     
     @input.val newText
     input.setSelectionRange(
-      Math.max(line.begin, begin + levels)
-      Math.max(line.begin, end   + levels) )
+      Math.max(line.begin, begin + levels * tab.length)
+      Math.max(line.begin, end   + levels * tab.length) )
     
     newText
   
