@@ -2,9 +2,9 @@
 Object.notImplemented = (constructor, method) ->
   constructor::[method] = -> throw new Error "Method #{method} must be implemented by #{constructor}"
 
-Object::tap = (obj, fn) ->
-  fn(obj)
-  obj
+Object::tap = (fn) ->
+  fn(this)
+  this
 
 Object::isEmpty = ->
   for own key of this
