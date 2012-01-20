@@ -1,5 +1,10 @@
 # Changes
 
+## Version 1.4.1: (19 January 2012)
+* fix URI parser misinterpreting URIs with @ in the path
+  * scraping for Flickr links should actually work now
+* fix a long-standing typo in the Twitter scraper's entity parsing code
+
 ## Version 1.4.0: (6 December 2011)
 * add embed.ly support (not enabled by default; see README)
 * make long-form snippet-style preview the _only_ style of preview
