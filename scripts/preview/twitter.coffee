@@ -54,7 +54,7 @@ class TwitterScraper extends Preview.BasicScraper
           lastIndex = end
       
       if index > lastIndex
-        html += tweet.text.substring(lastIndex, i).escapeEntities()
+        html += tweet.text.substring(lastIndex, index).escapeEntities()
       
       # span? more hax.
       $('<span>').html(html)
