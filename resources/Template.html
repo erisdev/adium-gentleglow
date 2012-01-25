@@ -8,9 +8,10 @@
 		<script type="text/javascript" src="scripts/ext/jquery.scrollto-1.4.2.js"></script>
 		<script type="text/javascript" src="scripts/ext/math.uuid.js"></script>
 		<script type="text/javascript" src="scripts/lib/jquery.color-hash.js"></script>
-		<script type="text/javascript" src="scripts/utilities.js"></script>
-		<script type="text/javascript" src="scripts/console.js"></script>
 		<script type="text/javascript" src="scripts/message-style.js"></script>
+		<script type="text/javascript" src="scripts/utilities.js"></script>
+		<script type="text/javascript" src="scripts/menu.js"></script>
+		<script type="text/javascript" src="scripts/console.js"></script>
 		<script type="text/javascript" src="scripts/uri.js"></script>
 		<script type="text/javascript" src="scripts/preview.js"></script>
 		<script type="text/javascript" src="scripts/preview/oembed.js"></script>
@@ -19,7 +20,6 @@
 		<script type="text/javascript" src="scripts/preview/tumblr.js"></script>
 		<script type="text/javascript" src="scripts/preview/twitter.js"></script>
 		<script type="text/javascript" src="scripts/preview/embedly.js"></script>
-		<script type="text/javascript" src="scripts/menu.js"></script>
 		<script type="text/javascript" src="scripts/theme.js"></script>
 		
 		<style id="mainStyle" type="text/css" media="screen,print">
@@ -32,16 +32,7 @@
 		%@
 		<div id="main-menu" class="menu-panel">
 			<a class="menu-toggle">session settings</a>
-			<ul class="menu">
-				<li>
-					<label for="variant">variant</label>
-					<select name="variant" id="variant-selector"></select>
-				</li>
-				<li>
-					<input type="checkbox" name="console" id="console-toggle">
-					<label for="console">debug console</label>
-				</li>
-			</ul>
+			<ul class="menu"></ul>
 		</div>
 		<div id="debug-console" class="console">
 			<div class="console-buffer"></div>

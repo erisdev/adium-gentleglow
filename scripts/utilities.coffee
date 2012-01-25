@@ -11,6 +11,9 @@ Object::isEmpty = ->
     return false
   true
 
+Object::getKeys = -> key for key of this
+Object::getOwnKeys = -> key for own key of this
+
 Number::toPaddedString = (length, base = 10) ->
   string = this.toString(base)
   string = "0#{string}" while string.length < length
@@ -35,6 +38,6 @@ hideProperties = (obj, properties...) ->
   for prop in properties
     Object.defineProperty obj, prop, enumerable: false 
 
-hideProperties Object.prototype, 'tap', 'isEmpty'
+hideProperties Object.prototype, 'tap', 'isEmpty', 'getKeys', 'getOwnKeys'
 hideProperties Number.prototype, 'toPaddedString'
 hideProperties String.prototype, 'template', 'escapeEntities', 'unescapeEntities'
