@@ -33,7 +33,7 @@ class ImgurScraper extends Preview.BasicScraper
           { image, links } = data.image
           @createPreview
             uri: links.imgur_page
-            title: image.title ? "Imgur image #{hash}"
+            title: image.title ? "Imgur image #{image.hash}"
             snippet: @createSnippet(image)
             thumbnail: links.small_square
     else
