@@ -31,8 +31,8 @@ class MessageStyleMockup < Sinatra::Base
     File.read('resources/Template.html').gsub('%@') { stuff.shift }
   end
   
-  get('/scripts/:script.js') do
-    coffee params[:script].to_sym
+  get(%r'/scripts/(.+).js') do
+    coffee params[:captures].first.to_sym
   end
   
   get('/Variants/:variant.css') do
