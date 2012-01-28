@@ -2,6 +2,8 @@ require 'sinatra/base'
 require 'coffee-script'
 require 'json'
 require 'less'
+require 'open-uri'
+require 'uri'
 require 'yaml'
 
 class Tilt::LessTemplate
@@ -29,6 +31,18 @@ class MessageStyleMockup < Sinatra::Base
   
   get('/mockup/scripts/:script.js') do
     coffee params[:script].to_sym, :views => 'mockup/scripts'
+  end
+  
+  get('/ajax') do
+    content_type = nil
+    
+    uri = URI.parse params[:_url]
+    uri.query = URI.encode_www_form params
+    
+    open(uri) do |f|
+      content_type = f.content_type
+      f.read
+    end
   end
   
   # message style routes

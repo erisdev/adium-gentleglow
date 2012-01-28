@@ -12,6 +12,13 @@ $ ->
     if event.which is 13
       sendMessage $(this).val()
       $(this).val ''
+  
+  $(messageView).bind 'load', ->
+    _ajax = messageView.jQuery.ajax
+    messageView.jQuery.ajax = (url, options) ->
+      options.data ?= {}
+      options.data._url = url
+      _ajax.call this, '/ajax', options
 
 formatTime = (date = new Date) ->
   [ date.getHours(), date.getMinutes() ].join(':')
