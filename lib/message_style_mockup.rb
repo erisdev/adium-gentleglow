@@ -43,7 +43,12 @@ class MessageStyleMockup < Sinatra::Base
   end
   
   get('/scripts/message-style.js') do
-    "window.MessageStyle = #{YAML.load_file('package.yaml').to_json};"
+    info = YAML.load_file 'package.yaml'
+    info['environment'] =
+    info['include-environment'].inject({}) do |vars, name|
+      vars.merge! name => ENV[name]
+    end
+    "window.MessageStyle = #{info.to_json};"
   end
   
   get(%r'/scripts/(.+).js') do
