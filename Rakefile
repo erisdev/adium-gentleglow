@@ -52,6 +52,8 @@ PACKAGE_INFO['variants'].each do |variant_name, input_file|
   end
 end
 
+Dir['lib/tasks/*.rake'].each { |f| load f }
+
 task :default => :compile
 
 desc 'compile scripts and stylesheets'
