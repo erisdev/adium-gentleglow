@@ -21,9 +21,17 @@ class MessageStyleMockup < Sinatra::Base
   set :coffee, :views => 'scripts'
   set :less, :views => 'stylesheets', :paths => %w[ stylesheets/lib ]
   
+  # mockup-specific routes
+  
   get('/') do
     send_file 'mockup/mockup.html'
   end
+  
+  get('/mockup/scripts/:script.js') do
+    coffee params[:script].to_sym, :views => 'mockup/scripts'
+  end
+  
+  # message style routes
   
   get('/message_view') do
     stuff = [
