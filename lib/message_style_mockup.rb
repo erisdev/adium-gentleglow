@@ -15,6 +15,7 @@ end
 
 class MessageStyleMockup < Sinatra::Base
   enable :logging
+  enable :lock
   set :public_folder, 'resources'
   
   set :coffee, :views => 'scripts'
