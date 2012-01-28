@@ -1,6 +1,8 @@
 require 'sinatra/base'
 require 'coffee-script'
+require 'json'
 require 'less'
+require 'yaml'
 
 class Tilt::LessTemplate
   def prepare
@@ -29,6 +31,10 @@ class MessageStyleMockup < Sinatra::Base
       (File.read('resources/Footer.html') rescue '')
     ]
     File.read('resources/Template.html').gsub('%@') { stuff.shift }
+  end
+  
+  get('/scripts/message-style.js') do
+    "window.MessageStyle = #{YAML.load_file('package.yaml').to_json};"
   end
   
   get(%r'/scripts/(.+).js') do
