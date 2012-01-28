@@ -22,6 +22,15 @@ task :mockup do
       send_file 'mockup/mockup.html'
     end
     
+    get('/message_view') do
+      stuff = [
+        '/', 'main.css', 'Variants/RegularKind.css',
+        (File.read('resources/Header.html') rescue ''),
+        (File.read('resources/Footer.html') rescue '')
+      ]
+      File.read('resources/Template.html').gsub('%@') { stuff.shift }
+    end
+    
     get('/scripts/:script.js') do
       coffee params[:script].to_sym
     end
