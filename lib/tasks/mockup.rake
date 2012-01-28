@@ -18,6 +18,10 @@ task :mockup do
     set :coffee, :views => 'scripts'
     set :less, :views => 'stylesheets', :paths => LESS_PATH
     
+    get('/') do
+      send_file 'mockup/mockup.html'
+    end
+    
     get('/scripts/:script.js') do
       coffee params[:script].to_sym
     end

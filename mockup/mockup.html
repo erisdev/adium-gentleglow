@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gentle Glow Mockup</title>
+    <script type="text/javascript" src="scripts/ext/jquery-1.6.3.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        // ...
+      });
+    </script>
+    <style type="text/css">
+      #messageWindow {
+        position: fixed;
+        width: 400px;
+        height: 300px;
+        
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+      }
+      
+      #messageView {
+        display: block;
+        -webkit-box-flex: 1;
+      }
+      
+      #messageInput {
+        display: block;
+        -webkit-box-flex: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="messageWindow">
+      <iframe id="messageView" src="/message_view"></iframe>
+      <input id="messageInput" type="text">
+    </div>
+  </body>
+</html>
