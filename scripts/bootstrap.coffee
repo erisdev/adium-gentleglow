@@ -37,4 +37,4 @@ setStylesheet = (id, src) ->
       type: 'text/css'
       media: 'screen'
   
-  style.attr {src}
+  style.text """@import url("#{src}");"""
