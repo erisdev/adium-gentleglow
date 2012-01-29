@@ -1,5 +1,4 @@
 ready = false
-shouldScroll = false
 messageQueue = []
 
 triggerMessageEvent = (html) ->
@@ -22,15 +21,12 @@ window.appendMessageNoScroll = window.appendMessage
 window.appendNextMessageNoScroll = window.appendNextMessage
 # window.replaceLastMessage is never called with a custom Template.html
 
+# the message style handles scrolling
 window.checkIfScrollToBottomIsNeeded = ->
-  shouldScroll = true
-
 window.scrollToBottomIfNeeded = ->
-  if shouldScroll
-    $('#chat').stop()
-    $('#chat').scrollTo '100%', 700, easing: 'easeOutBounce'
 
-window.alignChat = window.scrollToBottomIfNeeded
+window.alignChat = ->
+  $('#chat').stop().scrollTo '100%', 700, easing: 'easeOutBounce'
 
 setStylesheet = (id, src) ->
   style = $("##{id}")
