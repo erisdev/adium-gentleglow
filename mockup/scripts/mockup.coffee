@@ -9,7 +9,8 @@ $ ->
   $.get 'Status.html', (text) -> templates.status = text
   
   $('#messageInput').bind 'keydown', (event) ->
-    if event.which is 13
+    if event.which is 13 and not event.altKey
+      event.preventDefault()
       sendMessage $(this).val()
       $(this).val ''
   
@@ -23,6 +24,12 @@ $ ->
 formatTime = (date = new Date) ->
   [ date.getHours(), date.getMinutes() ].join(':')
 
+uriPattern = /[^:\/?\#]+:(?:\/\/(?:(?:[^:@\/]*(?::[^:@\/]*)?)?@)?[^:\/?\#]*(?::\d*)?)?(?:[^?\#]*)*(?:\?[^\#]*)?(?:\#.*)?/g
+markup = (text) ->
+  $('<div>').text(text).html() # escape HTML characters
+  .replace(/\n/g, '<br>') # convert line breaks
+  .replace(uriPattern, (uri) -> """<a href="#{uri}">#{uri}</a>""") # convert URIs to links
+
 sendMessage = (text, options = {}) ->
   type = options.type ? 'message'
   
@@ -35,7 +42,7 @@ sendMessage = (text, options = {}) ->
     sender: user.displayName
     senderScreenName: user.screenName
     messageClasses: classNames.join(' ')
-    message: text
+    message: markup text
   
   html = templates.message.replace /%([A-Za-z]+)%/g, (m, key) -> data[key]
   
