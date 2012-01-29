@@ -28,7 +28,7 @@ window.scrollToBottomIfNeeded = ->
 window.alignChat = ->
   $('#chat').stop().scrollTo '100%', 700, easing: 'easeOutBounce'
 
-setStylesheet = (id, src) ->
+window.setStylesheet = (id, src) ->
   style = $("##{id}")
   
   if style.length is 0
