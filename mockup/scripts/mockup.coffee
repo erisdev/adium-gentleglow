@@ -15,6 +15,8 @@ $ ->
       $(this).val ''
   
   $(messageView).bind 'load', ->
+    $('a').live 'click', (event) -> event.preventDefault()
+    
     _ajax = messageView.jQuery.ajax
     messageView.jQuery.ajax = (url, options) ->
       options.data ?= {}
