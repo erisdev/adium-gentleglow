@@ -12,23 +12,43 @@
         
         display: -webkit-box;
         -webkit-box-orient: vertical;
+        
+        border: 1px solid #808080;
+        -webkit-border-top-left-radius: 5px;
+        -webkit-border-top-right-radius: 5px;
+      }
+      
+      #titleBar {
+        display: block;
+        padding: 0.2em;
+        
+        background-image: -webkit-linear-gradient(top, #ddd, #aaa);
+        
+        color: black;
+        text-align: center;
+        text-shadow: 1px 1px 0 #ddd;
       }
       
       #messageView {
         display: block;
         -webkit-box-flex: 1;
+        
+        border: 1px solid #808080;
+        border-left: none;
+        border-right: none;
       }
       
       #messageInput {
         display: block;
-        -webkit-box-flex: 0;
+        resize: none;
       }
     </style>
   </head>
   <body>
     <div id="messageWindow">
+      <div id="titleBar">Gentle Glow Mockup</div>
       <iframe id="messageView" src="/message_view"></iframe>
-      <input id="messageInput" type="text">
+      <textarea id="messageInput" type="text"></textarea>
     </div>
   </body>
 </html>
