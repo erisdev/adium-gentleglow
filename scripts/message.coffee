@@ -1,7 +1,7 @@
 TMPL =
   textShadow: '0px 0px 20px #{color}'
 
-$(window).bind 'adium:message', (event) ->
+$(window).bind 'adium:message adium:status', (event) ->
   message = event.message
   shouldScroll = false
   

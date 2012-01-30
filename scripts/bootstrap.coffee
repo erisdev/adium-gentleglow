@@ -2,12 +2,18 @@ ready = false
 messageQueue = []
 
 triggerMessageEvent = (html) ->
-  $(window).trigger jQuery.Event('adium:message', message: $(html))
+  html = $(html)
+  className = html.data('className')
+  
+  ev = switch className
+    when 'FileTransfer'  then jQuery.Event 'adium:file', file: html
+    when 'StatusMessage' then jQuery.Event 'adium:status', message: html
+    when 'Message'       then jQuery.Event 'adium:message', message: html
+  $(window).trigger ev
 
 window.initialize = ->
   ready = true
   triggerMessageEvent message for message in messageQueue
-    
 
 window.appendMessage = (message) ->
   if ready
