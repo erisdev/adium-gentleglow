@@ -29,10 +29,13 @@ $ ->
       $(this).val ''
   
   $(messageView).bind 'load', ->
-    $('a').live 'click', (event) -> event.preventDefault()
+    $ = jQuery = messageView.jQuery
     
-    _ajax = messageView.jQuery.ajax
-    messageView.jQuery.ajax = (url, options) ->
+    $('a').live 'click', (event) -> event.preventDefault()
+    $('body').css fontSize: '8pt'
+    
+    _ajax = jQuery.ajax
+    jQuery.ajax = (url, options) ->
       options.data ?= {}
       options.data._url = url
       _ajax.call this, '/ajax', options
