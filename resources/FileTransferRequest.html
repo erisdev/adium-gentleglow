@@ -1,18 +1,15 @@
-<section class="%messageClasses% file_transfer">
-	<div class="gg-messageInfo">
-		<div class="gg-messageTimestamp alt">%time%</div>
-		<div class="gg-messageSender">%sender%</div>
-		<div class="gg-messageSenderId">%senderScreenName%</div>
-		<img class="icon" src="%fileIconPath%" alt="%fileName%" onerror="$(this).addClass('broken')"/>
-		<div class="gg-messageMarker"></div>
-	</div>
-	<div class="gg-messageContent">
-		<p class="file_name">%fileName%</p>
-		<button class="cancel" data-handler="%cancelRequestHandler%">Cancel</button>
-		
-		<div class="buttonset">
-			<button class="save"    data-handler="%saveFileHandler%">Save</button>
-			<button class="save_as" data-handler="%saveFileAsHandler%">Save As&hellip;</button>
-		</div>
-	</div>
+<section class="ui-panel">
+  <h1 class="ui-panelHeader">File Transfer</h1>
+  <div class="ui-panelContent">
+    <img src="%fileIconPath%" alt="%fileName%">
+    <div>
+      <p><span class="gg-messageSender" title="%senderScreenName%">%sender%</span>
+        wants to send you a file called <q>%fileName%</q>.</p>
+      <p>Will you accept?</p>
+    </div>
+  </div>
+  <div class="ui-panelFooter">
+    <button onclick="%saveFileHandler%">accept</button>
+    <button onclick="%cancelRequestHandler">nope</button>
+  </div>
 </section>
