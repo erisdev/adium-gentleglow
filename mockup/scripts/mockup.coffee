@@ -1,13 +1,27 @@
 templates = {}
 
+actions = 
+  sendFile: ->
+    textField = $('#messageInput')
+    sendFile encodeURI textField.val()
+    textField.val ''
+
 user =
   displayName: 'Orange Colander'
   screenName: 'orangecolander'
 
+$.get 'incoming/Content.html', (text) -> templates.message = text
+$.get 'Status.html', (text) -> templates.status = text  
+$.get 'FileTransferRequest.html', (text) -> templates.fileTransfer = text
+
+$('button[data-action]').live 'click', (event) ->
+  actionName = $(this).data('action')
+  if actionName of actions
+    actions[actionName].apply this, arguments
+  else
+    console.error "undefined action #{actionName}"
+
 $ ->
-  $.get 'incoming/Content.html', (text) -> templates.message = text
-  $.get 'Status.html', (text) -> templates.status = text
-  
   $('#messageInput').bind 'keydown', (event) ->
     if event.which is 13 and not event.altKey
       event.preventDefault()
@@ -32,6 +46,9 @@ markup = (text) ->
   .replace(/\n/g, '<br>') # convert line breaks
   .replace(uriPattern, (uri) -> """<a href="#{uri}">#{uri}</a>""") # convert URIs to links
 
+fillTemplate = (template, data) ->
+  template.replace /%([A-Za-z]+)%/g, (m, key) -> data[key]
+
 sendMessage = (text, options = {}) ->
   type = options.type ? 'message'
   
@@ -46,6 +63,14 @@ sendMessage = (text, options = {}) ->
     messageClasses: classNames.join(' ')
     message: markup text
   
-  html = templates.message.replace /%([A-Za-z]+)%/g, (m, key) -> data[key]
-  
-  messageView.appendNextMessage html
+  html = fillTemplate templates.message, data
+  messageView.appendMessage html
+
+sendFile = (fileName, options = {}) ->
+  html = fillTemplate templates.fileTransfer,
+    sender: user.displayName
+    senderScreenName: user.screenName
+    fileIconPath: '/images/fire.png'
+    fileName: fileName
+    
+  messageView.appendMessage html

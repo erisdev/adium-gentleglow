@@ -18,8 +18,11 @@
         -webkit-border-top-right-radius: 5px;
       }
       
-      #titleBar {
+      #messageWindow > * {
         display: block;
+      }
+      
+      #titleBar {
         padding: 0.2em;
         
         background-image: -webkit-linear-gradient(top, #ddd, #aaa);
@@ -30,7 +33,6 @@
       }
       
       #messageView {
-        display: block;
         -webkit-box-flex: 1;
         
         border: 1px solid #808080;
@@ -39,8 +41,17 @@
       }
       
       #messageInput {
-        display: block;
         resize: none;
+      }
+      
+      #buttons {
+        display: -webkit-box  
+        -webkit-box-orient: horizontal;
+      }
+      
+      #buttons > * {
+        display: block;
+        -webkit-box-flex: 1;
       }
     </style>
   </head>
@@ -49,6 +60,9 @@
       <div id="titleBar">Gentle Glow Mockup</div>
       <iframe id="messageView" src="/message_view"></iframe>
       <textarea id="messageInput" type="text"></textarea>
+      <div id="buttons">
+        <button data-action="sendFile">file transfer</button>
+      </div>
     </div>
   </body>
 </html>
