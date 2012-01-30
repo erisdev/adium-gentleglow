@@ -17,8 +17,8 @@ $(window).bind 'adium:message', (event) ->
     message.data {shouldScroll}
   
   if message.hasClass 'message'
-    message.find('.meta')
-    .colorHash('.sender_id',
+    message.find('.gg-messageInfo')
+    .colorHash('.gg-messageSenderId',
       saturation: 0.5,
       luminance:  0.6,
       ignoreCase: true )
@@ -26,7 +26,7 @@ $(window).bind 'adium:message', (event) ->
       TMPL.textShadow.template color: $(this).css('color') )
   
   if message.hasClass 'action'
-    message.find('.actionMessageUserName').addClass('sender')
+    message.find('.actionMessageUserName').addClass('gg-messageSender')
     message.find('.actionMessageBody').text (i, text) -> " #{text}"
   
   message.hide().appendTo('#chat').fadeIn()

@@ -1,5 +1,5 @@
 #debug-console {
-  .panel;
+  .ui-panel;
   
   position : fixed;
   right    : 0;
@@ -14,18 +14,18 @@
   font-family : 'Monaco';
   font-size   : 10px;
   
-  .console-dump {
+  .ui-consoleDump {
     width : 100%;
     
     overflow-x : auto;
     overflow-y : hidden;
   }
   
-  .console-buffer {
+  .ui-consoleBuffer {
     margin : 0.5em 0.5em 3em 0.5em;
   }
   
-  .console-input {
+  .ui-consoleInput {
     position : fixed;
     padding  : 0.25em 0.5em;
     bottom   : 0.5em;
@@ -64,7 +64,7 @@
 @object-indent: 6em; // wider to make room for keys
 @array-indent: 3em;
 
-.console {
+.ui-console {
   
   pre {
     margin  : 0;
@@ -73,9 +73,9 @@
     font : inherit;
   }
   
-  .console-error   { color : #d42 }
-  .console-warning { color : #db4 }
-  .console-info    { color : #bdf }
+  .ui-consoleError   { color : #d42 }
+  .ui-consoleWarning { color : #db4 }
+  .ui-consoleInfo    { color : #bdf }
   
   *:before, *::after { color : #00ffbc }
   
@@ -91,18 +91,18 @@
     &::before { content : '{ ' }
     &::after  { content : ' }' }
     
-    .debug-object-entry:not(:last-child)::after { content : ', ' }
+    .debug-objectEntry:not(:last-child)::after { content : ', ' }
     
-    .debug-object-entry {
+    .debug-objectEntry {
       margin : 0 0 0 @object-indent;
     }
     
-    .debug-object-key,
-    .debug-object-value {
+    .debug-objectKey,
+    .debug-objectValue {
       display : inline-block;
     }
     
-    .debug-object-key {
+    .debug-objectKey {
       float    : left;
       margin   : 0 0.5em 0 -@object-indent;
       width    : @object-indent;
@@ -121,7 +121,7 @@
     &::before { content : '[ ' }
     &::after  { content : ' ]' }
     
-    .debug-array-entry {
+    .debug-arrayEntry {
       margin : 0 0 0 @array-indent;
     }
   }
@@ -131,8 +131,8 @@
     display : inline-block;
   }
   
-  .debug-object > .debug-object-entry,
-  .debug-array  > .debug-array-entry {
+  .debug-object > .debug-objectEntry,
+  .debug-array  > .debug-arrayEntry {
     &:not(:last-child)::after {
       display : inline;
       content : ', '

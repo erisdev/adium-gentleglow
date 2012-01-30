@@ -5,12 +5,12 @@ class RedditScraper extends Preview.BasicScraper
   POST_PATTERN    = ///^ /r/ [^/]+ /comments/ ([a-z0-9]+) ///i
   
   SNIPPET_TEMPLATE = '''
-    <p class="snippet-meta">
-      (<a class="reddit-domain">example.com</a>)
-      <span class="reddit-karma">37 karma</span>
-      submitted <time class="reddit-timestamp" pubdate>ages ago</time>
-      by <a class="reddit-author">nobody</a>
-      to <a class="reddit-subreddit">subreddit</a>
+    <p class="gg-previewInfo">
+      (<a class="gg-redditPreviewDomain">example.com</a>)
+      <span class="gg-redditPreviewKarma">37 karma</span>
+      submitted <time class="gg-redditPreviewTimestamp" pubdate>ages ago</time>
+      by <a class="gg-redditPreviewAuthor">nobody</a>
+      to <a class="gg-redditPreviewSubreddit">subreddit</a>
     </p>
   '''
   
@@ -43,36 +43,36 @@ class RedditScraper extends Preview.BasicScraper
       title: post.title
       snippet: @createPostSnippet(post)
       thumbnail: thumbnail )
-    .addClass('reddit')
+    .addClass('gg-redditPreview')
     
     # override thumbnail link :O
-    $('.thumbnail a', preview).attr href: post.url
+    $('.gg-previewThumbnail a', preview).attr href: post.url
   
   createPostSnippet: (post) ->
     snippet = $(SNIPPET_TEMPLATE)
     
     timestamp = new Date(post.created * 1000)
     
-    $('.reddit-domain', snippet)
+    $('.gg-redditPreviewDomain', snippet)
     .attr(
       href: "http://#{@uri.host}/domain/#{post.domain}",
       title: "Find all posts from #{post.domain} on Reddit" )
     .text(post.domain)
     
-    $('.reddit-karma', snippet).text "#{post.score} karma"
+    $('.gg-redditPreviewKarma', snippet).text "#{post.score} karma"
     
     # TODO title => pretty date, text => "xxxx ago" date
-    $('.reddit-timestamp', snippet)
+    $('.gg-redditPreviewTimestamp', snippet)
     .attr(
       title: timestamp.toLocaleString(),
       datetime: timestamp.toISOString() )
     .text(timestamp.toLocaleString())
     
-    $('.reddit-author', snippet)
+    $('.gg-redditPreviewAuthor', snippet)
     .attr(href: "http://#{@uri.host}/user/#{post.author}")
     .text(post.author)
     
-    $('.reddit-subreddit', snippet)
+    $('.gg-redditPreviewSubreddit', snippet)
     .attr(href: "http://#{@uri.host}/r/#{post.subreddit}")
     .text(post.subreddit)
     

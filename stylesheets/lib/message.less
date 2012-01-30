@@ -13,25 +13,25 @@
   & > * {
     
     /* message sigils */
-    &.consecutive > .meta .marker:after { content : '\2761' }
-    &.action      > .meta .marker:after { content : '\2767' !important }
-    &.status      > .meta .marker:after,
-    &.event       > .meta .marker:after { content : '\2740' }
+    &.consecutive > .gg-messageInfo .gg-messageMarker:after { content : '\2761' }
+    &.action      > .gg-messageInfo .gg-messageMarker:after { content : '\2767' !important }
+    &.status      > .gg-messageInfo .gg-messageMarker:after,
+    &.event       > .gg-messageInfo .gg-messageMarker:after { content : '\2740' }
     
     /* show timestamp on mouseover */
-    &       > .meta      .alt  { opacity : 0.0 }
-    &       > .meta :not(.alt) { opacity : 1.0 }
-    &:hover > .meta      .alt  { opacity : 1.0 }
-    &:hover > .meta :not(.alt) { opacity : 0.0 }
+    &       > .gg-messageInfo      .alt  { opacity : 0.0 }
+    &       > .gg-messageInfo :not(.alt) { opacity : 1.0 }
+    &:hover > .gg-messageInfo      .alt  { opacity : 1.0 }
+    &:hover > .gg-messageInfo :not(.alt) { opacity : 0.0 }
     
     /* hide the sender in action and consecutive messages */
     &.consecutive, &.action {
-      & > .meta .sender { display : none }
+      & > .gg-messageInfo .gg-messageSender { display : none }
     }
     
-    &.action > .content .sender { font-weight : bold }
+    &.action > .gg-messageContent .gg-messageSender { font-weight : bold }
     
-    & > .meta {
+    & > .gg-messageInfo {
       float : left;
       width : 5.5em;
       
@@ -51,23 +51,23 @@
       & > .alt        { margin-right : -100% }
       & > .alt + .alt { margin-left  :  100% }
       
-      .sender_id { display : none }
+      .gg-messageSenderId { display : none }
       
-      .sender {
+      .gg-messageSender {
         
         overflow      : hidden;
         text-overflow : ellipsis;
         white-space   : nowrap;
       }
       
-      .marker {
+      .gg-messageMarker {
         font-family : 'Code 2000', 'Zapf Dingbats';
         font-size   : large  !important;
         font-weight : normal !important;
       }
     }
     
-    & > .content {
+    & > .gg-messageContent {
       margin : 0 6em;
       
       text-align : justify;
@@ -80,11 +80,11 @@
     }
     
     &.outgoing {
-      .glowing-text(@outgoing-color, @outgoing-shadow);
+      .fx-glowingText(@outgoing-color, @outgoing-shadow);
     }
     
     &.incoming {
-      .glowing-text(@incoming-color, @incoming-shadow);
+      .fx-glowingText(@incoming-color, @incoming-shadow);
     }
     
     &.history {
@@ -92,7 +92,7 @@
     }
     
     &.status, &.event {
-      .glowing-text(@event-color, @event-shadow);
+      .fx-glowingText(@event-color, @event-shadow);
       
       margin  : 0.5em 1em;
       padding : 0.5em 0;
@@ -101,50 +101,50 @@
       
       -webkit-border-radius : 5px;
       
-      & > .content {
+      & > .gg-messageContent {
         text-indent : 1em;
         font-style  : italic;
       }
     }
     
     &.away {
-      .glowing-text(@away-color, @away-shadow);
+      .fx-glowingText(@away-color, @away-shadow);
     }
     
     &.idle {
-      .glowing-text(@idle-color, @idle-shadow);
+      .fx-glowingText(@idle-color, @idle-shadow);
     }
     
     &.offline {
-      .glowing-text(@offline-color, @offline-shadow);
+      .fx-glowingText(@offline-color, @offline-shadow);
     }
     
     &.contact_left {
-      .glowing-text(@depart-color, @depart-shadow);
+      .fx-glowingText(@depart-color, @depart-shadow);
     }
     
     &.online {
-      .glowing-text(@online-color, @online-shadow);
+      .fx-glowingText(@online-color, @online-shadow);
     }
     
     &.contact_joined {
-      .glowing-text(@join-color, @join-shadow);
+      .fx-glowingText(@join-color, @join-shadow);
     }
     
     &.error {
-      .glowing-text(@error-color, @error-shadow);
+      .fx-glowingText(@error-color, @error-shadow);
     }
     
     &.timed_out {
-      .glowing-text(@time-out-color, @time-out-shadow);
+      .fx-glowingText(@time-out-color, @time-out-shadow);
     }
     
     &.return_away,  {
-      .glowing-text(@return-away-color, @return-away-shadow);
+      .fx-glowingText(@return-away-color, @return-away-shadow);
     }
     
     &.return_idle {
-      .glowing-text(@return-idle-color, @return-idle-shadow);
+      .fx-glowingText(@return-idle-color, @return-idle-shadow);
     }
   }
 }

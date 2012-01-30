@@ -45,7 +45,7 @@ class Menu
 window.Menu = Menu
 
 $ ->
-  Menu.mainMenu = new Menu '#main-menu > .menu'
+  Menu.mainMenu = new Menu '#main-menu > .ui-menuContent'
   
   Menu.mainMenu.addSelect 'variant', {
     values: MessageStyle.variants.getOwnKeys(),
@@ -58,8 +58,8 @@ $ ->
     Menu.mainMenu.close()
     scrollToBottom()
   
-  $('.menu-panel .menu-toggle').click (event) ->
-    $(this).closest('.menu-panel').toggleClass 'pinned'
+  $('.ui-menu .ui-menuHeader').click (event) ->
+    $(this).closest('.ui-menu').toggleClass 'ui-pinned'
   
   $('#variant-selector').change ->
 

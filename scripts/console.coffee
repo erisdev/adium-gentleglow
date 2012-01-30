@@ -182,8 +182,8 @@ class Console
   
   constructor: (root, buffer, input) ->
     @root   = $(root)
-    @buffer = if buffer? then $(buffer) else $('.console-buffer', @root)
-    @input  = if input?  then $(input)  else $('.console-input',  @root)
+    @buffer = if buffer? then $(buffer) else $('.ui-consoleBuffer', @root)
+    @input  = if input?  then $(input)  else $('.ui-consoleInput',  @root)
     
     @editor = new Editor @input
     
@@ -260,15 +260,15 @@ class Console
   
   log: (message, options) ->
     $('<div>')
-    .addClass(options?.class ? 'console-message')
+    .addClass(options?.class ? 'ui-consoleMessage')
     .text("#{message}")
     .appendTo(@buffer)
     @cullBuffer()
     return
   
-  info:  (message) -> @log message, class: 'console-info'
-  warn:  (message) -> @log message, class: 'console-warning'
-  error: (message) -> @log message, class: 'console-error'
+  info:  (message) -> @log message, class: 'ui-consoleInfo'
+  warn:  (message) -> @log message, class: 'ui-consoleWarning'
+  error: (message) -> @log message, class: 'ui-consoleError'
   
   @valueToHtml: (object, options) ->
     type = typeof object
@@ -310,7 +310,7 @@ class Console
         $('<ol>').addClass('debug-array').tap (html) =>
           for value in object
             $('<li>')
-            .addClass('debug-array-entry')
+            .addClass('debug-arrayEntry')
             .append(Console.valueToHtml(value, collapse: true))
             .appendTo(html)
         
@@ -323,14 +323,14 @@ class Console
         html = $('<ul>').addClass('debug-object')
         for own key, value of object
           $('<li>')
-          .addClass('debug-object-entry')
+          .addClass('debug-objectEntry')
           .append(
             $('<div>')
-            .addClass('debug-object-key')
+            .addClass('debug-objectKey')
             .text(key) )
           .append(
             $('<div>')
-            .addClass('debug-object-value')
+            .addClass('debug-objectValue')
             .append(Console.valueToHtml(value, collapse: true)) )
           .appendTo(html)
         html
@@ -339,7 +339,7 @@ class Console
     try
       html = Console.valueToHtml object, collapse: true
       $('<div>')
-      .addClass('console-dump')
+      .addClass('ui-consoleDump')
       .append(html)
       .appendTo(@buffer)
     finally

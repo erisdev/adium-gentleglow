@@ -10,24 +10,24 @@
 		height  400ms 400ms cubic-bezier(0.6, 0, 0.8, 1),
 		opacity 400ms 0s    cubic-bezier(0.6, 0, 0.8, 1);
 	
-	&:hover, &.pinned {
+	&:hover, &.ui-pinned {
 		height : 7em;
 		opacity : 1.0;
 	}
 }
 
-.menu-panel {
-	.panel;
+.ui-menu {
+	.ui-panel;
 	
   z-index : @ui-z-menu;
 	
-	.menu {
-		.panel-content;
+	.ui-menuContent {
+		.ui-panelContent;
 		list-style : none;
 	}
 	
-	.menu-toggle {
-		.panel-header;
+	.ui-menuHeader {
+		.ui-panelHeader;
 		text-align : right;
 		
     &::before {
@@ -42,6 +42,6 @@
     }
   }
   
-  &:not(.pinned) .menu-toggle::before { opacity : 0.5 }
-  &.pinned       .menu-toggle::before { opacity : 1   }
+  &:not(.ui-pinned) .ui-menuHeader::before { opacity : 0.5 }
+  &.ui-pinned       .ui-menuHeader::before { opacity : 1   }
 }

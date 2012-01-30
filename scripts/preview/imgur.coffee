@@ -2,7 +2,7 @@ class ImgurScraper extends Preview.BasicScraper
   Preview.register this
   
   SNIPPET_TEMPLATE = '''
-    <p class="snippet-meta">
+    <p class="gg-previewInfo">
       <span class="imgur-dimensions">pretty small</span>
       (<span class="imgur-size">1337 bytes</span>)
       <span class="imgur-animated">animated</span>

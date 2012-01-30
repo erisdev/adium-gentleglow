@@ -1,60 +1,15 @@
-.thumbnails {
-  margin  : 0 3em;
-  padding : 0 1em;
-  
-  overflow-x  : auto;
-  overflow-y  : hidden;
-  white-space : nowrap;
-  
-  /* needlessly complex series of gradients to create 1em faded edges */
-  -webkit-mask-size : 1em 100%, 1em 100%, 100% 100%;
-  -webkit-mask:
-    no-repeat left    -webkit-gradient(linear, left top, right top, from(transparent), to(black) ),
-    no-repeat right   -webkit-gradient(linear, left top, right top, from(black),       to(transparent) ),
-    no-repeat content -webkit-gradient(linear, left top, right top, from(black) );
-}
-
-.thumbnails:empty,
-.previews:empty {
+.gg-previews:empty {
   display : none;
 }
 
-.thumbnails .thumbnail-item {
-  display   : inline-block;
-  margin    : 0.5em;
-  height    : 5em;
-  
-  overflow : hidden;
-  
-  border : 1px solid #000;
-  
-  -webkit-transition:
-    box-shadow 200ms ease-in-out;
-}
-
-.thumbnails .thumbnail-item:hover {
-  box-shadow : 0 0 20px #888;
-}
-
-.thumbnails .thumbnail-item img {
-  display : block;
-  margin  : 0 auto;
-  width   : auto;
-  height  : 100%;
-}
-
-.thumbnails .thumbnail-item,
-.thumbnails .thumbnail-item img { border-radius : 0.5em }
-
-
-.previews {
+.gg-previews {
   margin  : 0 3em;
   
   & > * {
     clear  : both;
     margin : 1em 0;
     
-    .thumbnail {
+    .gg-previewThumbnail {
       float  : left;
       margin : 0 0.5em 0 0;
       
@@ -66,11 +21,11 @@
       }
     }
     
-    .snippet {
+    .gg-previewSnippet {
       overflow : hidden;
     }
     
-    .title {
+    .gg-previewTitle {
       margin : 0 0 0.5em 0;
       padding : 0;
       
@@ -81,7 +36,7 @@
       font-size : medium;
     }
     
-    .snippet-meta {
+    .gg-previewInfo {
       margin  : 0;
       padding : 0;
       

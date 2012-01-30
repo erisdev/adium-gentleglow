@@ -19,7 +19,7 @@ class OEmbedScraper extends Preview.BasicScraper
   Preview.register this
   
   SNIPPET_TEMPLATE = '''
-    <p class="snippet-meta">
+    <p class="gg-previewInfo">
       <span class="oembed-type">some kind of media</span>
       by <a class="oembed-author">unknown author</a>
       via <a class="oembed-provider">unknown provider</a>.

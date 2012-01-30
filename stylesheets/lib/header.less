@@ -13,7 +13,7 @@
 
 #header ~ #chat { top : 4em }
 
-#header .chat-icon {
+#header .gg-chatIcon {
   float      : right;
   margin     : 0 0 1em 1em;
   width      : auto;
@@ -30,11 +30,11 @@
 }
 
 /* TODO enable this when it doesn't look totally embuggered in Adium */
-/*#header .chat-icon:hover {
+/*#header .gg-chatIcon:hover {
   -webkit-transform : translate(-100%, 100%) scale(3) rotate(15deg);
 }*/
 
-#header .chat-name {
+#header .gg-chatName {
   float  : left;
   margin : 0 -9999px 0 0;
   
@@ -50,21 +50,21 @@
     text-shadow 400ms ease-in-out;
 }
 
-#header .chat-name:hover {
+#header .gg-chatName:hover {
   color       : #aaa;
   text-shadow : 0px 0px 10px #888;
 }
 
-#header .chat-name ~ * {
+#header .gg-chatName ~ * {
   -webkit-transition:
     opacity 400ms ease-in-out;
 }
 
-#header .chat-name:hover ~ * {
+#header .gg-chatName:hover ~ * {
   opacity : 0.2;
 }
 
-#header .chat-info {
+#header .gg-chatInfo {
   margin  : 0 8em;
   padding : 0 0.5em;
   
@@ -79,11 +79,11 @@
   opacity    : 0.5; /* hax to overcome background bug */
 }
 
-#header .chat-info:hover {
+#header .gg-chatInfo:hover {
   opacity : 0.99;
 }
 
-#header .chat-info > * {
+#header .gg-chatInfo > * {
   margin  : 0;
   padding : 0;
   
@@ -96,10 +96,10 @@
     color 400ms ease-in-out;
 }
 
-#header .chat-info > *:hover {
+#header .gg-chatInfo > *:hover {
   color : #ff8;
 }
 
-#header .chat-info > * + * {
+#header .gg-chatInfo > * + * {
   border-top : 1px dotted #884;
 }

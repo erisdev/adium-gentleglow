@@ -24,14 +24,14 @@ class Preview.BasicScraper
   DEFAULT_THUMBNAIL = 'images/camera.png'
   PREVIEW_TEMPLATE = '''
     <article>
-      <div class="thumbnail">
+      <div class="gg-previewThumbnail">
         <a><img alt></a>
       </div>
-      <div class="snippet">
-        <h1 class="title">
+      <div class="gg-previewSnippet">
+        <h1 class="gg-previewTitle">
           <a>lorem ipsum</a>
         </h1>
-        <div class="content"></div>
+        <div class="gg-previewContent"></div>
       </div>
     </article>
   '''
@@ -67,20 +67,20 @@ class Preview.BasicScraper
     thumbnail ?= DEFAULT_THUMBNAIL
     snippet ?= ''
     
-    $('.thumbnail a, .title a', preview).attr title: "#{title}", href: uri
-    $('.thumbnail img',         preview).attr title: "#{title}", src: thumbnail
+    $('.gg-previewThumbnail a, .gg-previewTitle a', preview).attr title: "#{title}", href: uri
+    $('.gg-previewThumbnail img',         preview).attr title: "#{title}", src: thumbnail
     
     if title instanceof jQuery
-      $('.title a', preview).empty().append title
+      $('.gg-previewTitle a', preview).empty().append title
     else
-      $('.title a', preview).text title
+      $('.gg-previewTitle a', preview).text title
     
     if snippet instanceof jQuery
-      $('.content', preview).empty().append snippet
+      $('.gg-previewContent', preview).empty().append snippet
     else
-      $('.content', preview).empty().append $('<p>').text("#{snippet}")
+      $('.gg-previewContent', preview).empty().append $('<p>').text("#{snippet}")
     
-    preview.appendTo $('.previews', @message)
+    preview.appendTo $('.gg-previews', @message)
   
   Object.notImplemented this, 'scrape'
 
