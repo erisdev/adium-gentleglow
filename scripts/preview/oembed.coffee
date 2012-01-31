@@ -78,33 +78,33 @@ do ->
   # List of providers found at <http://www.oembed.com/#section7>.
   ##
   
-  provider 'YouTube', 'http://www.youtube.com/oembed'
+  provider 'YouTube', 'http://www.youtube.com/oembed',
     scheme: (uri) -> uri.isInDomain('youtube.com') or uri.host is 'youtu.be'
   
-  provider 'Flickr', 'http://www.flickr.com/services/oembed/'
+  provider 'Flickr', 'http://www.flickr.com/services/oembed/',
     scheme: (uri) -> uri.isInDomain('flickr.com') and uri.globPath('/photos/*')
   
-  provider 'Viddler', 'http://lab.viddler.com/services/oembed/'
+  provider 'Viddler', 'http://lab.viddler.com/services/oembed/',
     scheme: (uri) -> uri.isInDomain 'viddler.com'
   
-  provider 'Qik', 'http://qik.com/api/oembed.{format}'
+  provider 'Qik', 'http://qik.com/api/oembed.{format}',
     scheme: (uri) -> uri.isInDomain 'qik.com'
   
-  provider 'Revision3', 'http://revision2.com/api/oembed/'
+  provider 'Revision3', 'http://revision2.com/api/oembed/',
     scheme: (uri) -> uri.isInDomain 'revision3.com'
   
-  provider 'Hulu', 'http://www.hulu.com/api/oembed.{format}'
+  provider 'Hulu', 'http://www.hulu.com/api/oembed.{format}',
     scheme: (uri) -> uri.isInDomain('hulu.com') and uri.globPath('/watch/*')
   
-  provider 'Vimeo', 'http://www.vimeo.com/api/oembed.{format}'
+  provider 'Vimeo', 'http://www.vimeo.com/api/oembed.{format}',
     scheme: (uri) ->
       uri.isInDomain('vimeo.com') and
       uri.path.search(///^ (?: /groups/.+/videos )? / (\d+) $///i) >= 0
   
-  provider 'SmugMug', 'http://api.smugmug.com/services/oembed/'
+  provider 'SmugMug', 'http://api.smugmug.com/services/oembed/',
     scheme: (uri) -> uri.isInDomain 'smugmug.com'
   
-  provider 'SlideShare', 'http://www.slideshare.net/api/oembed/2'
+  provider 'SlideShare', 'http://www.slideshare.net/api/oembed/2',
     scheme: (uri) -> uri.isInDomain('slideshare.net') and uri.globPath('/*/*')
   
   # Additional providers found on my many voyages across this vast Internet.
@@ -113,13 +113,13 @@ do ->
   # <http://code.google.com/p/oohembed/source/browse/app/provider/endpoints.json>.
   ##
   
-  provider 'Blip.tv', 'http://blip.tv/oembed/'
+  provider 'Blip.tv', 'http://blip.tv/oembed/',
     scheme: (uri) -> uri.isInDomain('blip.tv') and uri.globPath('/file/*')
   
   provider 'Clikthrough', 'http://clikthrough.com/services/oembed',
     scheme: (uri) -> uri.isInDomain('clikthrough.com') and uri.globPath('/theater/video/*')
   
-  provider 'DailyMotion', 'http://www.dailymotion.com/api/oembed'
+  provider 'DailyMotion', 'http://www.dailymotion.com/api/oembed',
     scheme: (uri) -> uri.isInDomain 'dailymotion.com'
   
   provider 'DeviantART', 'http://backend.deviantart.com/oembed',
@@ -129,7 +129,7 @@ do ->
   provider 'dotSUB.com', 'http://dotsub.com/services/oembed',
     scheme: (uri) -> uri.isInDomain('dotsub.com') and uri.globPath('/view/*')
   
-  provider 'Funny or Die', 'http://www.funnyordie.com/oembed'
+  provider 'Funny or Die', 'http://www.funnyordie.com/oembed',
     scheme: (uri) -> uri.isInDomain('funnyordie.com') and uri.globPath('/videos/*')
   
   provider 'Kinomap', 'http://www.kinomap.com/oembed',
@@ -138,7 +138,7 @@ do ->
   provider 'National Film Board of Canada', 'http://www.nfb.ca/remote/services/oembed/',
     scheme: (uri) -> uri.isInDomain('nfb.ca') and uri.globPath('/film/*')
   
-  provider 'PhotoBucket', 'http://photobucket.com/oembed'
+  provider 'PhotoBucket', 'http://photobucket.com/oembed',
     scheme: (uri) ->
       uri.isInDomain('photobucket.com') and
       (uri.globPath('/albums/*') or uri.globPath('/groups/*'))
