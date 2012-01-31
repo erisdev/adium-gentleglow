@@ -109,11 +109,15 @@ do ->
   
   # Additional providers found on my many voyages across this vast Internet.
   # Ordered alphabetically for convenience and for the sake of not showing
-  # favoritism.
+  # favoritism. Many of these were yanked from oohEmbed's endpoints.json
+  # <http://code.google.com/p/oohembed/source/browse/app/provider/endpoints.json>.
   ##
   
   provider 'Blip.tv', 'http://blip.tv/oembed/'
     scheme: (uri) -> uri.isInDomain('blip.tv') and uri.globPath('/file/*')
+  
+  provider 'Clikthrough', 'http://clikthrough.com/services/oembed',
+    scheme: (uri) -> uri.isInDomain('clikthrough.com') and uri.globPath('/theater/video/*')
   
   provider 'DailyMotion', 'http://www.dailymotion.com/api/oembed'
     scheme: (uri) -> uri.isInDomain 'dailymotion.com'
@@ -122,12 +126,25 @@ do ->
     scheme: (uri) -> uri.isInDomain('fav.me') or 
       (uri.isInDomain('deviantart.com') and uri.globPath('/art/*'))
   
+  provider 'dotSUB.com', 'http://dotsub.com/services/oembed',
+    scheme: (uri) -> uri.isInDomain('dotsub.com') and uri.globPath('/view/*')
+  
   provider 'Funny or Die', 'http://www.funnyordie.com/oembed'
     scheme: (uri) -> uri.isInDomain('funnyordie.com') and uri.globPath('/videos/*')
+  
+  provider 'Kinomap', 'http://www.kinomap.com/oembed',
+    scheme: (uri) -> uri.isInDomain('kinomap.com')
+  
+  provider 'National Film Board of Canada', 'http://www.nfb.ca/remote/services/oembed/',
+    scheme: (uri) -> uri.isInDomain('nfb.ca') and uri.globPath('/film/*')
   
   provider 'PhotoBucket', 'http://photobucket.com/oembed'
     scheme: (uri) ->
       uri.isInDomain('photobucket.com') and
       (uri.globPath('/albums/*') or uri.globPath('/groups/*'))
-
   
+  provider 'Scribd', 'http://www.scribd.com/services/oembed',
+    scheme: (uri) -> uri.isInDomain 'scribd.com'
+  
+  provider 'YFrog', 'http://www.yfrog.com/api/oembed',
+    scheme: (uri) -> (/^yfrog.(com|ru|com.tr|it|fr|co.il|co.uk|com.pl|pl|eu|us)$/).test(uri.host)
