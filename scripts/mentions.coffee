@@ -6,6 +6,12 @@ MENTION_TEMPLATE = '''
   </li>
 '''
 
+flash = (el) ->
+  $(el).css
+    webkitAnimationName: 'fx-flash'
+    webkitAnimationDelay: '200ms'
+    webkitAnimationDuration: '200ms'
+
 $(window).bind 'adium:message', (event) ->
   message = event.message
   if message.hasClass 'mention'
@@ -21,6 +27,8 @@ $(window).bind 'adium:message', (event) ->
       displayName: message.find('.gg-messageSender').text()
       timestamp: message.find('.gg-messageTimestamp').text()
     $('#mentions .ui-menuContent').append html
+    
+    flash message
 
 $('.gg-mention a').live 'click', (event) ->
   event.preventDefault()
@@ -32,3 +40,10 @@ $('.gg-mention a').live 'click', (event) ->
     duration: 700
     easing: 'swing'
     offset: { top: -height / 3 }
+    onAfter: -> flash selector
+
+$('.mention').live 'webkitAnimationEnd', (event) ->
+  $(this).css
+    webkitAnimationName: ''
+    webkitAnimationDelay: ''
+    webkitAnimationDuration: ''
