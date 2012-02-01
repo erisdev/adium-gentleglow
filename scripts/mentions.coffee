@@ -1,5 +1,5 @@
 MENTION_TEMPLATE = '''
-  <li class="gg-mention">
+  <li class="gg-mention" title="#{text}">
     <a href="##{uuid}">mentioned</a>
     by <span class="gg-user" title=#{screenName}>#{displayName}</span>
     at <time class="gg-timestamp">#{timestamp}</time>
@@ -16,6 +16,7 @@ $(window).bind 'adium:message', (event) ->
     
     html = MENTION_TEMPLATE.template
       uuid: uuid
+      text: message.find('.gg-messageContent').text().escapeEntities()
       screenName: message.find('.gg-messageSenderId').text()
       displayName: message.find('.gg-messageSender').text()
       timestamp: message.find('.gg-messageTimestamp').text()
