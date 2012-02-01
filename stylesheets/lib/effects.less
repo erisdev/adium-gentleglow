@@ -1,3 +1,11 @@
+@-webkit-keyframes fx-flash {
+  25% {
+    -webkit-box-shadow: 0 0 5px 0.5em white;
+    background: white;
+    color: black;
+  }
+}
+
 .fx-glowingText(@color, @shadow: @color) {
   color       : @color;
   text-shadow : @shadow-offset @shadow-blur @shadow;
