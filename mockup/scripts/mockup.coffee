@@ -52,10 +52,13 @@ markup = (text) ->
 fillTemplate = (template, data) ->
   template.replace /%([A-Za-z]+)%/g, (m, key) -> data[key]
 
+containsWord = (text, word) -> ///\b#{word}\b///.test text
+
 sendMessage = (text, options = {}) ->
   type = options.type ? 'message'
   
   classNames = [ type ]
+  classNames.push 'mention' if containsWord text, user.screenName
   classNames.push options.status if type is 'status'
   classNames.push if options.outgoing then 'outgoing' else 'incoming'
   
