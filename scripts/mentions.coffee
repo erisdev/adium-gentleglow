@@ -19,4 +19,4 @@ $(window).bind 'adium:message', (event) ->
       screenName: message.find('.gg-messageSenderId').text()
       displayName: message.find('.gg-messageSender').text()
       timestamp: message.find('.gg-messageTimestamp').text()
-    $('#mentions').append html
+    $('#mentions .ui-menuContent').append html
