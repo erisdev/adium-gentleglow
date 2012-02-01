@@ -21,3 +21,14 @@ $(window).bind 'adium:message', (event) ->
       displayName: message.find('.gg-messageSender').text()
       timestamp: message.find('.gg-messageTimestamp').text()
     $('#mentions .ui-menuContent').append html
+
+$('.gg-mention a').live 'click', (event) ->
+  event.preventDefault()
+  
+  height = $('#chat').height()
+  selector = $(this).attr 'href'
+  
+  $('#chat').stop().scrollTo selector,
+    duration: 700
+    easing: 'swing'
+    offset: { top: -height / 3 }
