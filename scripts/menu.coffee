@@ -6,40 +6,36 @@ class $.model.Menu extends $.model.BaseModel
   togglePinned: -> $(@rootElement).toggleClass 'ui-pinned'
   isPinned:     -> $(@rootElement).hasClass    'ui-pinned'
   
+  addHTML: (html) ->
+    $('<li>').html(html).appendTo this.find('.ui-menuContent')
+  
   addCheckbox: (label, fn) ->
     uuid = Math.uuid()
-    $("""
-      <li>
-        <input id="#{uuid}" type="checkbox">
-        <label for="#{uuid}"></label>
-      </li>
+    this.addHTML("""
+      <input id="#{uuid}" type="checkbox">
+      <label for="#{uuid}"></label>
     """)
     .find('input').click(fn).end()
     .find('label').text(label).end()
-    .appendTo $(@rootElement).find('.ui-menuContent')
   
   addSelect: (label, {values, defaultValue}, fn) ->
     uuid = Math.uuid()
     populator = if $.isArray values
     then (select) -> $('<option>').text(value).appendTo(select) for value in values
     else (select) -> $('<option>').text(label).val(value).appendTo(select) for label, value of values
-    $("""
-      <li>
-        <label for="#{uuid}"></label>
-        <select name="#{uuid}"></select>
-      </li>
+    this.addHTML("""
+      <label for="#{uuid}"></label>
+      <select name="#{uuid}"></select>
     """)
     .find('select').tap(populator).val(defaultValue).change(fn).end()
     .find('label').text(label).end()
-    .appendTo $(@rootElement).find('.ui-menuContent')
   
   addLink: (label, fn) ->
-    $('<li><a></a></li>')
-    .find('a').tap((link) ->
+    this.addHTML('<li><a></a></li>')
+    .find('a').tap (link) ->
       if typeof fn is 'function'
       then link.click(fn)
-      else link.attr(href: fn) )
-    .appendTo $(@rootElement).find('.ui-menuContent')
+      else link.attr(href: fn)
 
 $('.ui-menu .ui-menuHeader').live 'click', (event) ->
   $(this).closest('.ui-menu').model().togglePinned()
