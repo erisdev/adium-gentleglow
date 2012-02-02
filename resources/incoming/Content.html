@@ -1,10 +1,12 @@
-<section class="%messageClasses%" data-class-name="Message">
+<section class="gg-message %messageClasses%" data-class-name="Message">
 	<div class="gg-messageInfo">
-		<div class="gg-messageTimestamp alt">%time%</div>
 		<div class="gg-messageSender">%sender%</div>
 		<div class="gg-messageSenderId">%senderScreenName%</div>
 		<div class="gg-messageMarker"></div>
 	</div>
-	<div class="gg-messageContent">%message%</div>
+	<div class="gg-messageInfo">
+		<time class="gg-messageTimestamp" datetime="%time{yyyy-MM-ddTHH:mm:ssZ}%">%time%</time>
+	</div>
+	<div class="gg-messageBody">%message%</div>
 	<div class="gg-previews"></div>
 </section>

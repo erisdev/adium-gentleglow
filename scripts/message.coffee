@@ -2,7 +2,7 @@ class $.model.Message extends $.model.BaseModel
   @property 'displayName', '.gg-messageSender'
   @property 'userName',    '.gg-messageSenderId'
   @property 'timestamp',   '.gg-messageTimestamp'
-  @property 'body',        '.gg-messageContent'
+  @property 'body',        '.gg-messageBody'
   
   isAction: -> $(@rootElement).hasClass 'action'
   isHistory: -> $(@rootElement).hasClass 'history'
@@ -38,7 +38,6 @@ $(window).bind 'adium:message adium:status', (event) ->
       TMPL.textShadow.template color: $(this).css('color') )
   
   if message.isAction()
-    message.find('.actionMessageUserName').addClass('gg-messageSender')
     message.find('.actionMessageBody').text (i, text) -> " #{text}"
   
   $(message.rootElement).hide().appendTo('#chat').fadeIn()
