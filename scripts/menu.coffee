@@ -1,65 +1,52 @@
-class Menu
-  constructor: (root) ->
-    @root = $(root)
+class $.model.Menu extends $.model.BaseModel
+  @property 'title', '.ui-menuHeader'
   
-  open: -> @root.addClass 'open'
-  close: -> @root.removeClass 'open'
-  toggle: -> @root.toggleClass 'open'
+  pin:          -> $(@rootElement).addClass    'ui-pinned'
+  unpin:        -> $(@rootElement).removeClass 'ui-pinned'
+  togglePinned: -> $(@rootElement).toggleClass 'ui-pinned'
+  isPinned:     -> $(@rootElement).hasClass    'ui-pinned'
+  
+  addHTML: (html) ->
+    $('<li>').html(html).appendTo this.find('.ui-menuContent')
   
   addCheckbox: (label, fn) ->
     uuid = Math.uuid()
-    $("""
-      <li>
-        <input name="#{uuid}" type="checkbox">
-        <label for="#{uuid}"></label>
-      </li>
+    this.addHTML("""
+      <input id="#{uuid}" type="checkbox">
+      <label for="#{uuid}"></label>
     """)
     .find('input').click(fn).end()
     .find('label').text(label).end()
-    .appendTo @root
   
   addSelect: (label, {values, defaultValue}, fn) ->
     uuid = Math.uuid()
     populator = if $.isArray values
     then (select) -> $('<option>').text(value).appendTo(select) for value in values
     else (select) -> $('<option>').text(label).val(value).appendTo(select) for label, value of values
-    $("""
-      <li>
-        <label for="#{uuid}"></label>
-        <select name="#{uuid}"></select>
-      </li>
+    this.addHTML("""
+      <label for="#{uuid}"></label>
+      <select name="#{uuid}"></select>
     """)
-    .find('select')
-      .tap(populator)
-      .val(defaultValue)
-      .change(fn)
-      .end()
+    .find('select').tap(populator).val(defaultValue).change(fn).end()
     .find('label').text(label).end()
-    .appendTo @root
   
   addLink: (label, fn) ->
-    $('<li><a></a></li>')
-    .find('a').click(fn).end()
-    .appendTo @root
+    this.addHTML('<li><a></a></li>')
+    .find('a').tap (link) ->
+      if typeof fn is 'function'
+      then link.click(fn)
+      else link.attr(href: fn)
 
-window.Menu = Menu
+$('.ui-menu .ui-menuHeader').live 'click', (event) ->
+  $(this).closest('.ui-menu').model().togglePinned()
 
 $ ->
-  Menu.mainMenu = new Menu '#main-menu > .ui-menuContent'
+  currentVariantPattern = /// url\( "? variants/ ([^\s"]+) \.css "? \) ///i
   
-  Menu.mainMenu.addSelect 'variant', {
+  $('#main-menu').model().addSelect 'variant',
     values: MessageStyle.variants.getOwnKeys(),
-    defaultValue: $('#mainStyle').text().match(///
-      url\( "? variants/ ([^\s"]+) \.css "? \)
-    ///i)?[1]
-  }, ->
-    variant = $(this).val()
-    $('#mainStyle').text("""@import url("variants/#{variant}.css");""")
-    Menu.mainMenu.close()
+    defaultValue: $('#mainStyle').text().match(currentVariantPattern)?[1]
+  , ->
+    $('#mainStyle').text("""@import url("Variants/#{$(this).val()}.css");""")
+    $('#main-menu').model().unpin()
     scrollToBottom()
-  
-  $('.ui-menu .ui-menuHeader').click (event) ->
-    $(this).closest('.ui-menu').toggleClass 'ui-pinned'
-  
-  $('#variant-selector').change ->
-

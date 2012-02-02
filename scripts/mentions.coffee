@@ -1,7 +1,7 @@
 MENTION_TEMPLATE = '''
-  <li class="gg-mention" title="#{text}">
-    <a href="##{uuid}">mentioned</a>
-    by <span class="gg-user" title=#{screenName}>#{displayName}</span>
+  <li class="gg-mention" title="#{body.escapeEntities()}">
+    <a href="##{id}">mentioned</a>
+    by <span class="gg-user" title="#{userName}">#{displayName}</span>
     at <time class="gg-timestamp">#{timestamp}</time>
   </li>
 '''
@@ -13,24 +13,14 @@ flash = (el) ->
     webkitAnimationDuration: '200ms'
 
 $(window).bind 'adium:message', (event) ->
-  message = event.message
-  if message.hasClass 'mention'
-    unless uuid = message.attr('id')
-      uuid = Math.uuid()
-      message.attr id: uuid
-      uuid
-    
-    html = MENTION_TEMPLATE.template
-      uuid: uuid
-      text: message.find('.gg-messageContent').text().escapeEntities()
-      screenName: message.find('.gg-messageSenderId').text()
-      displayName: message.find('.gg-messageSender').text()
-      timestamp: message.find('.gg-messageTimestamp').text()
+  message = event.message.model()
+  console.log message
+  if message.isMention()
     $('#mentions .ui-menuContent')
-    .append(html)
+    .append(MENTION_TEMPLATE.template message)
     .stop().scrollTo '100%', 200, 'swing'
     
-    flash message
+    flash message.rootElement
 
 $('.gg-mention a').live 'click', (event) ->
   event.preventDefault()

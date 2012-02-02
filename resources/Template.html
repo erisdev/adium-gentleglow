@@ -17,6 +17,10 @@
 		<script type="text/javascript" src="scripts/utilities.js"></script>
 		<script type="text/javascript" src="scripts/uri.js"></script>
 		
+		<!-- data models -->
+		<script type="text/javascript" src="scripts/model.js"></script>
+		<script type="text/javascript" src="scripts/model/message.js"></script>
+		
 		<!-- general subsystems -->
 		<script type="text/javascript" src="scripts/menu.js"></script>
 		<script type="text/javascript" src="scripts/console.js"></script>
@@ -41,7 +45,7 @@
 	</head>
 	<body style="==bodyBackground==">
 		%@
-		<div id="main-menu" class="ui-menu">
+		<div id="main-menu" class="ui-menu" data-class-name="Menu">
 			<a class="ui-menuHeader">session settings</a>
 			<ul class="ui-menuContent"></ul>
 		</div>
@@ -49,7 +53,7 @@
 			<div class="ui-consoleBuffer"></div>
 			<textarea class="ui-consoleInput"></textarea>
 		</div>
-		<div id="mentions" class="ui-menu">
+		<div id="mentions" class="ui-menu" data-class-name="Menu">
 		  <a class="ui-menuHeader">mentions</a>
 		  <ul class="ui-menuContent"></ul>
 		</div>

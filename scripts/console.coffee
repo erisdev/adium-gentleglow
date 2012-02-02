@@ -350,7 +350,7 @@ $ ->
   Console.instance = new Console '#debug-console'
   Console.instance.hide()
   
-  Menu.mainMenu.addCheckbox 'debug console', (event) ->
+  $('#main-menu').model().addCheckbox 'debug console', (event) ->
     if $(this).is(':checked')
       Console.instance.show 'normal'
     else
