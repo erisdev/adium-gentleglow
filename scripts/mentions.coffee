@@ -26,7 +26,9 @@ $(window).bind 'adium:message', (event) ->
       screenName: message.find('.gg-messageSenderId').text()
       displayName: message.find('.gg-messageSender').text()
       timestamp: message.find('.gg-messageTimestamp').text()
-    $('#mentions .ui-menuContent').append html
+    $('#mentions .ui-menuContent')
+    .append(html)
+    .stop().scrollTo '100%', 200, 'swing'
     
     flash message
 
