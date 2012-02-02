@@ -32,7 +32,6 @@ $ ->
     $ = jQuery = messageView.jQuery
     
     $('a').live 'click', (event) -> event.preventDefault()
-    $('body').css fontSize: '8pt'
     
     _ajax = jQuery.ajax
     jQuery.ajax = (url, options) ->
