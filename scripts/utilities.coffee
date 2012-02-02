@@ -47,7 +47,7 @@ String::template = (params) ->
         else          'undefined'
 
 # Ugh, dirty hax. Why doesn't JavaScript come with this?
-String::escapeEntities   = -> $('<div>').text("#{this}").html()
+String::escapeEntities   = -> $('<div>').text("#{this}").html().replace('"', '&quot;').replace("'", '&apos;')
 String::unescapeEntities = -> $('<div>').html("#{this}").text()
 
 hideProperties = (obj, properties...) ->
