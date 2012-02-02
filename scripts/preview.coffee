@@ -87,10 +87,10 @@ class Preview.BasicScraper
 window.Preview = Preview
 
 $(window).bind 'adium:message', (event) ->
-  message = event.message
-  unless message.hasClass 'history'
+  message = event.message.model()
+  unless message.isHistory()
     message.find('a')
-    .each( (i) -> Preview.loadPreviews message, this )
+    .each( (i) -> Preview.loadPreviews event.message, this )
     .filter( (i) -> $(@).text() is $(@).attr('href') )
     .text( (i, text) -> text.replace /// \w+ :// ([^/]+ (?: / .{1,10} )? ) .* ///, '$1\u2026' )
     .addClass('shortened')
