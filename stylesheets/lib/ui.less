@@ -3,9 +3,12 @@
 @ui-z-menu: 2000;
 
 .ui-panel {
+  display  : -webkit-box;
 	overflow : hidden;
 	z-index  : @ui-z-panel;
 	
+  -webkit-box-orient : vertical;
+
 	background  : @ui-panel-background;
 	color       : @ui-text-color;
 	font-family : 'Optima', sans-serif;
@@ -13,18 +16,24 @@
 	border-radius : 0.2em;
 }
 
-.ui-panelHeader {
+.ui-panelHeader { border-bottom : 1px solid #888 }
+.ui-panelFooter { border-top    : 1px solid #888 }
+
+.ui-panelHeader, .ui-panelFooter {
 	display : block;
 	margin  : 0;
 	padding : 0.25em 1em;
 	
-	border-bottom : 1px solid #888;
+	-webkit-box-flex : 0;
 }
 
 .ui-panelContent {
-	display : block;
-	margin  : 0;
-	padding : 0.5em;
+	display    : block;
+	margin     : 0;
+	padding    : 0.5em;
+	overflow-y : auto;
+	
+	-webkit-box-flex : 1;
 }
 
 @import "ui-menu";
