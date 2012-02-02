@@ -27,7 +27,7 @@
 	<key>AllowTextColors</key>
 	<false/>
 	<key>ShowsUserIcons</key>
-	<false/>
+	<true/>
 	<key>MessageViewVersion</key>
 	<string>4</string>
 	<key>DefaultVariant</key>
