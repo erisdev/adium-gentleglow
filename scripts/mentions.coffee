@@ -10,7 +10,8 @@ flash = (el) ->
   $(el).css
     webkitAnimationName: 'fx-flash'
     webkitAnimationDelay: '200ms'
-    webkitAnimationDuration: '200ms'
+    webkitAnimationDuration: '100ms'
+    webkitAnimationIterationCount: '2'
 
 $(window).bind 'adium:message', (event) ->
   message = event.message.model()
@@ -39,3 +40,4 @@ $('.mention').live 'webkitAnimationEnd', (event) ->
     webkitAnimationName: ''
     webkitAnimationDelay: ''
     webkitAnimationDuration: ''
+    webkitAnimationIterationCount: ''
