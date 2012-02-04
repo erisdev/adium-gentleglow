@@ -35,8 +35,8 @@ $ ->
     
     _ajax = jQuery.ajax
     jQuery.ajax = (url, options) ->
-      options.data ?= {}
-      options.data._url = url
+      [url, options] = [null, url] if typeof url is 'object'
+      (options.data ?= {})._url = url ? options.url
       _ajax.call this, '/ajax', options
 
 formatTime = (date = new Date) ->
