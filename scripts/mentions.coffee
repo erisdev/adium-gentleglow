@@ -7,11 +7,7 @@ MENTION_TEMPLATE = '''
 '''
 
 flash = (el) ->
-  $(el).css
-    webkitAnimationName: 'fx-flash'
-    webkitAnimationDelay: '200ms'
-    webkitAnimationDuration: '100ms'
-    webkitAnimationIterationCount: '2'
+  $(el).cssAnimate 'fx-flash', duration: 100, delay: 200, iterations: 2
 
 $(window).bind 'adium:message', (event) ->
   message = event.message.model()
@@ -34,10 +30,3 @@ $('.gg-mention a').live 'click', (event) ->
     easing: 'swing'
     offset: { top: -height / 3 }
     onAfter: -> flash selector
-
-$('.mention').live 'webkitAnimationEnd', (event) ->
-  $(this).css
-    webkitAnimationName: ''
-    webkitAnimationDelay: ''
-    webkitAnimationDuration: ''
-    webkitAnimationIterationCount: ''
