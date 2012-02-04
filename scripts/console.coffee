@@ -167,6 +167,8 @@ class Editor
 class Console
   COFFEESCRIPT_URI = 'https://raw.github.com/jashkenas/coffee-script/1.1.3/extras/coffee-script.js'
   
+  LEVELS = ['silent', 'error', 'warn', 'info', 'debug']
+  
   @instance =
     dump:  -> console?.dir   arguments...
     log:   -> console?.log   arguments...
@@ -203,6 +205,8 @@ class Console
     @history.index = -1
     
     @bufferLimit = 20
+    
+    @level = 'error'
   
   processInput: ->
     if CoffeeScript?
@@ -260,6 +264,12 @@ class Console
     @root.hide arguments...
     return
   
+  shouldLog: (testLevel) ->
+    logLevel  = @level
+    logLevel  = LEVELS.indexOf(logLevel)  unless typeof logLevel  is 'number'
+    testLevel = LEVELS.indexOf(testLevel) unless typeof testLevel is 'number'
+    testLevel <= logLevel
+  
   log: (message, options) ->
     $('<div>')
     .addClass(options?.class ? 'ui-consoleMessage')
@@ -268,10 +278,10 @@ class Console
     @cullBuffer()
     return
   
-  debug: (message) -> @log message, class: 'ui-consoleDebug'
-  info:  (message) -> @log message, class: 'ui-consoleInfo'
-  warn:  (message) -> @log message, class: 'ui-consoleWarning'
-  error: (message) -> @log message, class: 'ui-consoleError'
+  debug: (message) -> @log(message, class: 'ui-consoleDebug')   if this.shouldLog 'debug'
+  info:  (message) -> @log(message, class: 'ui-consoleInfo')    if this.shouldLog 'info'
+  warn:  (message) -> @log(message, class: 'ui-consoleWarning') if this.shouldLog 'warn'
+  error: (message) -> @log(message, class: 'ui-consoleError')   if this.shouldLog 'error'
   
   @valueToHtml: (object, options) ->
     type = typeof object
