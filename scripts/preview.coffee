@@ -44,9 +44,11 @@ class Preview.BasicScraper
   
   scrapeOrPass: ->
     try
+      Console.debug "Preview: trying #{@constructor.name} for #{@uri}"
       @scrape()
     catch ex
       # pass to the next scraper in line on error
+      Console.error "Preview: #{this} failed with error: #{ex}"
       @pass() unless @isCancelled
     return
   
@@ -56,6 +58,7 @@ class Preview.BasicScraper
     return
   
   cancel: =>
+    Console.debug "Preview: cancelled preview job for #{@uri}"
     @isCancelled = true
     return
   
