@@ -11,7 +11,6 @@ flash = (el) ->
 
 $(window).bind 'adium:message', (event) ->
   message = event.message.model()
-  console.log message
   if message.isMention()
     $('#mentions .ui-menuContent')
     .append(MENTION_TEMPLATE.template message)

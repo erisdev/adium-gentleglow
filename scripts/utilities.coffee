@@ -26,8 +26,6 @@ getTemplateValue = (obj, keypath) ->
   keypath = keypath.split('.') if typeof keypath is 'string'
   key = keypath.shift()
   
-  console.log obj, key, keypath
-  
   if method = key.match(/^(.+)\(\)$/)?[1]
     value = obj[method].call(obj)
   else
