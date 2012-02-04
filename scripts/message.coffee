@@ -29,13 +29,9 @@ $(window).bind 'adium:message adium:status', (event) ->
     message.shouldScroll = (scrollTop >= (scrollHeight - innerHeight * 1.2 ))
   
   if message.isMessage()
-    message.find('.gg-messageInfo')
-    .colorHash('.gg-messageSenderId',
-      saturation: 0.5,
-      luminance:  0.6,
-      ignoreCase: true )
-    .css('text-shadow', (i, textShadow) ->
-      TMPL.textShadow.template color: $(this).css('color') )
+    hash = message.userName.toLowerCase().hash()
+    color = "hsl(#{hash % 360}, 50%, 60%)"
+    message.find('.gg-messageInfo').css {color, textShadow: "0 0 20px #{color}"}
   
   if message.isAction()
     message.find('.actionMessageBody').text (i, text) -> " #{text}"
