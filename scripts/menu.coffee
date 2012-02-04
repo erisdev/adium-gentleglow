@@ -31,7 +31,7 @@ class $.model.Menu extends $.model.BaseModel
     .find('label').text(label).end()
   
   addLink: (label, fn) ->
-    this.addHTML('<li><a></a></li>')
+    this.addHTML("<li><a>#{label.escapeEntities()}</a></li>")
     .find('a').tap (link) ->
       if typeof fn is 'function'
       then link.click(fn)
