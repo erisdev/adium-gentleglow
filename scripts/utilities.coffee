@@ -38,6 +38,15 @@ getTemplateValue = (obj, keypath) ->
   else
     value
 
+String::hash = ->
+  key = 0
+  for i in [0...@length]
+    key = (key << 4) + this.charCodeAt(i)
+    g = key & 0xf0000000
+    key ^= g >> 24 unless g is 0
+    key &= ~g
+  key
+
 String::template = (params) ->
     pattern = /// \#\{ \s* ((?: [a-z0-9_\.] | \(\) )+) \s* \} | \$ (\d+) ///ig
     this.replace pattern, (m, key, index) ->
