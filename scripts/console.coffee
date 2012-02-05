@@ -211,7 +211,8 @@ class Console
   processInput: ->
     if CoffeeScript?
       try
-        @dump CoffeeScript.eval @input.val(), bare: true
+        js = CoffeeScript.compile @input.val(), bare: true
+        @dump window.eval js
         @pushHistory()
         @editor.clear()
       catch ex
