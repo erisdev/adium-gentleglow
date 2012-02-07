@@ -15,18 +15,16 @@ $.model.StatusMessage = $.model.Message
 TMPL =
   textShadow: '0px 0px 20px #{color}'
 
+shouldAutoScroll = ->
+  chatBuffer = $('#chat')
+  scrollTop = chatBuffer.scrollTop()
+  scrollHeight = chatBuffer[0].scrollHeight
+  innerHeight = chatBuffer.innerHeight()
+  (scrollTop >= (scrollHeight - innerHeight * 1.2 ))
+
 $(window).bind 'adium:message adium:status', (event) ->
   message = event.message.model()
-  shouldScroll = false
-  
-  do ->
-    # determine whether scrolling is appropriate or not
-    chatBuffer = $('#chat')
-    scrollTop = chatBuffer.scrollTop()
-    scrollHeight = chatBuffer[0].scrollHeight
-    innerHeight = chatBuffer.innerHeight()
-    
-    message.shouldScroll = (scrollTop >= (scrollHeight - innerHeight * 1.2 ))
+  message.shouldScroll = shouldAutoScroll()
   
   if message.isMessage()
     hash = message.userName.toLowerCase().hash()
@@ -41,4 +39,19 @@ $(window).bind 'adium:message adium:status', (event) ->
   # scroll down if appropriate
   alignChat() if message.shouldScroll
 
-$ -> initialize()
+$ ->
+  initialize()
+  
+  scroller = $('#gg-chatQuickScroller').hide()
+  scroller.bind 'click', (event) -> alignChat()
+  
+  previousShouldShow = false
+  
+  $('#chat').bind 'scroll', (event) ->
+    shouldShow = not shouldAutoScroll()
+    if shouldShow isnt previousShouldShow
+      if shouldShow
+        scroller.cssFadeIn()
+      else
+        scroller.cssFadeOut()
+    previousShouldShow = shouldShow

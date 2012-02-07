@@ -11,6 +11,29 @@
   -webkit-mask : no-repeat top -webkit-gradient(linear, center top, center bottom, from(transparent), color-stop(20%, black) );
 }
 
+#gg-chatQuickScroller {
+  position : fixed;
+  right    : 2em;
+  bottom   : 2em;
+  width    : 2em;
+  height   : 2em;
+  
+  opacity : 0.5;
+  
+  background-color    : @ui-panel-background;
+  background-image    : url("../images/arrow_down.png");
+  background-repeat   : no-repeat;
+  background-position : center;
+  background-size     : 100%;
+  
+  -webkit-transition:
+    opacity 200ms ease-in-out;
+  
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .gg-message {
     
   /* message sigils */
