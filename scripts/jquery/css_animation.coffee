@@ -10,6 +10,10 @@ styleProperties =
 eventNames =
   animationEnd: 'webkitAnimationEnd'
 
+jQuery.cssAnimations =
+  fadeIn: 'fx-fadeIn'
+  fadeOut: 'fx-fadeOut'
+
 makeCSSTime = (time, def) ->
   if not time?
     def
@@ -17,6 +21,29 @@ makeCSSTime = (time, def) ->
     "#{time}ms"
   else
     time
+
+jQuery.fn.cssFadeOut = (speed, easing, callback) ->
+  {fadeIn, fadeOut} = jQuery.cssAnimations
+  
+  hideCallback = (event) ->
+    if event.originalEvent.animationName is fadeOut
+      $(this).css(display: 'none').unbind(event.type, hideCallback)
+  
+  $(this)
+  .cssStop(fadeIn)
+  .cssAnimate(fadeOut, speed, easing, callback)
+  .bind(eventNames.animationEnd, hideCallback)
+
+jQuery.fn.cssFadeIn = (speed, easing, callback) ->
+  {fadeIn, fadeOut} = jQuery.cssAnimations
+  $(this)
+  .css(display: '')
+  .cssStop(fadeOut)
+  .cssAnimate(fadeIn, speed, easing, callback)
+
+jQuery.fn.cssStop = (animationName) ->
+  # TODO actually do this once multiple concurrent animations are supported
+  this
 
 jQuery.fn.cssAnimate = (animationName, speed, easing, callback) ->
   optall = jQuery.speed speed, easing, callback
@@ -31,11 +58,8 @@ jQuery.fn.cssAnimate = (animationName, speed, easing, callback) ->
     if event.originalEvent.animationName is animationName
       switch event.type
         when eventNames.animationEnd
-          noAnimation = {}
-          for optionName, styleName of styleProperties
-            noAnimation[styleName] = ''
           $(this).css noAnimation
-          optall.old?.call this, event
+          optall.old.call this, event if typeof optall.old is 'function'
   
   animation[styleProperties.name] = animationName
   noAnimation[styleProperties.name] = ''

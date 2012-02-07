@@ -6,6 +6,9 @@
   }
 }
 
+@-webkit-keyframes fx-fadeOut { to   { opacity: 0 } }
+@-webkit-keyframes fx-fadeIn  { from { opacity: 0 } }
+
 .fx-glowingText(@color, @shadow: @color) {
   color       : @color;
   text-shadow : @shadow-offset @shadow-blur @shadow;
