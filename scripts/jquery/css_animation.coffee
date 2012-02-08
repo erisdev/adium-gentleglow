@@ -1,4 +1,4 @@
-jQuery.styleProperties =
+jQuery.cssAnimationProperties =
   name: 'webkitAnimationName'
   delay: 'webkitAnimationDelay'
   direction: 'webkitAnimationDirection'
@@ -7,7 +7,7 @@ jQuery.styleProperties =
   fillStyle: 'webkitAnimationFillStyle'
   iterations: 'webkitAnimationIterationCount'
 
-jQuery.eventNames =
+jQuery.cssAnimationEvents =
   animationEnd: 'webkitAnimationEnd'
 
 jQuery.cssAnimations =
@@ -24,7 +24,7 @@ makeCSSTime = (time, def) ->
 
 compileAnimations = (animations) ->
   {}.tap (css) ->
-    for own propertyName, styleName of jQuery.styleProperties
+    for own propertyName, styleName of jQuery.cssAnimationProperties
       css[styleName] = (
         for own name, animation of animations
           value = animation[propertyName]
@@ -38,7 +38,7 @@ jQuery.event.props.push 'animationName'
 
 jQuery.fn.cssFadeOut = (speed, easing, callback) ->
   {fadeIn, fadeOut} = jQuery.cssAnimations
-  {animationEnd} = jQuery.eventNames
+  {animationEnd} = jQuery.cssAnimationEvents
   
   hideCallback = (event) ->
     if event.animationName is fadeOut
@@ -59,7 +59,7 @@ jQuery.fn.cssFadeIn = (speed, easing, callback) ->
   .cssAnimate(fadeIn, speed, easing, callback)
 
 jQuery.fn.cssStop = (animationName) ->
-  {animationEnd} = jQuery.eventNames
+  {animationEnd} = jQuery.cssAnimationEvents
   $(this).each (i, el) ->
     el = $(el)
     if cssAnimations = el.data('cssAnimations')
@@ -75,7 +75,7 @@ jQuery.fn.cssStop = (animationName) ->
       el.data({cssAnimations}).css(compileAnimations cssAnimations)
 
 jQuery.fn.cssAnimate = (name, speed, easing, callback) ->
-  {animationEnd} = jQuery.eventNames
+  {animationEnd} = jQuery.cssAnimationEvents
   
   optall = jQuery.speed speed, easing, callback
   
