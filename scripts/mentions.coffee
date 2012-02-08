@@ -21,10 +21,10 @@ $(window).bind 'adium:message', (event) ->
 $('.gg-mention a').live 'click', (event) ->
   event.preventDefault()
   
-  height = $('#chat').height()
+  height = $('#gg-chatBuffer').height()
   selector = $(this).attr 'href'
   
-  $('#chat').stop().scrollTo selector,
+  $('#gg-chatBuffer').stop().scrollTo selector,
     duration: 700
     easing: 'swing'
     offset: { top: -height / 3 }

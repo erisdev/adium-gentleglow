@@ -16,7 +16,7 @@ TMPL =
   textShadow: '0px 0px 20px #{color}'
 
 shouldAutoScroll = ->
-  chatBuffer = $('#chat')
+  chatBuffer = $('#gg-chatBuffer')
   scrollTop = chatBuffer.scrollTop()
   scrollHeight = chatBuffer[0].scrollHeight
   innerHeight = chatBuffer.innerHeight()
@@ -34,7 +34,7 @@ $(window).bind 'adium:message adium:status', (event) ->
   if message.isAction()
     message.find('.actionMessageBody').text (i, text) -> " #{text}"
   
-  $(message.rootElement).hide().appendTo('#chat').fadeIn()
+  $(message.rootElement).hide().appendTo('#gg-chatBuffer').fadeIn()
   
   # scroll down if appropriate
   alignChat() if message.shouldScroll
@@ -47,7 +47,7 @@ $ ->
   
   previousShouldShow = false
   
-  $('#chat').bind 'scroll', (event) ->
+  $('#gg-chatBuffer').bind 'scroll', (event) ->
     shouldShow = not shouldAutoScroll()
     if shouldShow isnt previousShouldShow
       if shouldShow

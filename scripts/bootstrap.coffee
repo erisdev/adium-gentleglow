@@ -32,7 +32,7 @@ window.checkIfScrollToBottomIsNeeded = ->
 window.scrollToBottomIfNeeded = ->
 
 window.alignChat = ->
-  $('#chat').stop().scrollTo '100%', 700, easing: 'easeOutBounce'
+  $('#gg-chatBuffer').stop().scrollTo '100%', 700, easing: 'easeOutBounce'
 
 window.setStylesheet = (id, src) ->
   style = $("##{id}")
