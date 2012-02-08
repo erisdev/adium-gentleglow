@@ -3,8 +3,8 @@
 	<img class="gg-chatIcon" alt="[Icon for %destinationName%]" src="%incomingIconPath%" onerror="$(this).addClass('broken')">
 	
 	<ul class="gg-chatInfo">
-		<li>since <span class="chat-opened">%timeOpened%</span></li>
-		<li>from <span class="chat-source">%sourceName%</li>
-		<li>to <span class="chat-destination">%destinationName%</span></li>
+		<li>since <time datetime="%timeOpened{yyyy-MM-ddTHH:mm:ssZ}%">%timeOpened%</time></li>
+		<li>from %sourceName%</li>
+		<li>to %destinationName%</li>
 	</ul>
 </header>
