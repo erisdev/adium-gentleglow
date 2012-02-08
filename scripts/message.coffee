@@ -54,8 +54,7 @@ $ ->
   scroller.bind 'click', (event) -> alignChat()
   
   previousShouldShow = false
-  
-  $('#gg-chatBuffer').bind 'scroll', (event) ->
+  showOrHideScroller = ->
     shouldShow = not shouldAutoScroll()
     if shouldShow isnt previousShouldShow
       if shouldShow
@@ -63,3 +62,6 @@ $ ->
       else
         scroller.cssFadeOut()
     previousShouldShow = shouldShow
+  
+  $('#gg-chatBuffer').bind 'scroll', showOrHideScroller
+  $(window).bind 'resize', showOrHideScroller
