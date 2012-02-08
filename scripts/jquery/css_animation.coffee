@@ -17,7 +17,7 @@ jQuery.cssAnimations =
 makeCSSTime = (time, def) ->
   if not time?
     def
-  if typeof time is 'number' or /^\d+$/.test(time)
+  else if typeof time is 'number' or /^\d+$/.test(time)
     "#{time}ms"
   else
     time
@@ -28,75 +28,61 @@ compileAnimations = (animations) ->
       css[styleName] = (
         for own name, animation of animations
           value = animation[propertyName]
-          if propertyName == 'delay' or propertyName is 'duration'
-            makeCSSTime value, 0
+          if propertyName is 'delay' or propertyName is 'duration'
+            makeCSSTime value, '0ms'
           else
             value ? 'initial'
       ).join ', '
 
-jQuery.event.props.push 'animationName'
+createAnimation = (name, speed, easing, callback) ->
+  options = jQuery.speed speed, easing, callback
+  animation = { name }
+  
+  for own propertyName of jQuery.cssAnimationProperties when options[propertyName]?
+    animation[propertyName] = options[propertyName]
+  
+  if typeof options.old is 'function'
+    animation.onComplete = options.old
+  
+  animation
+
+addAnimation = (el, animation) ->
+  cssAnimations = $(el).data('cssAnimations') ? {}
+  cssAnimations[animation.name] = animation
+  $(el).data({cssAnimations}).css(compileAnimations cssAnimations)
+
+removeAnimation = (el, name) ->
+  cssAnimations = $(el).data('cssAnimations')
+  if animation = cssAnimations?[name]
+    delete cssAnimations[name]
+    animation.onComplete?.call el
+  $(el).data({cssAnimations}).css(compileAnimations cssAnimations)
+
+$('*').live jQuery.cssAnimationEvents.animationEnd, (event) ->
+  console.log "animation ended for #{event.target}"
+  removeAnimation this, event.originalEvent.animationName
 
 jQuery.fn.cssFadeOut = (speed, easing, callback) ->
   {fadeIn, fadeOut} = jQuery.cssAnimations
-  {animationEnd} = jQuery.cssAnimationEvents
+  animation = createAnimation fadeOut, speed, easing, callback
   
-  hideCallback = (event) ->
-    if event.animationName is fadeOut
-      $(this)
-      .css(display: 'none')
-      .unbind(event.type, hideCallback)
-  
-  $(this)
-  .cssStop(fadeIn)
-  .cssAnimate(fadeOut, speed, easing, callback)
-  .bind(animationEnd, hideCallback)
+  oldCallback = animation.onComplete
+  animation.onComplete = ->
+    $(this).css 'display', 'none'
+    oldCallback.apply this, arguments
+    
+  $(this).cssStop(fadeIn).each (i, el) -> addAnimation el, animation
 
 jQuery.fn.cssFadeIn = (speed, easing, callback) ->
   {fadeIn, fadeOut} = jQuery.cssAnimations
   $(this)
-  .css(display: '')
   .cssStop(fadeOut)
+  .css('display', '')
   .cssAnimate(fadeIn, speed, easing, callback)
 
 jQuery.fn.cssStop = (animationName) ->
-  {animationEnd} = jQuery.cssAnimationEvents
-  $(this).each (i, el) ->
-    el = $(el)
-    if cssAnimations = el.data('cssAnimations')
-      animation = cssAnimations[animationName]
-      delete cssAnimations[animationName]
-      
-      if animation.onComplete?
-        # trigger animation end callback
-        ev = jQuery.Event animationEnd,
-          animationName: animation.name
-        el.trigger ev
-      
-      el.data({cssAnimations}).css(compileAnimations cssAnimations)
+  $(this).each (i, el) -> removeAnimation el, animationName
 
 jQuery.fn.cssAnimate = (name, speed, easing, callback) ->
-  {animationEnd} = jQuery.cssAnimationEvents
-  
-  optall = jQuery.speed speed, easing, callback
-  
-  animation = { name }
-  animation.duration = makeCSSTime optall.duration
-  animation.delay    = makeCSSTime optall.delay, 0
-  
-  if typeof optall.old is 'function'
-    callback = optall.old
-  else
-    callback = null
-  
-  animation.onComplete = (event) ->
-    if event.animationName is animation.name
-      $(this).unbind(event.type, animation.onComplete)
-      callback?.call this, event
-  
-  this.each (i, el) ->
-    cssAnimations = $(el).data('cssAnimations') ? {}
-    cssAnimations[animation.name] = animation
-    $(el)
-    .data({cssAnimations})
-    .css(compileAnimations cssAnimations)
-    .bind(animationEnd, animation.onComplete)
+  animation = createAnimation name, speed, easing, callback
+  this.each (i, el) -> addAnimation el, animation
