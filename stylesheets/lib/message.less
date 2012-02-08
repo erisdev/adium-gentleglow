@@ -140,5 +140,7 @@
   &.return_idle    { .fx-glowingText(@return-idle-color, @return-idle-shadow) }
   
   /* color strips for ops &c. */
-  /* TODO these */
+  &.half-op     .gg-messageInfo + .gg-messageInfo { border-left: 1px solid @half-op-color }
+  &.roomFounder .gg-messageInfo + .gg-messageInfo { border-left: 1px solid @founder-color }
+  // TODO the rest of these when I discover them because like hell Adium has any documentation
 }
