@@ -69,7 +69,7 @@ jQuery.fn.cssFadeOut = (speed, easing, callback) ->
   oldCallback = animation.onComplete
   animation.onComplete = ->
     $(this).css 'display', 'none'
-    oldCallback.apply this, arguments
+    oldCallback?.apply this, arguments
     
   $(this).cssStop(fadeIn).each (i, el) -> addAnimation el, animation
 
