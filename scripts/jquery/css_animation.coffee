@@ -1,4 +1,4 @@
-styleProperties =
+jQuery.styleProperties =
   name: 'webkitAnimationName'
   delay: 'webkitAnimationDelay'
   direction: 'webkitAnimationDirection'
@@ -7,7 +7,7 @@ styleProperties =
   fillStyle: 'webkitAnimationFillStyle'
   iterations: 'webkitAnimationIterationCount'
 
-eventNames =
+jQuery.eventNames =
   animationEnd: 'webkitAnimationEnd'
 
 jQuery.cssAnimations =
@@ -22,17 +22,34 @@ makeCSSTime = (time, def) ->
   else
     time
 
+compileAnimations = (animations) ->
+  {}.tap (css) ->
+    for own propertyName, styleName of jQuery.styleProperties
+      css[styleName] = (
+        for own name, animation of animations
+          value = animation[propertyName]
+          if propertyName == 'delay' or propertyName is 'duration'
+            makeCSSTime value, 0
+          else
+            value ? 'initial'
+      ).join ', '
+
+jQuery.event.props.push 'animationName'
+
 jQuery.fn.cssFadeOut = (speed, easing, callback) ->
   {fadeIn, fadeOut} = jQuery.cssAnimations
+  {animationEnd} = jQuery.eventNames
   
   hideCallback = (event) ->
-    if event.originalEvent.animationName is fadeOut
-      $(this).css(display: 'none').unbind(event.type, hideCallback)
+    if event.animationName is fadeOut
+      $(this)
+      .css(display: 'none')
+      .unbind(event.type, hideCallback)
   
   $(this)
   .cssStop(fadeIn)
   .cssAnimate(fadeOut, speed, easing, callback)
-  .bind(eventNames.animationEnd, hideCallback)
+  .bind(animationEnd, hideCallback)
 
 jQuery.fn.cssFadeIn = (speed, easing, callback) ->
   {fadeIn, fadeOut} = jQuery.cssAnimations
@@ -42,30 +59,44 @@ jQuery.fn.cssFadeIn = (speed, easing, callback) ->
   .cssAnimate(fadeIn, speed, easing, callback)
 
 jQuery.fn.cssStop = (animationName) ->
-  # TODO actually do this once multiple concurrent animations are supported
-  this
+  {animationEnd} = jQuery.eventNames
+  $(this).each (i, el) ->
+    el = $(el)
+    if cssAnimations = el.data('cssAnimations')
+      animation = cssAnimations[animationName]
+      delete cssAnimations[animationName]
+      
+      if animation.onComplete?
+        # trigger animation end callback
+        ev = jQuery.Event animationEnd,
+          animationName: animation.name
+        el.trigger ev
+      
+      el.data({cssAnimations}).css(compileAnimations cssAnimations)
 
-jQuery.fn.cssAnimate = (animationName, speed, easing, callback) ->
+jQuery.fn.cssAnimate = (name, speed, easing, callback) ->
+  {animationEnd} = jQuery.eventNames
+  
   optall = jQuery.speed speed, easing, callback
-  optall.duration = makeCSSTime optall.duration
-  optall.delay    = makeCSSTime optall.delay, 0
   
-  animation = {}
-  noAnimation = {}
+  animation = { name }
+  animation.duration = makeCSSTime optall.duration
+  animation.delay    = makeCSSTime optall.delay, 0
   
-  realCallback = (event) ->
-    $(this).unbind event.type, realCallback
-    if event.originalEvent.animationName is animationName
-      switch event.type
-        when eventNames.animationEnd
-          $(this).css noAnimation
-          optall.old.call this, event if typeof optall.old is 'function'
+  if typeof optall.old is 'function'
+    callback = optall.old
+  else
+    callback = null
   
-  animation[styleProperties.name] = animationName
-  noAnimation[styleProperties.name] = ''
+  animation.onComplete = (event) ->
+    if event.animationName is animation.name
+      $(this).unbind(event.type, animation.onComplete)
+      callback?.call this, event
   
-  for optionName, styleName of styleProperties when optall[optionName]?
-    animation[styleName] = "#{optall[optionName]}"
-    noAnimation[styleName] = ''
-  
-  $(this).bind(eventNames.animationEnd, realCallback).css(animation)
+  this.each (i, el) ->
+    cssAnimations = $(el).data('cssAnimations') ? {}
+    cssAnimations[animation.name] = animation
+    $(el)
+    .data({cssAnimations})
+    .css(compileAnimations cssAnimations)
+    .bind(animationEnd, animation.onComplete)
