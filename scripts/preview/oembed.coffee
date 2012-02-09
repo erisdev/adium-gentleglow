@@ -132,6 +132,9 @@ do ->
   provider 'Funny or Die', 'http://www.funnyordie.com/oembed',
     scheme: (uri) -> uri.isInDomain('funnyordie.com') and uri.globPath('/videos/*')
   
+  provider 'Instagram', 'http://api.instagram.com/oembed',
+    scheme: (uri) -> uri.isInDomain('instagr.am')
+  
   provider 'Kinomap', 'http://www.kinomap.com/oembed',
     scheme: (uri) -> uri.isInDomain('kinomap.com')
   
