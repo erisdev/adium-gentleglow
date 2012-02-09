@@ -82,7 +82,7 @@ do ->
     scheme: (uri) -> uri.isInDomain('youtube.com') or uri.host is 'youtu.be'
   
   provider 'Flickr', 'http://www.flickr.com/services/oembed/',
-    scheme: (uri) -> uri.isInDomain('flickr.com') and uri.globPath('/photos/*')
+    scheme: (uri) -> uri.isInDomain('flickr.com') and uri.globPath('/photos/**')
   
   provider 'Viddler', 'http://lab.viddler.com/services/oembed/',
     scheme: (uri) -> uri.isInDomain 'viddler.com'
@@ -94,7 +94,7 @@ do ->
     scheme: (uri) -> uri.isInDomain 'revision3.com'
   
   provider 'Hulu', 'http://www.hulu.com/api/oembed.{format}',
-    scheme: (uri) -> uri.isInDomain('hulu.com') and uri.globPath('/watch/*')
+    scheme: (uri) -> uri.isInDomain('hulu.com') and uri.globPath('/watch/**')
   
   provider 'Vimeo', 'http://www.vimeo.com/api/oembed.{format}',
     scheme: (uri) ->
