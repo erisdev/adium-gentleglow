@@ -5,7 +5,37 @@
 * Created 10 October 2010
 * Last Updated 19 January 2012
 
-## Using Embed.ly
+## Hacking
+
+If you'd like to start hacking on GentleGlow (and who wouldn't), you're going to need a recent version of Ruby and a few gems.
+
+### The bare necessities
+
+These are the gems that are absolutely required to compile.
+
+* coffee-script
+* json
+* rake
+* sass (for 1.5.0 and newer)
+* less (for v1.4.1 and older)
+
+You'll also need a copy of rsync, but that has come bundled with Mac OS X for as long as I can remember.
+
+### Test-driving your changes
+
+You'll probably want to install Sinatra if you plan to do any extensive hacking, because your choices are basically either that or run `rake install` and restart Adium every time you change something.
+
+Start the server with `rake mockup` and visit <http://localhost:4567> in your favorite browser, as long as it's Chrome or Safari.
+
+### Building and installing
+
+To build a tarball suitable for passing around to your friends, just run `rake package` and look in `build/` for the result.
+
+To install the message style automatically, use `rake install`.
+
+A quick `rake -T` will show the other available tasks.
+
+### Using Embed.ly
 
 Support for Embed.ly is now included in the source, but—in the interest of
 _not_ spreading around an API key—is disabled by default. To enable it, you
