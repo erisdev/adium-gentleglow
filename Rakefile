@@ -1,5 +1,5 @@
 require 'coffee-script'
-require 'less'
+require 'sass'
 require 'yaml'
 require 'json'
 
@@ -30,26 +30,13 @@ RESOURCES_DIR   = CONTENTS_DIR / 'Resources'
 COFFEE_FILES    = FileList['scripts/**/*.coffee']
 JS_FILES        = COFFEE_FILES.pathmap BUILD_DIR / '%X.js'
 
-VARIANT_FILES   = FileList[ ]
-LESS_FILES      = FileList['stylesheets/lib/**/*.less']
-LESS_PATH       = %w[ stylesheets/lib ]
+SASS_PATH       = %w[ stylesheets/lib ]
+SASS_FILES      = FileList['stylesheets/*.var.{scss,sass}', 'stylesheets/lib/**/*.{scss,sass}']
+VARIANT_FILES   = SASS_FILES.grep(/\.var\.sass$/).pathmap BUILD_DIR / '%{stylesheets/(.+)\.var,variants/\\1}X.css'
 
 PACKAGE_INFO['environment'] =
 PACKAGE_INFO['include-environment'].inject({}) do |vars, name|
   vars.merge! name => ENV[name]
-end
-
-PACKAGE_INFO['variants'].each do |variant_name, input_file|
-  output_file = BUILD_DIR / 'variants' / "#{variant_name}.css"
-  VARIANT_FILES << output_file
-  
-  file output_file => [input_file, *LESS_FILES, BUILD_DIR / 'variants'] do
-    $stderr.puts "Compile variant #{variant_name}"
-    
-    parser = Less::Parser.new :paths => LESS_PATH, :filename => output_file
-    tree = parser.parse File.read(input_file)
-    File.open(output_file, 'w') { |io| io.write tree.to_css }
-  end
 end
 
 Dir['lib/tasks/*.rake'].each { |f| load f }
@@ -133,6 +120,15 @@ end
 file BUILD_DIR / 'scripts/message-style.js' => 'package.yaml' do |t|
   puts "writing package info to #{t.name}"
   File.open(t.name, 'w') { |io| io.puts "window.MessageStyle = #{PACKAGE_INFO.to_json}" }
+end
+
+rule %r(\.css$) => [pathmap('%{^build/variants,stylesheets}d/%n.var.sass'), *SASS_FILES, BUILD_DIR / 'variants'] do |t|
+  dir = File.dirname t.name
+  mkdir_p dir unless File.exist? dir
+  
+  $stderr.puts "sass #{t.source} #{t.name}"
+  
+  Sass.compile_file t.source, t.name, :load_paths => SASS_PATH
 end
 
 rule %r(\.js$) => [pathmap("%{^build/,}d/%n.coffee"), BUILD_DIR / 'scripts'] do |t|

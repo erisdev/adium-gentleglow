@@ -1,0 +1,15 @@
+#mentions
+  position : fixed
+  left     : 0
+  bottom   : 0
+  height   : 1.5em
+  width    : 40%
+  
+  opacity : 0.5
+  
+  -webkit-transition: height 400ms 400ms cubic-bezier(0.6, 0, 0.8, 1), opacity 400ms 0s cubic-bezier(0.6, 0, 0.8, 1)
+  
+  &:hover,
+  &.ui-pinned
+    height : 10em
+    opacity : 1.0

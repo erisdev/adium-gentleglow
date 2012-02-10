@@ -61,7 +61,7 @@ created by one or more of that subreddit's admins.
 
 [Used with permission][ponythread].
 
-* `stylesheets/lib/preview/reddit-ponies.less`
+* `stylesheets/lib/preview/reddit-ponies.scss`
 
 [1337]: http://www.adiumxtras.com/index.php?a=xtras&xtra_id=4042
 [app-bits]: http://app-bits.com/

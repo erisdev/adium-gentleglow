@@ -15,5 +15,5 @@ include-files:
   - CHANGELOG.mdown
 
 variants:
-  RegularKind: stylesheets/regular-kind.less
-  WhiteWashed: stylesheets/white-washed.less
+  RegularKind: null
+  WhiteWashed: null

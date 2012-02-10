@@ -1,19 +1,10 @@
 require 'sinatra/base'
 require 'coffee-script'
 require 'json'
-require 'less'
+require 'sass'
 require 'open-uri'
 require 'uri'
 require 'yaml'
-
-class Tilt::LessTemplate
-  def prepare
-    # We're monkey patching this method to actually pass options to the new
-    # Less parser. The old parser is old and dumb, so forget it.
-    parser  = ::Less::Parser.new(options.merge :filename => eval_file, :line => line)
-    @engine = parser.parse(data)
-  end
-end
 
 class MessageStyleMockup < Sinatra::Base
   enable :logging
@@ -21,7 +12,7 @@ class MessageStyleMockup < Sinatra::Base
   set :public_folder, 'resources'
   
   set :coffee, :views => 'scripts'
-  set :less, :views => 'stylesheets', :paths => %w[ stylesheets/lib ]
+  set :sass, :views => 'stylesheets', :load_paths => %w[ stylesheets/lib ]
   
   # mockup-specific routes
   
@@ -70,8 +61,7 @@ class MessageStyleMockup < Sinatra::Base
   end
   
   get('/Variants/:variant.css') do
-    stylesheet = params[:variant].gsub(/(?<=[[:lower:]])(?=[[:upper:]])/, '-').downcase!
-    less stylesheet.to_sym
+    sass "#{params[:variant]}.var".to_sym
   end
   
   run!

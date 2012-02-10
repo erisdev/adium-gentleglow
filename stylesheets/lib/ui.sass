@@ -1,0 +1,42 @@
+$ui-z-panel: 1000
+$ui-z-console: 1500
+$ui-z-menu: 2000
+
+.ui-panel
+  display  : -webkit-box
+  overflow : hidden
+  z-index  : $ui-z-panel
+  
+  -webkit-box-orient : vertical
+
+  background  : $ui-panel-background
+  color       : $ui-text-color
+  font-family : "Optima", sans-serif
+  
+  border-radius : 0.2em
+
+.ui-panelHeader,
+.ui-panelFooter
+  display : block
+  margin  : 0
+  padding : 0.25em 1em
+  
+  -webkit-box-flex : 0
+
+.ui-panelHeader
+  border-bottom : 1px solid #888
+
+.ui-panelFooter
+  border-top : 1px solid #888
+
+.ui-panelContent
+  display    : block
+  margin     : 0
+  padding    : 0.5em
+  overflow-y : auto
+  
+  -webkit-box-flex : 1
+
+@import "ui-menu"
+@import "ui-console"
+@import "ui-mentions"

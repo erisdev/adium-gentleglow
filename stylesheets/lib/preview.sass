@@ -1,0 +1,42 @@
+.gg-previews:empty
+  display : none
+
+.gg-previews
+  argin  : 0 3em
+  
+  & > *
+    clear  : both
+    margin : 1em 0
+    
+    .gg-previewThumbnail
+      float  : left
+      margin : 0 0.5em 0 0
+      
+      img
+        max-height : 5em
+        height     : auto
+        max-width  : 5em
+        width      : auto
+    
+    .gg-previewSnippet
+      overflow : hidden
+    
+    .gg-previewTitle
+      margin : 0 0 0.5em 0
+      padding : 0
+      
+      overflow      : hidden
+      text-overflow : ellipsis
+      white-space   : nowrap
+      
+      font-size : medium
+    
+    .gg-previewInfo
+      margin  : 0
+      padding : 0
+      
+      font-size  : small
+      font-style : italic
+
+@import "preview/reddit"
+@import "preview/reddit-ponies"

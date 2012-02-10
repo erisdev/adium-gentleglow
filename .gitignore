@@ -2,4 +2,5 @@
 /Contents/Resources/css
 /Contents/Resources/js
 
+.sass-cache
 .DS_Store

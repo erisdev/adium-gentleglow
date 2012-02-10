@@ -1,0 +1,162 @@
+#debug-console
+  @extend .ui-panel
+  
+  position : fixed
+  right    : 0
+  bottom   : 0
+  left     : 0
+  height   : 100%
+  z-index  : $ui-z-console
+  
+  overflow-x : hidden
+  overflow-y : auto
+  
+  font-family : "Monaco"
+  font-size   : 10px
+  
+  .ui-consoleDump
+    width : 100%
+    
+    overflow-x : auto
+    overflow-y : hidden
+  
+  .ui-consoleBuffer
+    margin : 0.5em 0.5em 3em 0.5em
+  
+  .ui-consoleInput
+    position : fixed
+    padding  : 0.25em 0.5em
+    bottom   : 0.5em
+    left     : 0.5em
+    width    : 60%
+    
+    background : #000
+    color      : #fff
+    
+    border        : 1px solid #fff
+    border-radius : 0.5em
+    
+    font : inherit
+    
+    -webkit-transition : background 200ms ease-in-out, border 200ms ease-in-out, box-shadow 200ms ease-in-out, height 100ms ease-in-out
+    
+    &:focus
+      $color: #44c1e9
+      
+      outline : none
+      
+      background : darken($color, 50%)
+      border : 1px solid $color
+      
+      box-shadow : 0 0 10px $color, 0 0  5px $color inset
+
+$object-indent: 6em
+$array-indent: 3em
+
+.ui-console
+  
+  pre
+    margin  : 0
+    padding : 0
+    
+    font : inherit
+  
+  .ui-consoleError
+    color : #d42
+  .ui-consoleWarning
+    color : #db4
+  .ui-consoleInfo
+    color : #bdf
+  .ui-consoleDebug
+    color : #84d
+    
+  *::before,
+  *::after
+    color : #00ffbc
+  
+  .debug-object,
+  .debug-array
+    margin  : 0
+    padding : 0
+    
+    list-style : none
+  
+  .debug-object
+    &::before
+      content : " "
+    &::after
+      content : " }"
+    
+    .debug-objectEntry:not(:last-child)::after
+      content : ", "    
+    .debug-objectEntry
+      margin : 0 0 0 $object-indent
+    
+    .debug-objectKey,
+    .debug-objectValue
+      display : inline-block
+    
+    .debug-objectKey
+      float    : left
+      margin   : 0 0.5em 0 -$object-indent
+      width    : $object-indent
+      overflow : hidden
+      
+      color : #5789ff
+      
+      text-overflow : ellipsis
+      text-align    : right
+      
+      &::after
+        content : ": "
+  
+  .debug-array
+    &::before
+      content : "[ "
+    &::after
+      content : " ]"    
+    .debug-arrayEntry
+      margin : 0 0 0 $array-indent
+  
+  .debug-object,
+  .debug-array
+    display : inline-block
+  
+  .debug-object > .debug-objectEntry,
+  .debug-array  > .debug-arrayEntry
+    &:not(:last-child)::after
+      display : inline
+      content : ", "
+  
+  .debug-null,
+  .debug-undefined
+    color : #444
+  
+  .debug-boolean
+    color : #ff3854
+  
+  .debug-number
+    color : #0a9cff
+  
+  .debug-string
+    display : inline-block
+    
+    color      : #8eff57
+    background : #0f2621
+    
+    &::before,
+    &::after
+      content: """"
+    
+  .debug-collapsed
+    max-width  : 20em
+    
+    overflow      : hidden
+    text-overflow : ellipsis
+    
+    color      : #fd5ef0
+    background : #562d56
+    
+    &::before,
+    &::after
+      color : inherit

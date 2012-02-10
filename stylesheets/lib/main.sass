@@ -1,0 +1,43 @@
+@import "effects"
+@import "header"
+@import "message"
+@import "preview"
+@import "ui"
+
+body
+  margin  : 0
+  padding : 0
+  
+  background : $background
+  color      : #999
+  
+  overflow : hidden
+
+section
+  clear  : both
+  margin : auto 1em
+
+img:not([src])
+  display : none
+
+img.broken
+  background      : center no-repeat url(../images/fire.png)
+  background-size : contain
+
+*:link,
+*:visited
+  text-decoration : none
+
+*:link
+  @include fx-glowingText($link-color, $link-shadow)
+
+*:visited
+  @include fx-glowingText($visited-color, $visited-shadow)
+
+*:link:hover,
+*:visited:hover
+  text-decoration : underline
+
+*:link:active,
+*:visited:active
+  text-decoration : none
