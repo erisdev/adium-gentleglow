@@ -6,6 +6,8 @@ require 'open-uri'
 require 'uri'
 require 'yaml'
 
+require_relative 'markov_chatterbot'
+
 class MessageStyleMockup < Sinatra::Base
   enable :logging
   enable :lock
@@ -22,6 +24,14 @@ class MessageStyleMockup < Sinatra::Base
   
   get('/mockup/scripts/:script.js') do
     coffee params[:script].to_sym, :views => 'mockup/scripts'
+  end
+  
+  post('/chat') do
+    $markov_chainer.input params[:message]
+  end
+  
+  get('/chat') do
+    $markov_chainer.output
   end
   
   get('/ajax') do
@@ -62,6 +72,26 @@ class MessageStyleMockup < Sinatra::Base
   
   get('/Variants/:variant.css') do
     sass "#{params[:variant]}.var".to_sym
+  end
+  
+  # gross, but how else to do it?
+  $markov_chainer = MarkovChatterbot.new
+  
+  # build the chatterbot's lexicon from README and CHANGELOG
+  %w[README.mdown CHANGELOG.mdown].each do |filename|
+    File.readlines(filename).each do |line|
+      next if line.length == 0
+      next if line.match /^#/
+      next if line.match /^\[[^\]]+\]: /
+      
+      line.sub!  %r{^ \s* \* \s* }x, ''
+      line.gsub! %r{ \[ ( .+ ) \] (?: \[ .* \] | \( .+ \) ) }x, '\\1'
+      line.gsub! %r{ (?: \* | _ )+ }x, ''
+      
+      line.split(/ (?<= [\.\?\!] ) \s+ /x).each do |sentence|
+        $markov_chainer.input sentence
+      end
+    end
   end
   
   run!

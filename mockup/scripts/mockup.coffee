@@ -6,9 +6,13 @@ actions =
     sendFile encodeURI textField.val()
     textField.val ''
 
-user =
-  displayName: 'Orange Colander'
-  screenName: 'orangecolander'
+users =
+  bot:
+    displayName: 'Orange Colander'
+    screenName: 'orangecolander'
+  me:
+    displayName: 'Me'
+    screenName: 'myownself'
 
 $.get 'incoming/Content.html', (text) -> templates.message = text
 $.get 'Status.html', (text) -> templates.status = text  
@@ -53,13 +57,15 @@ fillTemplate = (template, data) ->
 
 containsWord = (text, word) -> ///\b#{word}\b///.test text
 
-sendMessage = (text, options = {}) ->
+appendMessage = (text, options = {}) ->
   type = options.type ? 'message'
+  user = options.user ? users.me
   
   classNames = [ type ]
   classNames.push 'mention' if containsWord text, user.screenName
   classNames.push options.status if type is 'status'
-  classNames.push if options.outgoing then 'outgoing' else 'incoming'
+  classNames.push 'outgoing' if options.outgoing
+  classNames.push 'incoming' if options.incoming
   
   data =
     time: formatTime()
@@ -70,8 +76,19 @@ sendMessage = (text, options = {}) ->
   
   html = fillTemplate templates.message, data
   messageView.appendMessage html
+  
+sendMessage = (text) ->
+  appendMessage text, outgoing: true, user: users.me
+  
+  $.post '/chat', message: text, ->
+    $.get '/chat', (text) -> receiveMessage text
+
+receiveMessage = (text) ->
+  appendMessage text, incoming: true, user: users.bot
 
 sendFile = (fileName, options = {}) ->
+  user = options.user ? users.me
+  
   html = fillTemplate templates.fileTransfer,
     sender: user.displayName
     senderScreenName: user.screenName
