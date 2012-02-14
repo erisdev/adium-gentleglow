@@ -38,7 +38,7 @@ class MessageStyleMockup < Sinatra::Base
     content_type = nil
     
     uri = URI.parse params[:_url]
-    uri.query = URI.encode_www_form params
+    uri.query = [uri.query, URI.encode_www_form(params)].join('&')
     
     open(uri) do |f|
       content_type = f.content_type
