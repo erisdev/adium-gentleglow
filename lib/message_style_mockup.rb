@@ -86,7 +86,6 @@ class MessageStyleMockup < Sinatra::Base
       
       line.sub!  %r{^ \s* \* \s* }x, ''
       line.gsub! %r{ \[ ( .+ ) \] (?: \[ .* \] | \( .+ \) ) }x, '\\1'
-      line.gsub! %r{ (?: \* | _ )+ }x, ''
       
       line.split(/ (?<= [\.\?\!] ) \s+ /x).each do |sentence|
         $markov_chainer.input sentence
