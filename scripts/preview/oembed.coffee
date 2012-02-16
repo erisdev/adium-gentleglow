@@ -5,12 +5,9 @@ class OEmbedProvider
   
   sendRequest: (uri, scraper) ->
     format = 'json'
-    $.ajax @endpoint.replace('{format}', format),
-      type: 'get',
-      dataType: 'json',
-      data: $.extend({ }, {url: "#{uri}", format}, @oEmbedOptions)
-      error: scraper.pass
-      success: scraper.embed
+    endpoint = @endpoint.replace '{format}', format
+    params = $.extend { format, url: "#{uri}" }, @oEmbedOptions
+    scraper.ajax endpoint, params, scraper.embed
   
   # This method is overridden in the constructor anyway.
   doesUriMatch: -> false 

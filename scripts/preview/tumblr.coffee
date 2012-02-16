@@ -9,27 +9,22 @@ class TumblrScraper extends Preview.BasicScraper
   scrape: ->
     api_key = MessageStyle['api-keys'].tumblr
     if id = @uri.path.match(POST_PATTERN)?[1]
-      $.ajax "http://api.tumblr.com/v2/blog/#{@uri.host}/posts",
-        type: 'get', dataType: 'json', error: @pass
-        data: { id, api_key }
-        success: (json) =>
-          post = json.response.posts[0]
-          blog = json.response.blog
-          switch post.type
-            when 'text'   then this.createTextPreview(post, blog)
-            when 'photo'  then this.createPhotoPreview(post, blog)
-            when 'quote'  then this.createQuotePreview(post, blog)
-            when 'link'   then this.createLinkPreview(post, blog)
-            when 'chat'   then this.createChatPreview(post, blog)
-            when 'audio'  then this.createAudioPreview(post, blog)
-            when 'video'  then this.createVideoPreview(post, blog)
-            when 'answer' then this.createAnswerPreview(post, blog)
-            else this.pass()
+      this.ajax "http://api.tumblr.com/v2/blog/#{@uri.host}/posts", { id, api_key }, (json) =>
+        post = json.response.posts[0]
+        blog = json.response.blog
+        switch post.type
+          when 'text'   then this.createTextPreview(post, blog)
+          when 'photo'  then this.createPhotoPreview(post, blog)
+          when 'quote'  then this.createQuotePreview(post, blog)
+          when 'link'   then this.createLinkPreview(post, blog)
+          when 'chat'   then this.createChatPreview(post, blog)
+          when 'audio'  then this.createAudioPreview(post, blog)
+          when 'video'  then this.createVideoPreview(post, blog)
+          when 'answer' then this.createAnswerPreview(post, blog)
+          else this.pass()
     else
-      $.ajax "http://api.tumblr.com/v2/blog/#{@uri.host}/info",
-        type: 'get', dataType: 'json', error: @pass
-        data: { id, api_key }
-        success: (json) => this.createBlogPreview(json.response.blog)
+      this.ajax "http://api.tumblr.com/v2/blog/#{@uri.host}/info", { id, api_key }, (json) =>
+        this.createBlogPreview(json.response.blog)
   
   createBlogPreview: (blog) ->
     this.createPreview

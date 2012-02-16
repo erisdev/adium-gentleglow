@@ -9,16 +9,14 @@ class TwitterScraper extends Preview.BasicScraper
   
   scrape: ->
     if id = (@uri.fragment ? @uri.path)?.match(TWEET_PATTERN)?[1]
-      $.ajax "http://api.twitter.com/1/statuses/show/#{id}.json?include_entities=true",
-        type: 'get', dataType: 'json', error: @pass
-        success: (tweet) =>
-          user = tweet.user
-          preview = @createPreview
-            title: "@#{user.screen_name}: #{tweet.text})"
-            thumbnail: tweet.user.profile_image_url
-            snippet: @parseEntities(tweet)
-          
-          # TODO add more information
+      this.ajax "http://api.twitter.com/1/statuses/show/#{id}.json", include_entities: true, (tweet) =>
+        user = tweet.user
+        preview = @createPreview
+          title: "@#{user.screen_name}: #{tweet.text})"
+          thumbnail: tweet.user.profile_image_url
+          snippet: @parseEntities(tweet)
+        
+        # TODO add more information
     else
       @pass()
   

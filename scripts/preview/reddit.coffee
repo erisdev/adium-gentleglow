@@ -20,14 +20,12 @@ class RedditScraper extends Preview.BasicScraper
   
   scrape: ->
     if id = @uri.path.match(COMMENT_PATTERN)?[1]
-      $.getJSON "http://reddit.com/by_id/t1_#{id}.json", (response) =>
+      this.ajax "http://reddit.com/by_id/t1_#{id}.json", {}, (response) =>
         comment = response.data.children[0].data
         # TODO show comment snippet
         @pass()
     else if id = @uri.path.match(POST_PATTERN)?[1]
-      $.ajax "http://reddit.com/by_id/t3_#{id}.json",
-        type: 'get', dataType: 'json', error: @pass
-        success: (response) =>
+      this.ajax "http://reddit.com/by_id/t3_#{id}.json", {}, (response) =>
           @createPostPreview response.data.children[0].data
     else
       @cancel()

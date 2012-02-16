@@ -62,6 +62,23 @@ class Preview.BasicScraper
     @isCancelled = true
     return
   
+  ajax: (uri, options, fn) ->
+    params = {}
+    for own key, value of options when not /^_/.test(key)
+      params[key] = value
+    
+    $.ajax uri,
+      type: 'get'
+      dataType: options._type ? 'json'
+      data: params
+      error: => this.pass()
+      success: (response) =>
+        try
+          fn response
+        catch ex
+          Console.error ex
+          this.pass()
+  
   createPreview: ({uri, title, thumbnail, snippet} = { }) ->
     preview = $(PREVIEW_TEMPLATE)
     

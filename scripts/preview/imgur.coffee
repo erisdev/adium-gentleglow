@@ -27,15 +27,13 @@ class ImgurScraper extends Preview.BasicScraper
       id = @uri.path.match(/// ([^/\.]+) (?: \. [^/\.]+ )? $ ///)?[1]
     
     if id?
-      $.ajax "http://api.imgur.com/2/image/#{id}",
-        type: 'get', dataType: 'json', error: @pass
-        success: (data) =>
-          { image, links } = data.image
-          @createPreview
-            uri: links.imgur_page
-            title: image.title ? "Imgur image #{image.hash}"
-            snippet: @createSnippet(image)
-            thumbnail: links.small_square
+      this.ajax "http://api.imgur.com/2/image/#{id}", {}, (data) =>
+        { image, links } = data.image
+        @createPreview
+          uri: links.imgur_page
+          title: image.title ? "Imgur image #{image.hash}"
+          snippet: @createSnippet(image)
+          thumbnail: links.small_square
     else
       @pass()
   
