@@ -6,6 +6,10 @@ window.resources.get = (path) ->
   resource = null
   $.ajax "/resources/#{path}",
     async: false
-    success: (data) -> resource = data
     error: (xhr, status, error) -> throw error
+    success: (data) ->
+      if /^\(?function\(/.test data
+        resource = window.eval "(#{data})"
+      else
+        resource = data
   resource
