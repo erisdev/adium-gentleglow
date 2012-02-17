@@ -45,7 +45,7 @@ Dir['lib/tasks/*.rake'].each { |f| load f }
 task :default => :compile
 
 desc 'compile scripts and stylesheets'
-task :compile => %w[ compile:scripts compile:stylesheets ]
+task :compile => %w[ compile:scripts compile:resources compile:stylesheets ]
 
 desc 'remove all build products'
 task :clean => %w[ clean:scripts clean:stylesheets clean:package ]
