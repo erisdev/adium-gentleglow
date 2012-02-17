@@ -6,6 +6,7 @@ require 'open-uri'
 require 'uri'
 require 'yaml'
 
+require_relative 'haml-coffee'
 require_relative 'markov_chatterbot'
 
 class MessageStyleMockup < Sinatra::Base
@@ -49,7 +50,12 @@ class MessageStyleMockup < Sinatra::Base
   get('/resources/*') do
     # find a file with the requested name and any extension
     path = Dir["resources/#{params[:splat].first}.*"].first
-    send_file path
+    type = File.extname(path)[1..-1].to_sym
+    puts type.inspect
+    case type
+    when :haml then HamlCoffee.compile File.read path
+    else send_file path
+    end
   end
   
   # message style routes
