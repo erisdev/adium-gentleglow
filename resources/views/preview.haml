@@ -1,0 +1,37 @@
+%article
+  .gg-previewThumbnail
+    %a{href: @uri}
+      %img{src: @thumbnail ? 'images/camera.png', title: @title, alt: @title}
+  %h1.gg-previewTitle
+    %a{href: @uri}= $e @title
+  %p.gg-previewInfo
+    - if @dimensions?
+      %span.gg-previewMediaDimensions= $e @dimensions.join('\u00d7')
+    - if @size?
+      %span.gg-previewMediaSize= "(#{$e @size} bytes)"
+    - if @animated
+      %span.gg-previewMediaAnimated animated
+    - if @fileType?
+      %span.gg-previewMediaType= $e @fileType
+    - if @score?
+      %span.gg-previewMediaScore= "#{$e @score} karma"
+    - if @views?
+      %span.gg-previewMediaViews= "#{$e @views} views"
+    - if @timestamp?
+      posted
+      %time.gg-timestamp{datetime: @timestamp, title: @timestamp.toLocaleString(), pubdate: true}
+        = @timestamp.toISOString()
+    - if @author?.name?
+      by
+      %a.gg-previewMediaAuthor{href: @author.uri}= $e @author.name
+    - if @section?.name?
+      to
+      %a.gg-previewMediaSection{href: @section.uri}= $e @section.name
+    - if @provider?.name?
+      via
+      %a.gg-previewMediaProvider{href: @provider.uri}= $e @provider.name
+    - if @source?.name?
+      from
+      %a.gg-previewMediaSource{href: @source.uri}= $e @source.name
+    
+  .gg-previewContent= @snippet

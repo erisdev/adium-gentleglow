@@ -40,7 +40,7 @@ class TumblrScraper extends Preview.BasicScraper
     this.createPreview
       uri: post.post_url
       title: this.createPostTitle(post.title, blog)
-      snippet: $(post.body)
+      snippet: post.body
       thumbnail: this.createBlogThumbnail(blog)
   
   # Photo Posts
@@ -48,16 +48,24 @@ class TumblrScraper extends Preview.BasicScraper
   
   createPhotoPreview: (post, blog) ->
     if post.photos.length > 1
+      photoset = true
       title = "photoset"
     else
+      photoset = false
       title = "photo"
+    
+    photo = post.photos[0].alt_sizes[0]
+    
+    for thumbnail in post.photos[0].alt_sizes
+      break if thumbnail.width < 200 or thumbnail.height < 200
     
     this.createPreview
       uri: post.post_url
       title: this.createPostTitle(title, blog)
-      snippet: $(post.caption)
       # TODO pick a suitably sized thumbnail image
-      thumbnail: post.photos[0].alt_sizes[0].url
+      thumbnail: thumbnail.url
+      snippet: post.caption
+      dimensions: [post.width, post.height]
   
   # Quote Posts
   ##
@@ -67,7 +75,7 @@ class TumblrScraper extends Preview.BasicScraper
       uri: post.post_url
       title: this.createPostTitle(post.text, blog)
       # TODO create quote snippet with attribution
-      snippet: $(post.text)
+      snippet: post.text
       thumbnail: this.createBlogThumbnail(blog)
   
   # Link Posts
@@ -77,19 +85,11 @@ class TumblrScraper extends Preview.BasicScraper
     this.createPreview
       uri: post.post_url
       title: this.createPostTitle(post.title, blog)
-      snippet: $(post.description)
+      snippet: post.description
       thumbnail: this.createBlogThumbnail(blog)
   
   # Chat Posts
   ##
-  
-  CHAT_TEMPLATE = '<ul class="tumblr-chat"></ul>'
-  CHAT_LINE_TEMPLATE = '''
-    <li>
-      <span class="tumblr-chat-name"></span>:
-      <span class="tumblr-chat-text"></span>
-    </li>
-  '''
   
   createChatPreview: (post, blog) ->
     if post.title? and post.title.length > 0
@@ -97,29 +97,16 @@ class TumblrScraper extends Preview.BasicScraper
     else
       title = "chat transcript"
     
+    chatTemplate = resources.get 'views/tumblr/chat'
+    
     this.createPreview
       uri: post.post_url
       title: this.createPostTitle(title, blog)
-      snippet: this.createChatSnippet(post, blog)
       thumbnail: this.createBlogThumbnail(blog)
-  
-  createChatSnippet: (post, blog) ->
-    $(CHAT_TEMPLATE).tap (chatSnippet) ->
-      for line in post.dialogue
-        lineSnippet = $(CHAT_LINE_TEMPLATE).appendTo(chatSnippet)
-        $('.tumblr-chat-name', lineSnippet).text line.name
-        $('.tumblr-chat-text', lineSnippet).text line.phrase
-      return
+      snippet: chatTemplate(dialogue: post.dialogue)
   
   # Audio Posts
   ##
-  
-  AUDIO_TEMPLATE = '''
-    <div class="tumblr-audio">
-      <div class="tumblr-player"></div>
-      <div class="tumblr-caption"></div>
-    </div>
-  '''
   
   createAudioPreview: (post, blog) ->
     if post.artist? and post.track_name?
@@ -132,64 +119,35 @@ class TumblrScraper extends Preview.BasicScraper
     this.createPreview
       uri: post.post_url
       title: this.createPostTitle(title, blog)
-      snippet: this.createAudioSnippet(post, blog)
       thumbnail: this.createBlogThumbnail(blog)
-  
-  createAudioSnippet: (post, blog) ->
-    $(AUDIO_TEMPLATE).tap (snippet) ->
-      # TODO figure out how to embed audio
-      # $('.tumblr-player',  snippet).html post.player
-      $('.tumblr-caption', snippet).html post.caption
+      snippet: post.caption
+      embed: post.player
   
   # Video Posts
   ##
-  
-  VIDEO_TEMPLATE = '''
-    <div class="tumblr-audio">
-      <div class="tumblr-player"></div>
-      <div class="tumblr-caption"></div>
-    </div>
-  '''
   
   createVideoPreview: (post, blog) ->
     this.createPreview
       uri: post.post_uri
       title: this.createPostTitle('video', blog)
-      snippet: this.createVideoSnippet(post, blog)
       thumbnail: this.createBlogThumbnail(blog)
-  
-  createVideoSnippet: (post, blog) ->
-    $(VIDEO_TEMPLATE).tap (snippet) ->
-      # TODO figure out how to embed video
-      # $('.tumblr-player',  snippet).html post.player[0].embed_code
-      $('.tumblr-caption', snippet).html post.caption
+      snippet: post.caption
+      embed: post.player[0].embed_code
   
   # Answer Posts
   ##
   
-  ANSWER_TEMPLATE = '''
-    <div class="tumblr-qa">
-      <p><a class="tumblr-asker">somebody</a> asked:</p>
-      <blockquote class="tumblr-question">what do?</blockquote>
-      <div class="tumblr-answer"></div>
-    </div>
-  '''
-  
   createAnswerPreview: (post, blog) ->
+    answerTemplate = resources.get 'views/tumblr/answer'
+    
     this.createPreview
       uri: post.post_uri
       title: this.createPostTitle("question from #{post.asking_name}", blog)
-      snippet: this.createAnswerSnippet(post, blog)
       thumbnail: this.createBlogThumbnail(blog)
-  
-  createAnswerSnippet: (post, blog) ->
-    $(ANSWER_TEMPLATE).tap (snippet) ->
-      $('.tumblr-asker', snippet)
-        .attr(href: post.asking_url)
-        .text(post.asking_name)
-      
-      $('.tumblr-question', snippet).html post.question
-      $('.tumblr-answer',   snippet).html post.answer
+      snippet: answerTemplate
+        asker: { name: post.asking_name, uri: post.asking_uri }
+        question: post.question
+        answer: post.answer
   
   # Utility Functions
   ##

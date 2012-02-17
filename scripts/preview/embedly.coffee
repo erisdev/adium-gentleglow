@@ -13,8 +13,8 @@ class EmbedlyScraper extends Preview.BasicScraper
       words: 37
     
     this.ajax 'http://api.embed.ly/1/oembed', params, (oembed) =>
-      preview = @createPreview
+      this.createPreview
         title: oembed.title
         thumbnail: oembed.thumbnail_url
-        snippet: oembed.description
+        snippet: oembed.description?.encodeEntities()
         embed: oembed.html

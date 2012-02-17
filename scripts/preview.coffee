@@ -20,22 +20,6 @@ Preview =
       scraperQueue.shift().scrapeOrPass()
 
 class Preview.BasicScraper
-  THROBBER_URI  = 'images/throbber.gif'
-  DEFAULT_THUMBNAIL = 'images/camera.png'
-  PREVIEW_TEMPLATE = '''
-    <article>
-      <div class="gg-previewThumbnail">
-        <a><img alt></a>
-      </div>
-      <div class="gg-previewSnippet">
-        <h1 class="gg-previewTitle">
-          <a>lorem ipsum</a>
-        </h1>
-        <div class="gg-previewContent"></div>
-      </div>
-    </article>
-  '''
-  
   @doesUriMatch: (uri) -> false
   
   constructor: (@queue, message, @uri, @title) ->
@@ -53,6 +37,7 @@ class Preview.BasicScraper
     return
   
   pass: =>
+    Console.debug "Preview: pass #{@constructor.name} for #{@uri}"
     if @queue?.length > 0
       @queue.shift().scrapeOrPass()
     return
@@ -79,28 +64,13 @@ class Preview.BasicScraper
           Console.error ex
           this.pass()
   
-  createPreview: ({uri, title, thumbnail, snippet} = { }) ->
-    preview = $(PREVIEW_TEMPLATE)
+  createPreview: (options = { }) ->
+    template = resources.get options.template ? 'views/preview'
     
-    uri ?= "#{@uri}"
-    title ?= @title
-    thumbnail ?= DEFAULT_THUMBNAIL
-    snippet ?= ''
+    options.uri ?= "#{@uri}"
+    options.title ?= @title
     
-    $('.gg-previewThumbnail a, .gg-previewTitle a', preview).attr title: "#{title}", href: uri
-    $('.gg-previewThumbnail img',         preview).attr title: "#{title}", src: thumbnail
-    
-    if title instanceof jQuery
-      $('.gg-previewTitle a', preview).empty().append title
-    else
-      $('.gg-previewTitle a', preview).text title
-    
-    if snippet instanceof jQuery
-      $('.gg-previewContent', preview).empty().append snippet
-    else
-      $('.gg-previewContent', preview).empty().append $('<p>').text("#{snippet}")
-    
-    preview.appendTo $('.gg-previews', @message)
+    @message.find('.gg-previews').append template(options)
   
   Object.notImplemented this, 'scrape'
 

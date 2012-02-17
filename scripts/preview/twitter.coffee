@@ -11,10 +11,12 @@ class TwitterScraper extends Preview.BasicScraper
     if id = (@uri.fragment ? @uri.path)?.match(TWEET_PATTERN)?[1]
       this.ajax "http://api.twitter.com/1/statuses/show/#{id}.json", include_entities: true, (tweet) =>
         user = tweet.user
-        preview = @createPreview
+        this.createPreview
           title: "@#{user.screen_name}: #{tweet.text})"
-          thumbnail: tweet.user.profile_image_url
+          thumbnail: user.profile_image_url
           snippet: @parseEntities(tweet)
+          timestamp: new Date(tweet.created_at)
+          author: { name: user.name, uri: "http://twitter.com/#{user.screen_name}" }
         
         # TODO add more information
     else
@@ -54,7 +56,6 @@ class TwitterScraper extends Preview.BasicScraper
       if index > lastIndex
         html += tweet.text.substring(lastIndex, index).escapeEntities()
       
-      # span? more hax.
-      $('<span>').html(html)
+      html
     else
       tweet.text.escapeEntities()
