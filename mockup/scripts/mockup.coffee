@@ -40,8 +40,11 @@ $ ->
     _ajax = jQuery.ajax
     jQuery.ajax = (url, options) ->
       [url, options] = [null, url] if typeof url is 'object'
-      (options.data ?= {})._url = url ? options.url
-      _ajax.call this, '/ajax', options
+      if /// https?:// ///.test url
+        (options.data ?= {})._url = url ? options.url
+        _ajax.call this, '/ajax', options
+      else
+        _ajax.call this, url, options
 
 formatTime = (date = new Date) ->
   [ date.getHours(), date.getMinutes() ].join(':')
