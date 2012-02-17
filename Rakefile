@@ -76,7 +76,7 @@ task :package => [:compile, PACKAGE_DIR, CONTENTS_DIR, RESOURCES_DIR] do
     end
   end
   
-  sh "rsync --recursive resources/ #{RESOURCES_DIR}"
+  sh "rsync --recursive files/ #{RESOURCES_DIR}"
   sh "rsync --recursive #{variants_dir} #{RESOURCES_DIR}" \
     if File.directory? variants_dir
   sh "rsync --recursive #{stylesheets_dir} #{RESOURCES_DIR}" \

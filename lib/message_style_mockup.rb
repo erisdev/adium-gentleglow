@@ -11,7 +11,7 @@ require_relative 'markov_chatterbot'
 class MessageStyleMockup < Sinatra::Base
   enable :logging
   enable :lock
-  set :public_folder, 'resources'
+  set :public_folder, 'files'
   
   set :coffee, :views => 'scripts'
   set :sass, :views => 'stylesheets', :load_paths => %w[ stylesheets/lib ]
@@ -51,10 +51,10 @@ class MessageStyleMockup < Sinatra::Base
   get('/message_view') do
     stuff = [
       '/', 'main.css', 'Variants/RegularKind.css',
-      (File.read('resources/Header.html') rescue ''),
-      (File.read('resources/Footer.html') rescue '')
+      (File.read('files/Header.html') rescue ''),
+      (File.read('files/Footer.html') rescue '')
     ]
-    File.read('resources/Template.html').gsub('%@') { stuff.shift }
+    File.read('files/Template.html').gsub('%@') { stuff.shift }
   end
   
   get('/scripts/message-style.js') do
