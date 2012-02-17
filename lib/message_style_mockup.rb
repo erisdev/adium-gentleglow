@@ -47,8 +47,9 @@ class MessageStyleMockup < Sinatra::Base
   end
   
   get('/resources/*') do
-    path = params[:splat].first
-    send_file "resources/#{path}"
+    # find a file with the requested name and any extension
+    path = Dir["resources/#{params[:splat].first}.*"].first
+    send_file path
   end
   
   # message style routes
