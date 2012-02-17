@@ -8,7 +8,6 @@ body
   margin  : 0
   padding : 0
   
-  background : $background
   color      : #999
   
   overflow : hidden
@@ -27,12 +26,6 @@ img.broken
 *:link,
 *:visited
   text-decoration : none
-
-*:link
-  @include fx-glowingText($link-color, $link-shadow)
-
-*:visited
-  @include fx-glowingText($visited-color, $visited-shadow)
 
 *:link:hover,
 *:visited:hover

@@ -70,8 +70,13 @@ class MessageStyleMockup < Sinatra::Base
     coffee params[:captures].first.to_sym
   end
   
+  get('/stylesheets/:stylesheet.css') do
+    sass params[:stylesheet].to_sym
+  end
+  
   get('/Variants/:variant.css') do
-    sass "#{params[:variant]}.var".to_sym
+    content_type :css
+    body %Q{ @import url("../stylesheets/#{params[:variant]}.var.css"); }
   end
   
   # gross, but how else to do it?

@@ -31,8 +31,9 @@ COFFEE_FILES    = FileList['scripts/**/*.coffee']
 JS_FILES        = COFFEE_FILES.pathmap BUILD_DIR / '%X.js'
 
 SASS_PATH       = %w[ stylesheets/lib ]
-SASS_FILES      = FileList['stylesheets/*.var.{scss,sass}', 'stylesheets/lib/**/*.{scss,sass}']
-VARIANT_FILES   = SASS_FILES.grep(/\.var\.sass$/).pathmap BUILD_DIR / '%{stylesheets/(.+)\.var,variants/\\1}X.css'
+SASS_FILES      = FileList['stylesheets/**/*.{scss,sass}']
+CSS_FILES       = FileList['stylesheets/*.{scss,sass}'].pathmap BUILD_DIR / '%X.css'
+VARIANT_FILES   = FileList['stylesheets/*.var.{scss,sass}'].pathmap BUILD_DIR / 'Variants/%{.var$,}n.css'
 
 PACKAGE_INFO['environment'] =
 PACKAGE_INFO['include-environment'].inject({}) do |vars, name|
@@ -44,18 +45,18 @@ Dir['lib/tasks/*.rake'].each { |f| load f }
 task :default => :compile
 
 desc 'compile scripts and stylesheets'
-task :compile => %w[ compile:scripts compile:variants ]
+task :compile => %w[ compile:scripts compile:stylesheets ]
 
 desc 'remove all build products'
-task :clean => %w[ clean:scripts clean:variants clean:package ]
+task :clean => %w[ clean:scripts clean:stylesheets clean:package ]
 
 namespace :compile do
   
   desc 'compile scripts'
   task :scripts => [*JS_FILES, BUILD_DIR / 'scripts/message-style.js']
   
-  desc 'compile variant stylesheets'
-  task :variants => VARIANT_FILES
+  desc 'compile stylesheets'
+  task :stylesheets => [*CSS_FILES, *VARIANT_FILES]
   
 end
 
@@ -64,7 +65,8 @@ task :package => [:compile, PACKAGE_DIR, CONTENTS_DIR, RESOURCES_DIR] do
   package_name    = PACKAGE_INFO['package-name']
   package_version = PACKAGE_INFO['package-version']
   scripts_dir     = BUILD_DIR / 'scripts'
-  variants_dir    = BUILD_DIR / 'variants'
+  variants_dir    = BUILD_DIR / 'Variants'
+  stylesheets_dir = BUILD_DIR / 'stylesheets'
   
   PACKAGE_INFO['include-files'].each do |file|
     if file.is_a? Hash
@@ -77,6 +79,8 @@ task :package => [:compile, PACKAGE_DIR, CONTENTS_DIR, RESOURCES_DIR] do
   sh "rsync --recursive resources/ #{RESOURCES_DIR}"
   sh "rsync --recursive #{variants_dir} #{RESOURCES_DIR}" \
     if File.directory? variants_dir
+  sh "rsync --recursive #{stylesheets_dir} #{RESOURCES_DIR}" \
+    if File.directory? stylesheets_dir
   sh "rsync --recursive #{scripts_dir} #{RESOURCES_DIR}" \
     if File.directory? scripts_dir
   
@@ -98,8 +102,8 @@ namespace :clean do
   desc 'remove compiled scripts'
   task(:scripts) { system 'rm', '-f', *JS_FILES.existing }
   
-  desc 'remove compiled variant stylesheets'
-  task(:variants) { system 'rm', '-f', *VARIANT_FILES.existing }
+  desc 'remove compiled stylesheets'
+  task(:stylesheets) { system 'rm', '-f', *CSS_FILES.existing }
   
   desc 'remove distribution package'
   task(:package) { system 'rm', '-R', 'build' if File.exist? 'build' }
@@ -108,7 +112,8 @@ end
 
 directory BUILD_DIR
 directory BUILD_DIR / 'scripts'
-directory BUILD_DIR / 'variants'
+directory BUILD_DIR / 'stylesheets'
+directory BUILD_DIR / 'Variants'
 directory PACKAGE_DIR
 directory CONTENTS_DIR
 directory RESOURCES_DIR
@@ -122,12 +127,18 @@ file BUILD_DIR / 'scripts/message-style.js' => 'package.yaml' do |t|
   File.open(t.name, 'w') { |io| io.puts "window.MessageStyle = #{PACKAGE_INFO.to_json}" }
 end
 
-rule %r(\.css$) => [pathmap('%{^build/variants,stylesheets}d/%n.var.sass'), *SASS_FILES, BUILD_DIR / 'variants'] do |t|
-  dir = File.dirname t.name
-  mkdir_p dir unless File.exist? dir
+rule %r(Variants/.+\.css$) => BUILD_DIR / 'Variants' do |t|
+  variant = t.name.basename '.css'
   
+  $stderr.puts "Variant #{variant} => #{t.name}"
+  
+  File.open(t.name, 'w') do |io|
+    io.puts %Q{@import url("../stylesheets/#{variant}.var.css");}
+  end
+end
+
+rule %r(stylesheets/.+\.css$) => [pathmap('%{^build/,}d/%n.sass'), pathmap('%d'), *SASS_FILES] do |t|
   $stderr.puts "sass #{t.source} #{t.name}"
-  
   Sass.compile_file t.source, t.name, :load_paths => SASS_PATH
 end
 

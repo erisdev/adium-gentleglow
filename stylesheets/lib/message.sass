@@ -1,3 +1,5 @@
+@import "ui"
+
 #gg-chatBuffer
   position : absolute
   padding  : 2em 0 2em 0
@@ -102,47 +104,11 @@
     opacity : 0.5
   
   &.status, &.event
-    @include fx-glowingText($event-color, $event-shadow)
-    
     margin  : 0.5em 1em
     padding : 0.5em 0
-    
-    background : $event-background
     
     -webkit-border-radius : 5px
     
     & > .gg-messageBody
       text-indent : 1em
       font-style  : italic
-  
-  
-@mixin gg-messageColor($type, $textColor, $shadowColor: $textColor)
-  .gg-message.#{$type}
-    @include fx-glowingText($textColor, $shadowColor)
-
-/* text colors for message types */
-@include gg-messageColor("outgoing",       $outgoing-color,    $outgoing-shadow)
-@include gg-messageColor("incoming",       $incoming-color,    $incoming-shadow)
-@include gg-messageColor("away",           $away-color,        $away-shadow)
-@include gg-messageColor("idle",           $idle-color,        $idle-shadow)
-@include gg-messageColor("offline",        $offline-color,     $offline-shadow)
-@include gg-messageColor("disconnected",   $disconnect-color,  $disconnect-shadow)
-@include gg-messageColor("contact_left",   $depart-color,      $depart-shadow)
-@include gg-messageColor("online",         $online-color,      $online-shadow)
-@include gg-messageColor("connected",      $connect-color,     $connect-shadow)
-@include gg-messageColor("contact_joined", $join-color,        $join-shadow)
-@include gg-messageColor("error",          $error-color,       $error-shadow)
-@include gg-messageColor("timed_out",      $time-out-color,    $time-out-shadow)
-@include gg-messageColor("return_away",    $return-away-color, $return-away-shadow)
-@include gg-messageColor("return_idle",    $return-idle-color, $return-idle-shadow)
-
-/* color strips for ops &c. */
-@mixin gg-rankColor($rank, $color)
-  .gg-message.#{$rank} .gg-messageInfo + .gg-messageInfo
-    border-left: 1px solid $color
-
-@include gg-rankColor("half-op",     $half-op-color)
-@include gg-rankColor("op",          $operator-color)
-@include gg-rankColor("roomFounder", $founder-color)
-
-// TODO the rest of these when I discover them because like hell Adium has any documentation

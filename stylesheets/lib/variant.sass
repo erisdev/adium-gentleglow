@@ -1,0 +1,51 @@
+@import "effects"
+
+@mixin var-textColor($textColor, $shadowColor)
+  color       : $textColor
+  text-shadow : $var-textShadow $shadowColor
+  
+@mixin var-messageColor($type, $textColor, $shadowColor)
+  .gg-message.#{$type}
+    @include var-textColor($textColor, $shadowColor)
+
+/* color strips for ops &c. */
+@mixin var-rankColor($rank, $color)
+  .gg-message.#{$rank} .gg-messageInfo + .gg-messageInfo
+    border-left: 1px solid $color
+
+body
+  background: $var-background
+
+*:link
+  @include var-textColor($var-linkColor, $var-linkShadow)
+
+*:visited
+  @include var-textColor($var-visitedColor, $var-visitedShadow)
+
+.gg-message
+  &.event, &.status
+    background: $var-eventBackground
+
+/* text colors for message types */
+@include var-messageColor("status",         $var-eventColor,      $var-eventShadow)
+@include var-messageColor("outgoing",       $var-outgoingColor,   $var-outgoingShadow)
+@include var-messageColor("incoming",       $var-incomingColor,   $var-incomingShadow)
+@include var-messageColor("away",           $var-awayColor,       $var-awayShadow)
+@include var-messageColor("idle",           $var-idleColor,       $var-idleShadow)
+@include var-messageColor("offline",        $var-offlineColor,    $var-offlineShadow)
+@include var-messageColor("disconnected",   $var-disconnectColor, $var-disconnectShadow)
+@include var-messageColor("contact_left",   $var-departColor,     $var-departShadow)
+@include var-messageColor("online",         $var-onlineColor,     $var-onlineShadow)
+@include var-messageColor("connected",      $var-connectColor,    $var-connectShadow)
+@include var-messageColor("contact_joined", $var-joinColor,       $var-joinShadow)
+@include var-messageColor("error",          $var-errorColor,      $var-errorShadow)
+@include var-messageColor("timed_out",      $var-timeOutColor,    $var-timeOutShadow)
+@include var-messageColor("return_away",    $var-returnAwayColor, $var-returnAwayShadow)
+@include var-messageColor("return_idle",    $var-returnIdleColor, $var-returnIdleShadow)
+
+@include var-rankColor("half-op",     $var-halfOpColor)
+@include var-rankColor("op",          $var-operatorColor)
+@include var-rankColor("roomFounder", $var-founderColor)
+
+// TODO the rest of these when I discover them because like hell Adium has any documentation
+
