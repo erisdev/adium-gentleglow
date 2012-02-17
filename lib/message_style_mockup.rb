@@ -46,6 +46,11 @@ class MessageStyleMockup < Sinatra::Base
     end
   end
   
+  get('/resources/*') do
+    path = params[:splat].first
+    send_file "resources/#{path}"
+  end
+  
   # message style routes
   
   get('/message_view') do
@@ -64,6 +69,10 @@ class MessageStyleMockup < Sinatra::Base
       vars.merge! name => ENV[name]
     end
     "window.MessageStyle = #{info.to_json};"
+  end
+  
+  get('/scripts/resources.js') do
+    coffee :resources, :views => 'mockup/scripts'
   end
   
   get(%r'/scripts/(.+).js') do
