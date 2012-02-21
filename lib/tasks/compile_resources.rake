@@ -5,13 +5,14 @@ require_relative '../haml-coffee'
 RESOURCE_FILES = FileList['resources/**/*']
 
 namespace :compile do
-  task :resources => BUILD_DIR / 'scripts/resources.js'
+  task :resources => 'build/scripts/resources.js'
 end
 
-file BUILD_DIR / 'scripts/resources.js' => RESOURCE_FILES do |t|
-  mkdir_p BUILD_DIR / 'scripts'
-
-  $stderr.puts "Compiling resources to #{t.name}"
+file 'build/scripts/resources.js' => [
+  *RESOURCE_FILES,
+  pathmapper('%d/')
+] do |t|
+  puts "Compiling resources to #{t.name}"
   
   File.open(t.name, 'w') do |io|
     io.puts '(function() {'
