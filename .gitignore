@@ -1,6 +1,6 @@
 /build
-/Contents/Resources/css
-/Contents/Resources/js
+/dist
+/*.tar.bz2
 
 .sass-cache
 .DS_Store
