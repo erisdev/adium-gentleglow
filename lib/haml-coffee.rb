@@ -1,6 +1,8 @@
 require 'execjs'
 require 'coffee-script'
 
+require_relative 'haml-coffee/haml_coffee_template.rb'
+
 module HamlCoffee
   HAML_COFFEE_JS = File.expand_path 'haml-coffee/hamlcoffee.js', File.dirname(__FILE__)
   
