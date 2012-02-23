@@ -12,8 +12,12 @@ class String
   
 end
 
-def pathmapper spec
-  proc { |file| file.pathmap spec }
+def pathmapper spec, options = {}
+  if options[:any_extension]
+    proc { |filename| Dir["#{filename.pathmap(spec)}{,.*}"].first }
+  else
+    proc { |filename| filename.pathmap spec }
+  end
 end
 
 PACKAGE_INFO = YAML.load_file 'package.yaml'

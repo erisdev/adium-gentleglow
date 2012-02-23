@@ -1,16 +1,34 @@
 require 'coffee-script'
+require 'tilt'
+require 'yaml'
 
 require_relative '../haml-coffee'
 
-RESOURCE_FILES = FileList['resources/**/*']
+RESOURCE_IN_FILES = FileList['resources/**/*.*']
+RESOURCE_OUT_FILES = RESOURCE_IN_FILES.pathmap 'build/%X'
 
-namespace :compile do
-  task :resources => 'build/scripts/resources.js'
+common_deps = [
+  pathmapper('%{^build/,}X', :any_extension => true),
+  pathmapper('%d/')
+]
+
+rule %r(/resources/.+\.yaml) => common_deps do |t|
+  puts "[YAML] #{t.source} => #{t.name}"
+  File.open(t.name, 'w') { |io| io << YAML.load_file(t.source).to_json }
+end
+
+rule %r(/resources/) => common_deps do |t|
+  template = Tilt.new(t.source)
+  
+  type = template.class.name.match(/ (?: :: )? (\w+) Template /x)[1]
+  puts "[#{type}] #{t.source} => #{t.name}"
+  
+  File.open(t.name, 'w') { |io| io << template.render }
 end
 
 file 'build/scripts/resources.js' => [
-  *RESOURCE_FILES,
-  pathmapper('%d/')
+  *RESOURCE_OUT_FILES,
+  'build/scripts/'
 ] do |t|
   puts "Compiling resources to #{t.name}"
   
@@ -19,21 +37,28 @@ file 'build/scripts/resources.js' => [
     io.puts '  var res;'
     io.puts '  this.resources = res = new ResourceManager();'
     
-    RESOURCE_FILES.each do |source|
+    RESOURCE_OUT_FILES.each do |source|
       next unless File.file? source
       
-      data = File.read source
-      keypath = source.pathmap '%{^resources/,}d/%n'
-      
-      value = case File.extname(source)[1..-1].to_sym
-      when :haml then HamlCoffee.compile data, :filename => source
-      when :json then data # copy JSON verbatim
-      else data.to_json
-      end
-      
-      io.puts "  res.register(#{keypath.to_json}, #{value});"
+      keypath = source.pathmap '%{^build/resources/,}X'
+      io.puts "  res.register(#{keypath.to_json}, #{File.read source});"
     end
     
     io.puts '})()'
+  end
+end
+
+task :compile => 'compile:resources'
+task :clean => 'clean:resources'
+
+namespace :compile do
+  desc 'compile resources'
+  task :resources => 'build/scripts/resources.js'
+end
+
+namespace :clean do
+  desc 'remove compiled resources'
+  task :resources do
+    rm_rf 'build/resources'
   end
 end
