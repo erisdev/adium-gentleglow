@@ -51,11 +51,7 @@ class MessageStyleMockup < Sinatra::Base
     # find a file with the requested name and any extension
     path = Dir["resources/#{params[:splat].first}.*"].first
     type = File.extname(path)[1..-1].to_sym
-    puts type.inspect
-    case type
-    when :haml then HamlCoffee.compile File.read path
-    else send_file path
-    end
+    Tilt.new(path).render
   end
   
   # message style routes
@@ -69,17 +65,36 @@ class MessageStyleMockup < Sinatra::Base
     File.read('files/Template.html').gsub('%@') { stuff.shift }
   end
   
-  get('/scripts/message-style.js') do
+  get('/scripts/modules.js') do
+    output = []
+    
+    Dir['scripts/**/*.coffee'].reject{ |fn| /\b_/ =~ fn }.each do |filename|
+      module_name = filename.match(%r(scripts/(.+)\.coffee$))[1]
+      output << <<-"END_JS"
+        define(#{module_name.to_json}, function(global, module, exports, require) {
+          #{coffee module_name.to_sym}
+        });
+      END_JS
+    end
+    
     info = YAML.load_file 'package.yaml'
     info['environment'] =
     info['include-environment'].inject({}) do |vars, name|
       vars.merge! name => ENV[name]
     end
-    "window.MessageStyle = #{info.to_json};"
-  end
-  
-  get('/scripts/resources.js') do
-    coffee :resources, :views => 'mockup/scripts'
+    
+    output << 'define("message_style", function(global, module, exports, require) {'
+    info.each do |key, value|
+      output << "  exports[#{key.to_json}] = #{value.to_json};"
+    end
+    output << '});'
+    
+    output << 'define("resources", function(global, module, exports, require) {'
+    output << coffee(:resources, :views => 'mockup/scripts')
+    output << '});'
+    
+    content_type 'text/javascript'
+    output.join "\n"
   end
   
   get(%r'/scripts/(.+).js') do

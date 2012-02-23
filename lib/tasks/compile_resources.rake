@@ -33,9 +33,9 @@ file 'build/scripts/resources.js' => [
   puts "Compiling resources to #{t.name}"
   
   File.open(t.name, 'w') do |io|
-    io.puts '(function() {'
-    io.puts '  var res;'
-    io.puts '  this.resources = res = new ResourceManager();'
+    io.puts 'var res, ResourceManager;'
+    io.puts 'ResourceManager = require("resource_manager").ResourceManager;'
+    io.puts 'exports.resources = res = new ResourceManager();'
     
     RESOURCE_OUT_FILES.each do |source|
       next unless File.file? source
@@ -43,8 +43,6 @@ file 'build/scripts/resources.js' => [
       keypath = source.pathmap '%{^build/resources/,}X'
       io.puts "  res.register(#{keypath.to_json}, #{File.read source});"
     end
-    
-    io.puts '})()'
   end
 end
 

@@ -1,4 +1,8 @@
-Preview =
+{Uri} = require 'uri'
+{Console} = require 'console'
+{resources} = require 'resources'
+
+$.extend exports,
   scrapers: [ ]
   
   register: (scraper) ->
@@ -19,7 +23,7 @@ Preview =
     if scraperQueue.length > 0
       scraperQueue.shift().scrapeOrPass()
 
-class Preview.BasicScraper
+class exports.BasicScraper
   @doesUriMatch: (uri) -> false
   
   constructor: (@queue, message, @uri, @title) ->
@@ -73,14 +77,3 @@ class Preview.BasicScraper
     @message.find('.gg-previews').append template(options)
   
   Object.notImplemented this, 'scrape'
-
-window.Preview = Preview
-
-$(window).bind 'adium:message', (event) ->
-  message = event.message.model()
-  unless message.isHistory()
-    message.find('a')
-    .each( (i) -> Preview.loadPreviews event.message, this )
-    .filter( (i) -> $(@).text() is $(@).attr('href') )
-    .text( (i, text) -> text.replace /// \w+ :// ([^/]+ (?: / .{1,10} )? ) .* ///, '$1\u2026' )
-    .addClass('shortened')

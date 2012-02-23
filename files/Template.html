@@ -11,38 +11,15 @@
 		<script type="text/javascript" src="scripts/ext/haml-coffee-helpers.js"></script>
 		<script type="text/javascript" src="scripts/ext/math.uuid.js"></script>
 		
-		<!-- bootstrap scripts -->
-		<script type="text/javascript" src="scripts/bootstrap.js"></script>
-		<script type="text/javascript" src="scripts/message-style.js"></script>
-		<script type="text/javascript" src="scripts/utilities.js"></script>
-		<script type="text/javascript" src="scripts/uri.js"></script>
-
-		<!-- custom jQuery plugins -->
-		<script type="text/javascript" src="scripts/jquery/css_animation.js"></script>
-		
-		<!-- data models -->
-		<script type="text/javascript" src="scripts/model.js"></script>
-		
-		<!-- compiled resources -->
-		<script type="text/javascript" src="scripts/resource_manager.js"></script>
-		<script type="text/javascript" src="scripts/resources.js"></script>
-		
-		<!-- general subsystems -->
-		<script type="text/javascript" src="scripts/menu.js"></script>
-		<script type="text/javascript" src="scripts/console.js"></script>
-		<script type="text/javascript" src="scripts/file_transfer.js"></script>
-		<script type="text/javascript" src="scripts/mentions.js"></script>
-		<script type="text/javascript" src="scripts/message.js"></script>
-		
-		<!-- link previews -->
-		<script type="text/javascript" src="scripts/preview.js"></script>
-		<script type="text/javascript" src="scripts/preview/oembed.js"></script>
-		<script type="text/javascript" src="scripts/preview/imgur.js"></script>
-		<script type="text/javascript" src="scripts/preview/reddit.js"></script>
-		<script type="text/javascript" src="scripts/preview/tumblr.js"></script>
-		<script type="text/javascript" src="scripts/preview/twitter.js"></script>
-		<script type="text/javascript" src="scripts/preview/embedly.js"></script>
-		
+    <!-- concatenated modules -->
+    <script type="text/javascript" src="scripts/_require.js"></script>
+    <script type="text/javascript" src="scripts/modules.js"></script>
+    <script type="text/javascript">
+      run('bootstrap');
+      run('utilities');
+      run('main');
+    </script>
+    
     <style type="text/css" media="screen,print">
       @import url("stylesheets/main.css");
     </style>

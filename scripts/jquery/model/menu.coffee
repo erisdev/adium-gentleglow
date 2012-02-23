@@ -1,3 +1,5 @@
+require 'jquery/model'
+
 class $.model.Menu extends $.model.BaseModel
   @property 'title', '.ui-menuHeader'
   
@@ -36,17 +38,3 @@ class $.model.Menu extends $.model.BaseModel
       if typeof fn is 'function'
       then link.click(fn)
       else link.attr(href: fn)
-
-$('.ui-menu .ui-menuHeader').live 'click', (event) ->
-  $(this).closest('.ui-menu').model().togglePinned()
-
-$ ->
-  currentVariantPattern = /// url\( "? variants/ ([^\s"]+) \.css "? \) ///i
-  
-  $('#main-menu').model().addSelect 'variant',
-    values: MessageStyle.variants.getOwnKeys(),
-    defaultValue: $('#mainStyle').text().match(currentVariantPattern)?[1]
-  , ->
-    $('#mainStyle').text("""@import url("Variants/#{$(this).val()}.css");""")
-    $('#main-menu').model().unpin()
-    scrollToBottom()

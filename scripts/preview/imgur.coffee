@@ -1,6 +1,6 @@
-class ImgurScraper extends Preview.BasicScraper
-  Preview.register this
-  
+{BasicScraper} = require 'preview'
+
+class exports.ImgurScraper extends BasicScraper
   @doesUriMatch: (uri) ->
     if uri.host is 'imgur.com' or uri.host is 'i.imgur.com'
       isAlbum = uri.globPath '/a/**'

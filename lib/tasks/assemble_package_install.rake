@@ -14,7 +14,7 @@ def template_file template_path, output_path
 end
 
 desc 'assemble the message style bundle for packaging or installation'
-task :assemble => :compile do
+task :assemble => [:compile, 'dist/'] do
   package_name    = PACKAGE_INFO['package-name']
   package_version = PACKAGE_INFO['package-version']
   
@@ -37,7 +37,9 @@ task :assemble => :compile do
   sh "rsync --recursive files/ #{resources_dir}"
   sh "rsync --recursive build/Variants #{resources_dir}"
   sh "rsync --recursive build/stylesheets #{resources_dir}"
-  sh "rsync --recursive build/scripts #{resources_dir}"
+  
+  cp 'build/scripts/_require.js', resources_dir/'scripts'
+  cp 'build/scripts/modules.js', resources_dir/'scripts'
 end
 
 desc 'package for distribution'

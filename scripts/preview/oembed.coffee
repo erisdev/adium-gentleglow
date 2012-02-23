@@ -1,4 +1,6 @@
-class OEmbedProvider
+{BasicScraper} = require 'preview'
+
+class exports.OEmbedProvider
   constructor: (@name, @endpoint, options = { }) ->
     @doesUriMatch = options.scheme
     @oEmbedOptions = options.oEmbedOptions ? { }
@@ -12,14 +14,12 @@ class OEmbedProvider
   # This method is overridden in the constructor anyway.
   doesUriMatch: -> false 
 
-class OEmbedScraper extends Preview.BasicScraper
-  Preview.register this
-  
+class exports.OEmbedScraper extends BasicScraper
   @SUPPORTED_TYPES = ['video', 'photo']
   @PROVIDERS = { }
   
   @registerProvider = (name, endpoint, options) ->
-    @PROVIDERS[name] = new OEmbedProvider name, endpoint, options
+    @PROVIDERS[name] = new exports.OEmbedProvider name, endpoint, options
   
   # This scraper is optimistic because its scope is so broad. Now that
   # scrapers are chainable, saying yes here doesn't necessarily prevent
@@ -49,7 +49,7 @@ class OEmbedScraper extends Preview.BasicScraper
       @pass()
   
 do ->
-  provider = -> OEmbedScraper.registerProvider arguments...
+  provider = -> exports.OEmbedScraper.registerProvider arguments...
   
   # List of providers found at <http://www.oembed.com/#section7>.
   ##
