@@ -13,6 +13,14 @@ def template_file template_path, output_path
   File.open(output_path, 'w') { |io| io.write output }
 end
 
+def uglify?
+  unless defined? @uglify
+    @uglify = ( %w[ true yes 1 ].include? ENV['uglify'] and defined? Uglifier )
+  else
+    @uglify
+  end
+end
+
 desc 'assemble the message style bundle for packaging or installation'
 task :assemble => [:compile, 'dist/'] do
   begin
@@ -58,7 +66,7 @@ task :assemble => [:compile, 'dist/'] do
     if File.exist?(target) and File.mtime(target) > File.mtime(source)
       puts "[SKIP] #{source}"
       next
-    elsif source.extname == '.js' and defined? Uglifier
+    elsif uglify? and source.extname == '.js'
       puts "[Uglifier] #{source} => #{target}"
       File.open(target, 'w') { |io| io << Uglifier.compile(File.read source) }
     else
