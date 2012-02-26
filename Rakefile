@@ -6,6 +6,14 @@ class String
     File.join self, other.to_s
   end
   
+  def extname
+    File.extname self
+  end
+  
+  def dirname
+    File.dirname self
+  end
+  
   def basename *args
     File.basename self, *args
   end
