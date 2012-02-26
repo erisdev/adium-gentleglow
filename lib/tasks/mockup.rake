@@ -1,16 +1,17 @@
-require 'sinatra/base'
-require 'coffee-script'
-require 'json'
-require 'sass'
-require 'open-uri'
-require 'uri'
-require 'yaml'
-
-require_relative '../haml-coffee'
-require_relative '../markov_chatterbot'
-
 desc "start the mockup HTTP server"
 task :mockup do
+  require 'sinatra/base'
+  
+  require 'coffee-script'
+  require 'json'
+  require 'sass'
+  require 'open-uri'
+  require 'uri'
+  require 'yaml'
+  
+  require_relative '../haml-coffee'
+  require_relative '../markov_chatterbot'
+  
   class Mockup < Sinatra::Base
     enable :logging
     enable :lock
