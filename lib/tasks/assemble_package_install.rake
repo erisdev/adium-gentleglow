@@ -87,6 +87,9 @@ task :install => :assemble do
   cp_r 'dist'/BUNDLE_NAME, INSTALL_DIR
 end
 
+task :clean => 'clean:assemble'
+task :clean => 'clean:package'
+
 namespace :clean do
   
   desc 'remove assembled bundle'
