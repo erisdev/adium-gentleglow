@@ -54,7 +54,16 @@ task :mockup do
         (File.read('files/Header.html') rescue ''),
         (File.read('files/Footer.html') rescue '')
       ]
-      File.read('files/Template.html').gsub('%@') { stuff.shift }
+      vars = {
+        :timeOpened => Time.now.strftime('%H:%M'),
+        :sourceName => 'Me',
+        :destinationName => 'Markov',
+        :chatName => 'Preview Conversation',
+        :incomingIconPath => 'incoming_icon.png'
+      }
+      File.read('files/Template.html')
+      .gsub('%@') { stuff.shift }
+      .gsub(/%(\w+)%/) { vars[$1.to_sym] }
     end
     
     %w[ scripts stylesheets Variants resources ].each do |dir|
