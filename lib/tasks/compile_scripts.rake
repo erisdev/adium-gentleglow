@@ -33,6 +33,7 @@ file 'build/scripts/modules.js' => JS_FILES do |t|
       output << <<-"END_JS"
         define(#{module_name.to_json}, function(global, module, exports, require) {
           #{File.read filename}
+          return exports;
         });
       END_JS
     end

@@ -9,11 +9,8 @@ require = (id) ->
   if exportsObjects.hasOwnProperty id
     exportsObjects[id]
   else
-    exports = exportsObjects[id] = {}
-    module = modules[id]
-    if module?
-      module window, module, exports, require
-      exports
+    if module = modules[id]
+      module(window, module, exports = {}, require) ? exports
     else
       throw Error "module not found: #{id}"
 
