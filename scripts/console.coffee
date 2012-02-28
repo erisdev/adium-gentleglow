@@ -164,7 +164,7 @@ class Editor
     @input.css height: '1.5em'
     return
 
-class exports.Console
+exports = class Console
   COFFEESCRIPT_URI = 'https://raw.github.com/jashkenas/coffee-script/1.1.3/extras/coffee-script.js'
   
   LEVELS = ['silent', 'error', 'warn', 'info', 'debug']

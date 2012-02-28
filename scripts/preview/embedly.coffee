@@ -1,6 +1,6 @@
 {BasicScraper} = require 'preview'
 
-class exports.EmbedlyScraper extends BasicScraper
+exports = class EmbedlyScraper extends BasicScraper
   @API_KEY = require('message_style').environment.EMBEDLY_KEY
   
   # This scraper is optimistic because its scope is so broad. Now that

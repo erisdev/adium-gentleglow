@@ -1,6 +1,6 @@
 {BasicScraper} = require 'preview'
 
-class exports.TwitterScraper extends BasicScraper
+exports = class TwitterScraper extends BasicScraper
   TWEET_PATTERN = /// /status/ (\d+) $///
   
   @doesUriMatch: (uri) ->

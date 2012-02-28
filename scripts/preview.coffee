@@ -1,8 +1,8 @@
-{Uri} = require 'uri'
-{Console} = require 'console'
-{resources} = require 'resources'
+Uri = require 'uri'
+Console = require 'console'
+resources = require 'resources'
 
-$.extend exports,
+exports =
   scrapers: [ ]
   
   register: (scraper) ->

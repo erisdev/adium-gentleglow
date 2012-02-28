@@ -4,14 +4,14 @@ require 'jquery/model/menu'
 require 'jquery/model/message'
 
 preview = require 'preview'
-preview.register require('preview/imgur').ImgurScraper
-preview.register require('preview/oembed').OEmbedScraper
-preview.register require('preview/reddit').RedditScraper
-preview.register require('preview/tumblr').TumblrScraper
-preview.register require('preview/twitter').TwitterScraper
-preview.register require('preview/embedly').EmbedlyScraper
+preview.register require('preview/imgur')
+preview.register require('preview/oembed')
+preview.register require('preview/reddit')
+preview.register require('preview/tumblr')
+preview.register require('preview/twitter')
+preview.register require('preview/embedly')
 
-{resources} = require 'resources'
+resources = require 'resources'
 
 shouldAutoScroll = ->
   chatBuffer = $('#gg-chatBuffer')
@@ -105,7 +105,7 @@ $ ->
     scrollToBottom()
   
   # create console instance
-  {Console} = require 'console'
+  Console = require 'console'
   Console.instance = new Console '#debug-console'
   Console.instance.hide()
   

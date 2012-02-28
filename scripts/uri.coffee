@@ -12,7 +12,7 @@ compilePathGlob = (pattern) ->
 compileDomainPattern = (domain) ->
   new RegExp "(?:^|\.)#{RegExp.escape domain}$"
 
-class exports.Uri
+exports = class Uri
   PARSER =
     # These horrifying, fabulous regexps are modified from Steven Levithan's
     # equally horrifying and fabulous parseUri version 1.2.2.

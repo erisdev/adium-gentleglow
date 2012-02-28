@@ -1,6 +1,6 @@
 {BasicScraper} = require 'preview'
 
-class exports.RedditScraper extends BasicScraper
+exports = class RedditScraper extends BasicScraper
   COMMENT_PATTERN = ///^ /r/ [^/]+ /comments/ [a-z0-9]+ / [^/]+ / ([a-z0-9]+) ///
   POST_PATTERN    = ///^ /r/ [^/]+ /comments/ ([a-z0-9]+) ///i
   

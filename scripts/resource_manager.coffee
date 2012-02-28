@@ -1,4 +1,4 @@
-class exports.ResourceManager
+exports = class ResourceManager
   constructor: ->
     @resources = {}
   

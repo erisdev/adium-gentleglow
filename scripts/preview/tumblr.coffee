@@ -1,7 +1,7 @@
 {BasicScraper} = require 'preview'
-{resources} = require 'resources'
+resources = require 'resources'
 
-class exports.TumblrScraper extends BasicScraper
+exports = class TumblrScraper extends BasicScraper
   @API_KEY = require('message_style')['api-keys'].tumblr
   POST_PATTERN = ///^ /post/ (\d+) /? ///
   
