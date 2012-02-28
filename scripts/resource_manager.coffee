@@ -1,4 +1,4 @@
-class ResourceManager
+class exports.ResourceManager
   constructor: ->
     @resources = {}
   
@@ -7,5 +7,3 @@ class ResourceManager
   
   register: (keypath, value) ->
     @resources[keypath] = value
-    
-window.ResourceManager = ResourceManager

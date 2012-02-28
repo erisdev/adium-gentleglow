@@ -1,8 +1,9 @@
-window.resources = new ResourceManager
+{ResourceManager} = require 'resource_manager'
+exports.resources = new ResourceManager
 
 # Instead of compiling resources, monkey patch the resource manager to use
 # AJAX to retrieve them.
-window.resources.get = (path) ->
+exports.resources.get = (path) ->
   resource = null
   $.ajax "/resources/#{path}",
     async: false

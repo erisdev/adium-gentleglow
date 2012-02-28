@@ -164,7 +164,7 @@ class Editor
     @input.css height: '1.5em'
     return
 
-class Console
+class exports.Console
   COFFEESCRIPT_URI = 'https://raw.github.com/jashkenas/coffee-script/1.1.3/extras/coffee-script.js'
   
   LEVELS = ['silent', 'error', 'warn', 'info', 'debug']
@@ -359,15 +359,3 @@ class Console
     finally
       @cullBuffer()
       @scrollToBottom()
-
-$ ->
-  Console.instance = new Console '#debug-console'
-  Console.instance.hide()
-  
-  $('#main-menu').model().addCheckbox 'debug console', (event) ->
-    if $(this).is(':checked')
-      Console.instance.show 'normal'
-    else
-      Console.instance.hide 'normal'
-
-window.Console = Console

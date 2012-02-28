@@ -1,14 +1,16 @@
-class TumblrScraper extends Preview.BasicScraper
-  Preview.register this
-  
+{BasicScraper} = require 'preview'
+{resources} = require 'resources'
+
+class exports.TumblrScraper extends BasicScraper
+  @API_KEY = require('message_style')['api-keys'].tumblr
   POST_PATTERN = ///^ /post/ (\d+) /? ///
   
   @doesUriMatch: (uri) ->
-    uri.isInDomain('tumblr.com') and uri.path.match(POST_PATTERN)?
+    @API_KEY? and uri.isInDomain('tumblr.com') and uri.path.match(POST_PATTERN)?
   
   scrape: ->
-    api_key = MessageStyle['api-keys'].tumblr
     if id = @uri.path.match(POST_PATTERN)?[1]
+      api_key = TumblrScraper.API_KEY
       this.ajax "http://api.tumblr.com/v2/blog/#{@uri.host}/posts", { id, api_key }, (json) =>
         post = json.response.posts[0]
         blog = json.response.blog

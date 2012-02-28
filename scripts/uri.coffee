@@ -12,7 +12,7 @@ compilePathGlob = (pattern) ->
 compileDomainPattern = (domain) ->
   new RegExp "(?:^|\.)#{RegExp.escape domain}$"
 
-class Uri
+class exports.Uri
   PARSER =
     # These horrifying, fabulous regexps are modified from Steven Levithan's
     # equally horrifying and fabulous parseUri version 1.2.2.
@@ -96,5 +96,3 @@ class Uri
       else
         components.push "#{encodeURIComponent key}=#{encodeURIComponent value}"
     components.join '&'
-
-window.Uri = Uri
