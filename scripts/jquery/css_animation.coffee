@@ -4,7 +4,7 @@ jQuery.cssAnimationProperties =
   direction: 'webkitAnimationDirection'
   duration: 'webkitAnimationDuration'
   easing: 'webkitAnimationTimingFunction'
-  fillStyle: 'webkitAnimationFillStyle'
+  fillMode: 'webkitAnimationFillMode'
   iterations: 'webkitAnimationIterationCount'
 
 jQuery.cssAnimationEvents =
@@ -46,6 +46,11 @@ createAnimation = (name, speed, easing, callback) ->
   
   animation
 
+dontAnimate = (speed, easing, callback) ->
+  options = jQuery.speed speed, easing, callback
+  this.each((i, el) -> options.old.call el) if options.old
+  this
+
 addAnimation = (el, animation) ->
   cssAnimations = $(el).data('cssAnimations') ? {}
   cssAnimations[animation.name] = animation
@@ -62,6 +67,10 @@ $('*').live jQuery.cssAnimationEvents.animationEnd, (event) ->
   removeAnimation this, event.originalEvent.animationName
 
 jQuery.fn.cssFadeOut = (speed, easing, callback) ->
+  if $.fx.off
+    this.css display: 'none'
+    return dontAnimate.call this, speed, easing, callback
+  
   {fadeIn, fadeOut} = jQuery.cssAnimations
   animation = createAnimation fadeOut, speed, easing, callback
   
@@ -73,6 +82,10 @@ jQuery.fn.cssFadeOut = (speed, easing, callback) ->
   $(this).cssStop(fadeIn).each (i, el) -> addAnimation el, animation
 
 jQuery.fn.cssFadeIn = (speed, easing, callback) ->
+  if $.fx.off
+    this.css display: ''
+    return dontAnimate.call this, speed, easing, callback
+  
   {fadeIn, fadeOut} = jQuery.cssAnimations
   $(this)
   .cssStop(fadeOut)
@@ -80,8 +93,11 @@ jQuery.fn.cssFadeIn = (speed, easing, callback) ->
   .cssAnimate(fadeIn, speed, easing, callback)
 
 jQuery.fn.cssStop = (animationName) ->
+  return this if $.fx.off
   $(this).each (i, el) -> removeAnimation el, animationName
 
 jQuery.fn.cssAnimate = (name, speed, easing, callback) ->
+  return dontAnimate.call(this, speed, easing, callback) if $.fx.off
+  
   animation = createAnimation name, speed, easing, callback
   this.each (i, el) -> addAnimation el, animation

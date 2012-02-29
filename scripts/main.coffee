@@ -12,6 +12,7 @@ preview.register require('preview/twitter')
 preview.register require('preview/embedly')
 
 resources = require 'resources'
+preferences = require 'preferences'
 
 shouldAutoScroll = ->
   chatBuffer = $('#gg-chatBuffer')
@@ -62,7 +63,7 @@ $(window).bind 'adium:message', (event) ->
     message.find('.actionMessageBody').text (i, text) -> " #{text}"
   
   # scrape links for previewable stuff in new messages
-  unless message.isHistory()
+  unless message.isHistory() or not preferences.get('enablePreviews')
     message.find('a').each -> preview.loadPreviews event.message, this
 
 $(window).bind 'adium:message adium:status', (event) ->
@@ -74,6 +75,13 @@ $(window).bind 'adium:message adium:status', (event) ->
   
   # scroll down if appropriate
   alignChat() if message.shouldScroll
+
+# preferences
+$(window).bind 'gg:preferences', (event) ->
+  if event.key is 'enableEffects'
+    $.fx.off = not event.newValue
+
+$.fx.off = not preferences.get 'enableEffects'
 
 # mentions
 $('.gg-mention a').live 'click', (event) ->
@@ -94,6 +102,9 @@ $('.ui-menu .ui-menuHeader').live 'click', (event) ->
 
 $ ->
   currentVariantPattern = /// url\( "? variants/ ([^\s"]+) \.css "? \) ///i
+  
+  # add a menu item to open the preferences window
+  $('#main-menu').model().addLink 'preferences', -> preferences.panel.toggle()
   
   # add a menu item to change variants
   $('#main-menu').model().addSelect 'variant',

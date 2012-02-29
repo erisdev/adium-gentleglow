@@ -1,0 +1,15 @@
+%section#gg-preferences.ui-panel
+  %h1.ui-panelHeader Preferences
+  %ul.ui-panelContent
+    - @preferences.each values: true, (name, spec, value) ->
+      %li.gg-preference
+        - switch spec.type
+          - when 'boolean'
+            %input{type: 'checkbox', name: name, checked: value}
+          - when 'string'
+            %input{type: 'text', name: name, value: value}
+          - when 'number'
+            %input{type: 'number', name: name, value: value, min: spec.min, max: spec.max}
+        %label.gg-preferenceLabel{for: name}= spec.label
+        - if spec.more?
+          %div.gg-preferenceMore= spec.more
