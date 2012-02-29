@@ -4,7 +4,7 @@ jQuery.cssAnimationProperties =
   direction: 'webkitAnimationDirection'
   duration: 'webkitAnimationDuration'
   easing: 'webkitAnimationTimingFunction'
-  fillStyle: 'webkitAnimationFillStyle'
+  fillMode: 'webkitAnimationFillMode'
   iterations: 'webkitAnimationIterationCount'
 
 jQuery.cssAnimationEvents =
