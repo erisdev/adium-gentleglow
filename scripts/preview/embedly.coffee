@@ -20,5 +20,5 @@ exports = class EmbedlyScraper extends BasicScraper
       this.createPreview
         title: oembed.title
         thumbnail: oembed.thumbnail_url
-        snippet: oembed.description?.encodeEntities()
+        snippet: oembed.description?.escapeEntities()
         embed: oembed.html
