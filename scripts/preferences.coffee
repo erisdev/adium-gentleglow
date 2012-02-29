@@ -63,7 +63,10 @@ exports.panel =
       panel.find('input').bind 'click', (event) ->
         input = $(this)
         key = input.attr('name')
-        exports.set key, input.val()
+        if input.is(':checkbox')
+          exports.set key, input.is(':checked')
+        else
+          exports.set key, input.val()
     
     panel.cssFadeIn()
   
