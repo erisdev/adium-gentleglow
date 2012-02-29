@@ -26,7 +26,7 @@ exports.set = (key, newValue) ->
     oldValue = this.get key
     
     if newValue?
-      storage.setItem "#{namespace}:#{key}", JSON.stringify(value)
+      storage.setItem "#{namespace}:#{key}", JSON.stringify(newValue)
     else
       storage.removeItem "#{namespace}:#{key}"
     
