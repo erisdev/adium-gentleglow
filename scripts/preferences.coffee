@@ -40,3 +40,28 @@ exports.each = (options, fn) ->
       fn key, spec, this.get(key)
     else
       fn key, spec
+
+exports.panel =
+  toggle: ->
+    if $('#gg-preferences').is(':visible')
+      this.hide()
+    else
+      this.show()
+  
+  show: ->
+    panel = $('#gg-preferences')
+    if panel.length is 0
+      template = resources.get 'views/preferences'
+      panel = $(template preferences: exports).appendTo 'body'
+      
+      # immediately modify preferences on click
+      panel.find('input').bind 'click', (event) ->
+        input = $(this)
+        key = input.attr('name')
+        console.log [key, input.val()]
+        exports.set key, input.val()
+    
+    panel.cssFadeIn()
+  
+  hide: ->
+    $('#gg-preferences').cssFadeOut()

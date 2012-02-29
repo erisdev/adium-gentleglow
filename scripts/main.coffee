@@ -96,6 +96,9 @@ $('.ui-menu .ui-menuHeader').live 'click', (event) ->
 $ ->
   currentVariantPattern = /// url\( "? variants/ ([^\s"]+) \.css "? \) ///i
   
+  # add a menu item to open the preferences window
+  $('#main-menu').model().addLink 'preferences', -> preferences.panel.toggle()
+  
   # add a menu item to change variants
   $('#main-menu').model().addSelect 'variant',
     values: require('message_style').variants.getOwnKeys(),
