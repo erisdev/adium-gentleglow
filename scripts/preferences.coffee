@@ -63,7 +63,6 @@ exports.panel =
       panel.find('input').bind 'click', (event) ->
         input = $(this)
         key = input.attr('name')
-        console.log [key, input.val()]
         exports.set key, input.val()
     
     panel.cssFadeIn()
