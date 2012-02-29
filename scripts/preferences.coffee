@@ -68,7 +68,10 @@ exports.panel =
         else
           exports.set key, input.val()
     
-    panel.cssFadeIn()
+    panel.css(display: '').cssAnimate 'fx-winkIn',
+      fillMode: 'backwards'
   
   hide: ->
-    $('#gg-preferences').cssFadeOut()
+    $('#gg-preferences').cssAnimate 'fx-winkOut',
+      fillMode: 'forwards'
+      complete: -> $(this).css display: 'none'
