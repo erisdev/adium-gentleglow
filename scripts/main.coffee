@@ -81,6 +81,8 @@ $(window).bind 'gg:preferences', (event) ->
   if event.key is 'enableEffects'
     $.fx.off = not event.newValue
 
+$.fx.off = not preferences.get 'enableEffects'
+
 # mentions
 $('.gg-mention a').live 'click', (event) ->
   event.preventDefault()
