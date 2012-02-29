@@ -1,7 +1,7 @@
 {BasicScraper} = require 'preview'
 
 exports = class EmbedlyScraper extends BasicScraper
-  @API_KEY = require('message_style').environment.EMBEDLY_KEY
+  @API_KEY = require('message_style')['api-keys'].embedly
   
   # This scraper is optimistic because its scope is so broad. Now that
   # scrapers are chainable, saying yes here doesn't necessarily prevent

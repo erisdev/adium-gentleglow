@@ -7,9 +7,6 @@ api-keys:
   # If you fork, please use your own API keys.
   tumblr: ku7A9H005pUoOwvgDNuAx1qNQoy7ukL5d3BKFt8flNC4bVB2me
 
-include-environment:
-  - EMBEDLY_KEY
-
 include-files:
   - README.mdown
   - CHANGELOG.mdown

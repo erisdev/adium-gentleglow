@@ -30,9 +30,13 @@ end
 
 PACKAGE_INFO = YAML.load_file 'package.yaml'
 
-PACKAGE_INFO['environment'] =
-PACKAGE_INFO['include-environment'].inject({}) do |vars, name|
-  vars.merge! name => ENV[name]
+ENV.each do |var, value|
+  case var
+  when /^(\w+)_key$/i
+    service = $1.downcase
+    puts "adding #{var} as an API key"
+    PACKAGE_INFO['api-keys'][service] = value
+  end
 end
 
 task :default => :package
