@@ -1,7 +1,7 @@
 %section#gg-preferences.ui-panel
   %h1.ui-panelHeader Preferences
   %ul.ui-panelContent
-    - @preferences.each (name, spec, value) ->
+    - @preferences.each values: true, (name, spec, value) ->
       %li.gg-preference
         - switch spec.type
           - when 'boolean'
