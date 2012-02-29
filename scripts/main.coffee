@@ -63,7 +63,7 @@ $(window).bind 'adium:message', (event) ->
     message.find('.actionMessageBody').text (i, text) -> " #{text}"
   
   # scrape links for previewable stuff in new messages
-  unless message.isHistory()
+  unless message.isHistory() or not preferences.get('enablePreviews')
     message.find('a').each -> preview.loadPreviews event.message, this
 
 $(window).bind 'adium:message adium:status', (event) ->
