@@ -1,4 +1,5 @@
 {BasicScraper} = require 'preview'
+preferences = require 'preferences'
 
 exports = class EmbedlyScraper extends BasicScraper
   @API_KEY = require('message_style')['api-keys'].embedly
@@ -6,7 +7,8 @@ exports = class EmbedlyScraper extends BasicScraper
   # This scraper is optimistic because its scope is so broad. Now that
   # scrapers are chainable, saying yes here doesn't necessarily prevent
   # others running too.
-  @doesUriMatch: (uri) -> @API_KEY?
+  @doesUriMatch: (uri) ->
+    @API_KEY? and preferences.get('enableEmbedly')
   
   scrape: ->
     params =
