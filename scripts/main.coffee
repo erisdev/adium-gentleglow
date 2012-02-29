@@ -12,6 +12,7 @@ preview.register require('preview/twitter')
 preview.register require('preview/embedly')
 
 resources = require 'resources'
+preferences = require 'preferences'
 
 shouldAutoScroll = ->
   chatBuffer = $('#gg-chatBuffer')
