@@ -2,7 +2,7 @@
   %h1.ui-panelHeader Preferences
   %ul.ui-panelContent
     - @preferences.each (name, spec, value) ->
-      %li
+      %li.gg-preference
         - switch spec.type
           - when 'boolean'
             %input{type: 'checkbox', name: name, checked: value}
@@ -10,4 +10,6 @@
             %input{type: 'text', name: name, value: value}
           - when 'number'
             %input{type: 'number', name: name, value: value, min: spec.min, max: spec.max}
-        %label{for: name}= spec.label
+        %label.gg-preferenceLabel{for: name}= spec.label
+        - if spec.more?
+          %div.gg-preferenceMore= spec.more
