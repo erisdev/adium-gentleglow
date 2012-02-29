@@ -21,12 +21,17 @@ exports.get = (key) ->
     Console.warn "invalid preference key #{key}"
     return
 
-exports.set = (key, value) ->
+exports.set = (key, newValue) ->
   if spec = specs[key]
-    if value?
+    oldValue = this.get key
+    
+    if newValue?
       storage.setItem "#{namespace}:#{key}", JSON.stringify(value)
     else
       storage.removeItem "#{namespace}:#{key}"
+    
+    $(window).trigger jQuery.Event 'gg:preferences',
+      { key, oldValue, newValue }
   else
     Console.warn "invalid preference key #{key}"
     return
