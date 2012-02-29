@@ -76,6 +76,11 @@ $(window).bind 'adium:message adium:status', (event) ->
   # scroll down if appropriate
   alignChat() if message.shouldScroll
 
+# preferences
+$(window).bind 'gg:preferences', (event) ->
+  if event.key is 'enableEffects'
+    $.fx.off = not event.newValue
+
 # mentions
 $('.gg-mention a').live 'click', (event) ->
   event.preventDefault()

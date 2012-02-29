@@ -1,1 +1,5 @@
---- {}
+---
+enableEffects:
+  type: boolean
+  label: 'Enable animation effects'
+  default: true
