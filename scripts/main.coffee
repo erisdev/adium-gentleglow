@@ -1,6 +1,5 @@
 # load custom jQuery plugins
 require 'jquery/css_animation'
-require 'jquery/model/menu'
 require 'jquery/model/message'
 
 preview = require 'preview'
@@ -14,6 +13,8 @@ preview.register require('preview/embedly')
 resources = require 'resources'
 preferences = require 'preferences'
 mentions = require 'mentions'
+UIMenu = require 'ui/menu'
+toolbar = require 'ui/toolbar'
 
 shouldAutoScroll = ->
   chatBuffer = $('#gg-chatBuffer')
@@ -96,41 +97,31 @@ $('.gg-mention').live 'click', (event) ->
     offset: { top: -height / 3 }
     onAfter: -> flash selector
 
-# menus
-$('.ui-menu .ui-menuHeader').live 'click', (event) ->
-  $(this).closest('.ui-menu').model().togglePinned()
-
 $ ->
-  currentVariantPattern = /// url\( "? variants/ ([^\s"]+) \.css "? \) ///i
-  
-  # add a menu item to open the preferences window
-  $('#main-menu').model().addLink 'preferences', -> preferences.panel.toggle()
-  
-  # add a menu item to open the mentions window
-  $('#main-menu').model().addLink 'mentions', ->
-    mentions.panel.toggle destroy: true
-  
-  # add a menu item to change variants
-  $('#main-menu').model().addSelect 'variant',
-    values: require('message_style').variants.getOwnKeys(),
-    defaultValue: $('#mainStyle').text().match(currentVariantPattern)?[1]
-  , ->
-    $('#mainStyle').text("""@import url("Variants/#{$(this).val()}.css");""")
-    $('#main-menu').model().unpin()
-    scrollToBottom()
-  
   # create console instance
   Console = require 'console'
   Console.instance = new Console '#debug-console'
   Console.instance.hide()
   
-  # add debug console menu item
-  $('#main-menu').model().addCheckbox 'debug console', (event) ->
-    if $(this).is(':checked')
-      Console.instance.show 'normal'
-    else
-      Console.instance.hide 'normal'
+  toolbar.addButton 'Mentions', 'images/icons/mailclosed.png', ->
+    mentions.panel.toggle destroy: true
   
+  toolbar.addButton 'Preferences', 'images/icons/preferences.png', ->
+    preferences.panel.toggle()
+  
+  toolbar.addButton 'Debug Console', 'images/icons/monitor.png', ->
+    if Console.instance.root.is(':visible')
+      Console.instance.hide 'normal'
+    else
+      Console.instance.show 'normal'
+  
+  variantsMenu = new UIMenu 'Variants', (menu) ->
+    for own variant of require('message_style').variants then do (variant) =>
+      menu.item variant, -> $('#mainStyle').text """
+        @import url("Variants/#{variant}.css");
+      """
+  toolbar.addButton 'Variant', 'images/icons/lightbulb.png', (event) ->
+    variantsMenu.toggle(event.clientX, event.clientY)
   
   # set up the quick scroll to bottom button
   scroller = $('#gg-chatQuickScroller').hide()
