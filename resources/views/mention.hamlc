@@ -1,6 +1,0 @@
-%li.gg-mention{title: @message.body}
-  %a{href: "##{@message.id}"} mentioned
-  = ' by '
-  %span.gg-user{title: @message.userName}= @message.displayName
-  = ' at '
-  %time.gg-timestamp= @message.timestamp

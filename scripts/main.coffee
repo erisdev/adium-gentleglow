@@ -13,6 +13,7 @@ preview.register require('preview/embedly')
 
 resources = require 'resources'
 preferences = require 'preferences'
+mentions = require 'mentions'
 
 shouldAutoScroll = ->
   chatBuffer = $('#gg-chatBuffer')
@@ -51,10 +52,7 @@ $(window).bind 'adium:message', (event) ->
 
   # collect and flash mentions
   if message.isMention()
-    $('#mentions .ui-menuContent')
-    .append(resources.get('views/mention')({message}))
-    .stop().scrollTo '100%', 200, 'swing'
-    
+    mentions.remember message
     flash message.rootElement
   
   # dirty hax. action message body and sender name get crammed together for
@@ -84,11 +82,13 @@ $(window).bind 'gg:preferences', (event) ->
 $.fx.off = not preferences.get 'enableEffects'
 
 # mentions
-$('.gg-mention a').live 'click', (event) ->
+$('.gg-mention').live 'click', (event) ->
   event.preventDefault()
   
   height = $('#gg-chatBuffer').height()
-  selector = $(this).attr 'href'
+  selector = "##{$(this).data 'messageId'}"
+  
+  mentions.panel.hide destroy: true
   
   $('#gg-chatBuffer').stop().scrollTo selector,
     duration: 700
@@ -105,6 +105,10 @@ $ ->
   
   # add a menu item to open the preferences window
   $('#main-menu').model().addLink 'preferences', -> preferences.panel.toggle()
+  
+  # add a menu item to open the mentions window
+  $('#main-menu').model().addLink 'mentions', ->
+    mentions.panel.toggle destroy: true
   
   # add a menu item to change variants
   $('#main-menu').model().addSelect 'variant',
