@@ -1,6 +1,5 @@
 # load custom jQuery plugins
 require 'jquery/css_animation'
-require 'jquery/model/menu'
 require 'jquery/model/message'
 
 preview = require 'preview'
@@ -13,6 +12,9 @@ preview.register require('preview/embedly')
 
 resources = require 'resources'
 preferences = require 'preferences'
+mentions = require 'mentions'
+UIMenu = require 'ui/menu'
+toolbar = require 'ui/toolbar'
 
 shouldAutoScroll = ->
   chatBuffer = $('#gg-chatBuffer')
@@ -51,10 +53,7 @@ $(window).bind 'adium:message', (event) ->
 
   # collect and flash mentions
   if message.isMention()
-    $('#mentions .ui-menuContent')
-    .append(resources.get('views/mention')({message}))
-    .stop().scrollTo '100%', 200, 'swing'
-    
+    mentions.remember message
     flash message.rootElement
   
   # dirty hax. action message body and sender name get crammed together for
@@ -84,11 +83,13 @@ $(window).bind 'gg:preferences', (event) ->
 $.fx.off = not preferences.get 'enableEffects'
 
 # mentions
-$('.gg-mention a').live 'click', (event) ->
+$('.gg-mention').live 'click', (event) ->
   event.preventDefault()
   
   height = $('#gg-chatBuffer').height()
-  selector = $(this).attr 'href'
+  selector = "##{$(this).data 'messageId'}"
+  
+  mentions.panel.hide destroy: true
   
   $('#gg-chatBuffer').stop().scrollTo selector,
     duration: 700
@@ -96,37 +97,31 @@ $('.gg-mention a').live 'click', (event) ->
     offset: { top: -height / 3 }
     onAfter: -> flash selector
 
-# menus
-$('.ui-menu .ui-menuHeader').live 'click', (event) ->
-  $(this).closest('.ui-menu').model().togglePinned()
-
 $ ->
-  currentVariantPattern = /// url\( "? variants/ ([^\s"]+) \.css "? \) ///i
-  
-  # add a menu item to open the preferences window
-  $('#main-menu').model().addLink 'preferences', -> preferences.panel.toggle()
-  
-  # add a menu item to change variants
-  $('#main-menu').model().addSelect 'variant',
-    values: require('message_style').variants.getOwnKeys(),
-    defaultValue: $('#mainStyle').text().match(currentVariantPattern)?[1]
-  , ->
-    $('#mainStyle').text("""@import url("Variants/#{$(this).val()}.css");""")
-    $('#main-menu').model().unpin()
-    scrollToBottom()
-  
   # create console instance
   Console = require 'console'
   Console.instance = new Console '#debug-console'
   Console.instance.hide()
   
-  # add debug console menu item
-  $('#main-menu').model().addCheckbox 'debug console', (event) ->
-    if $(this).is(':checked')
-      Console.instance.show 'normal'
-    else
-      Console.instance.hide 'normal'
+  toolbar.addButton 'Mentions', 'images/icons/mailclosed.png', ->
+    mentions.panel.toggle destroy: true
   
+  toolbar.addButton 'Preferences', 'images/icons/preferences.png', ->
+    preferences.panel.toggle()
+  
+  toolbar.addButton 'Debug Console', 'images/icons/monitor.png', ->
+    if Console.instance.root.is(':visible')
+      Console.instance.hide 'normal'
+    else
+      Console.instance.show 'normal'
+  
+  variantsMenu = new UIMenu 'Variants', (menu) ->
+    for own variant of require('message_style').variants then do (variant) =>
+      menu.item variant, -> $('#mainStyle').text """
+        @import url("Variants/#{variant}.css");
+      """
+  toolbar.addButton 'Variant', 'images/icons/lightbulb.png', (event) ->
+    variantsMenu.toggle(event.clientX, event.clientY)
   
   # set up the quick scroll to bottom button
   scroller = $('#gg-chatQuickScroller').hide()

@@ -1,5 +1,6 @@
 Console = require 'console'
 resources = require 'resources'
+UIPanel = require 'ui/panel'
 
 storage = global.localStorage
 namespace = 'preferences'
@@ -46,32 +47,17 @@ exports.each = (options, fn) ->
     else
       fn key, spec
 
-exports.panel =
-  toggle: ->
-    if $('#gg-preferences').is(':visible')
-      this.hide()
-    else
-      this.show()
+exports.panel = new UIPanel 'views/preferences',
+  title: 'Preferences'
+  id: 'gg-preferencePanel'
+  parameters: { preferences: exports }
+
+$(exports.panel).bind 'ui:load', (event) ->
+    event.rootElement.find('input').bind 'click', (event) ->
+      input = $(this)
+      key = input.attr('name')
+      if input.is(':checkbox')
+        exports.set key, input.is(':checked')
+      else
+        exports.set key, input.val()
   
-  show: ->
-    panel = $('#gg-preferences')
-    if panel.length is 0
-      template = resources.get 'views/preferences'
-      panel = $(template preferences: exports).appendTo 'body'
-      
-      # immediately modify preferences on click
-      panel.find('input').bind 'click', (event) ->
-        input = $(this)
-        key = input.attr('name')
-        if input.is(':checkbox')
-          exports.set key, input.is(':checked')
-        else
-          exports.set key, input.val()
-    
-    panel.css(display: '').cssAnimate 'fx-winkIn',
-      fillMode: 'backwards'
-  
-  hide: ->
-    $('#gg-preferences').cssAnimate 'fx-winkOut',
-      fillMode: 'forwards'
-      complete: -> $(this).css display: 'none'

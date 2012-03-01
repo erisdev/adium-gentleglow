@@ -1,0 +1,9 @@
+%section.ui-menu
+  %header.ui-menuHeader= @title
+  %ul.ui-menuContent
+    - for item in @items
+      - if item.label is '-'
+        %li.ui-menuSeparator
+      - else
+        %li.ui-menuItem{id: item.id}= item.label
+  %footer.ui-menuFooter
