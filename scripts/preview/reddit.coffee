@@ -5,7 +5,7 @@ exports = class RedditScraper extends BasicScraper
   POST_PATTERN    = ///^ /r/ [^/]+ /comments/ ([a-z0-9]+) ///i
   
   DEFAULT_THUMBNAILS =
-    default: 'images/camera.png'
+    default: 'images/icons/camera.png'
     self: 'images/reddit/self.png'
     
   

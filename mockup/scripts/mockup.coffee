@@ -95,7 +95,7 @@ sendFile = (fileName, options = {}) ->
   html = fillTemplate templates.fileTransfer,
     sender: user.displayName
     senderScreenName: user.screenName
-    fileIconPath: '/images/fire.png'
+    fileIconPath: '/images/icons/fire.png'
     fileName: fileName
     
   messageView.appendMessage html

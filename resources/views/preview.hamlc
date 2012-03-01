@@ -1,7 +1,7 @@
 %article
   .gg-previewThumbnail
     %a{href: @uri}
-      %img{src: @thumbnail ? 'images/camera.png', title: @title, alt: @title}
+      %img{src: @thumbnail ? 'images/icons/camera.png', title: @title, alt: @title}
   %h1.gg-previewTitle
     %a{href: @uri}= $e @title
   %p.gg-previewInfo
