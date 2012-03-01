@@ -68,12 +68,13 @@ class exports.BasicScraper
           Console.error ex
           this.pass()
   
-  createPreview: (options = { }) ->
-    template = resources.get options.template ? 'views/preview'
+  createPreview: (template, options = { }) ->
+    if arguments.length < 2
+      [template, options] = ['views/preview', template]
     
     options.uri ?= "#{@uri}"
     options.title ?= @title
     
-    @message.find('.gg-previews').append template(options)
+    @message.find('.gg-previews').append resources.render(template, options)
   
   Object.notImplemented this, 'scrape'

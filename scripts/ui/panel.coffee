@@ -9,18 +9,14 @@ exports = class UIPanel
     @title = options.title ? 'Panel'
     
     @templates =
-      panel: resources.get 'views/ui/panel'
-    
-    if typeof contentTemplate is 'function'
-      @templates.content = contentTemplate
-    else
-      @templates.content = resources.get(contentTemplate)
+      panel: 'views/ui/panel'
+      content: contentTemplate
   
   load: ->
     parameters = $.extend {@title}, @parameters
     
-    rootHtml = @templates.panel parameters
-    contentHtml = @templates.content parameters
+    rootHtml = resources.render @templates.panel, parameters
+    contentHtml = resources.render @templates.content, parameters
     
     @rootElement = $(rootHtml).hide().attr({@id}).appendTo 'body'
     @rootElement.children('.ui-panelContent').html contentHtml

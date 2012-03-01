@@ -21,15 +21,14 @@ exports = class UIMenu
   
   show: (x, y) ->
     unless @rootElement?
-      template = resources.get 'views/ui/menu'
-      @rootElement = $(template this).data(ui: this).hide().appendTo 'body'
-      menu = this
+      html = resources.render 'views/ui/menu', this
+      @rootElement = $(html).data(ui: this).hide().appendTo 'body'
       for item in @items then do (item) =>
         item.element = @rootElement
         .find(".ui-menuItem##{item.id}")
-        .bind 'click', (event) ->
-          menu.hide()
-          item.action?.call this, event
+        .bind 'click', (event) =>
+          this.hide()
+          item.action?.call event.target, event
     
     pos = {top: '', right: '', bottom: '', left: ''}
     height = @rootElement.outerHeight()

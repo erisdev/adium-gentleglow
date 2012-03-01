@@ -99,13 +99,11 @@ exports = class TumblrScraper extends BasicScraper
     else
       title = "chat transcript"
     
-    chatTemplate = resources.get 'views/tumblr/chat'
-    
     this.createPreview
       uri: post.post_url
       title: this.createPostTitle(title, blog)
       thumbnail: this.createBlogThumbnail(blog)
-      snippet: chatTemplate(dialogue: post.dialogue)
+      snippet: resources.render('views/tumblr/chat', dialogue: post.dialogue)
   
   # Audio Posts
   ##
@@ -140,13 +138,11 @@ exports = class TumblrScraper extends BasicScraper
   ##
   
   createAnswerPreview: (post, blog) ->
-    answerTemplate = resources.get 'views/tumblr/answer'
-    
     this.createPreview
       uri: post.post_uri
       title: this.createPostTitle("question from #{post.asking_name}", blog)
       thumbnail: this.createBlogThumbnail(blog)
-      snippet: answerTemplate
+      snippet: resources.render 'views/tumblr/answer',
         asker: { name: post.asking_name, uri: post.asking_uri }
         question: post.question
         answer: post.answer
