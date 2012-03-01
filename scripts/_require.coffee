@@ -10,7 +10,7 @@ require = (id) ->
     exportsObjects[id]
   else
     if module = modules[id]
-      module(window, module, exports = {}, require) ? exports
+      exportsObjects[id] = module(window, module, exports = {}, require) ? exports
     else
       throw Error "module not found: #{id}"
 
