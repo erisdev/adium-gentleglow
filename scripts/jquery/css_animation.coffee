@@ -38,6 +38,11 @@ createAnimation = (name, speed, easing, callback) ->
   options = jQuery.speed speed, easing, callback
   animation = { name }
   
+  # Animation's first keyframe is applied immediately, before the delay, and
+  # the final keyframe sticks after the animation ends. Do we really want it
+  # any other way?
+  options.fillMode ?= 'both'
+  
   for own propertyName of jQuery.cssAnimationProperties when options[propertyName]?
     animation[propertyName] = options[propertyName]
   
