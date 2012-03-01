@@ -1,4 +1,4 @@
-%section.ui-panel
+%section.ui-panel.ui-modal
   %header.ui-panelHeader= @title
   %div.ui-panelContent
   %footer.ui-panelFooter
