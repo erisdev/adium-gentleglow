@@ -8,6 +8,7 @@ exports = class UIMenu
       options = {}
     
     @items = []
+    @itemTemplate = options.itemTemplate ? 'views/ui/menu/item'
     @temporary = options.temporary ? false
     
     if buildMenu?
@@ -40,7 +41,7 @@ exports = class UIMenu
     this.renderItem(content, item) for item in @items
   
   renderItem: (content, item)->
-    html = resources.render 'views/ui/menu/item', item
+    html = resources.render @itemTemplate, item
     $(html).bind 'click', (event) =>
       item.action.call event.target, event
       this.hide()
