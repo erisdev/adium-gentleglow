@@ -1,0 +1,35 @@
+input
+  outline : none
+  
+  &:focus
+    border     : 1px solid $ui-highlight-color !important
+    box-shadow : 0 0 10px $ui-highlight-color, 0 0 5px $ui-highlight-color inset !important
+  
+  &[type=checkbox]
+    margin  : 0
+    padding : 0.2em
+    width   : 1em
+    height  : 1em
+    
+    border   : $ui-border
+      radius : 0.2em
+    
+    -webkit:
+      box-sizing : border-box
+      appearance : none
+    
+    &:checked
+      background:
+        clip  : content-box
+        color : darken($ui-highlight-color, 10%)
+  
+  &:not([type]),
+  &[type=text]
+    margin  : 0.2em 1em
+    padding : 0.2em
+    
+    border   : $ui-border
+      radius : 0.4em
+    
+    background : transparent
+    color      : white
