@@ -82,29 +82,14 @@ $(window).bind 'gg:preferences', (event) ->
 
 $.fx.off = not preferences.get 'enableEffects'
 
-# mentions
-$('.gg-mention').live 'click', (event) ->
-  event.preventDefault()
-  
-  height = $('#gg-chatBuffer').height()
-  selector = "##{$(this).data 'messageId'}"
-  
-  mentions.panel.hide destroy: true
-  
-  $('#gg-chatBuffer').stop().scrollTo selector,
-    duration: 700
-    easing: 'swing'
-    offset: { top: -height / 3 }
-    onAfter: -> flash selector
-
 $ ->
   # create console instance
   Console = require 'console'
   Console.instance = new Console '#debug-console'
   Console.instance.hide()
   
-  toolbar.addButton 'Mentions', 'images/icons/mailclosed.png', ->
-    mentions.panel.toggle destroy: true
+  toolbar.addButton 'Mentions', 'images/icons/mailclosed.png', (event) ->
+    mentions.menu.toggle event.clientX, event.clientY
   
   toolbar.addButton 'Preferences', 'images/icons/preferences.png', ->
     preferences.panel.toggle()

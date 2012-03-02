@@ -1,7 +1,0 @@
-%ul.ui-panelContent.gg-mentions
-  - for message in @messages
-    %li.gg-mention{title: message.body, 'data-message-id': message.id}}
-      = 'mentioned by '
-      %span.gg-user{title: message.userName}= message.displayName
-      = ' at '
-      %time.gg-timestamp= message.timestamp

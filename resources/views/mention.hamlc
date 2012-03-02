@@ -1,0 +1,4 @@
+%li.ui-menuItem.gg-mention{title: @message.body}}
+  %span.gg-user{title: @message.userName}= @message.displayName
+  = ' at '
+  %time.gg-timestamp= @message.timestamp
