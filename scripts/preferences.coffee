@@ -53,11 +53,10 @@ exports.panel = new UIPanel 'views/preferences',
   parameters: { preferences: exports }
 
 $(exports.panel).bind 'ui:load', (event) ->
-    event.rootElement.find('input').bind 'click', (event) ->
-      input = $(this)
-      key = input.attr('name')
-      if input.is(':checkbox')
-        exports.set key, input.is(':checked')
-      else
-        exports.set key, input.val()
-  
+  event.rootElement
+  .find('input:checkbox').bind 'change', (event) ->
+    exports.set $(this).attr('name'), $(this).is(':checked')
+  .end()
+  .find('input:not(*:checkbox)').bind 'change', (event) ->
+    exports.set $(this).attr('name'), $(this).val()
+
