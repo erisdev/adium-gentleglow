@@ -1,0 +1,3 @@
+%li.ui-toolbarButton{'data-class-name': 'UIToolbarButton'}
+  %span.ui-toolbarButtonLabel= @label
+  %div.ui-toolbarButtonBadge= @badge

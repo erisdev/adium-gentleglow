@@ -88,13 +88,13 @@ $ ->
   Console.instance = new Console '#debug-console'
   Console.instance.hide()
   
-  toolbar.addButton 'Mentions', 'images/icons/mailclosed.png', (event) ->
+  toolbar.addButton 'Mentions', icon: 'mailclosed', (event) ->
     mentions.menu.toggle event.clientX, event.clientY
   
-  toolbar.addButton 'Preferences', 'images/icons/preferences.png', ->
+  toolbar.addButton 'Preferences', icon: 'preferences', ->
     preferences.panel.toggle()
   
-  toolbar.addButton 'Debug Console', 'images/icons/monitor.png', ->
+  toolbar.addButton 'Debug Console', icon: 'monitor', ->
     if Console.instance.root.is(':visible')
       Console.instance.hide 'normal'
     else
@@ -105,7 +105,7 @@ $ ->
       menu.item variant, -> $('#mainStyle').text """
         @import url("Variants/#{variant}.css");
       """
-  toolbar.addButton 'Variant', 'images/icons/lightbulb.png', (event) ->
+  toolbar.addButton 'Variant', icon: 'lightbulb', (event) ->
     variantsMenu.toggle(event.clientX, event.clientY)
   
   # set up the quick scroll to bottom button
