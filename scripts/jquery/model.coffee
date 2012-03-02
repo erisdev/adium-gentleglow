@@ -34,6 +34,7 @@ wrap = (el) ->
     return null unless className
     return null unless className of $.model
     model = new $.model[className] el
+    $(el).data {model}
   model
 
 $.fn.model = -> wrap this[0]
