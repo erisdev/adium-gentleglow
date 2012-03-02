@@ -14,5 +14,13 @@
           %input{type: 'text', name: name, value: value}
         - when 'number'
           %input{type: 'number', name: name, value: value, min: spec.min, max: spec.max}
+        - when 'enum'
+          %select{name: name}
+            - if spec.values instanceof Array
+              - for optionValue in spec.values
+                %option{selected: optionValue is value}= optionValue
+            - else
+              - for optionValue, optionLabel of spec.values
+                %option{value: optionValue, selected: optionValue is value}= optionLabel
       - if spec.more?
         %div.gg-preferenceMore= spec.more
