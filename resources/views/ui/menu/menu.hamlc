@@ -1,0 +1,4 @@
+%section.ui-menu
+  %header.ui-menuHeader= @title
+  %ul.ui-menuContent
+  %footer.ui-menuFooter

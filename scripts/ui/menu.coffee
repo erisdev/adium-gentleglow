@@ -2,16 +2,49 @@ resources = require 'resources'
 
 exports = class UIMenu
   constructor: (@title, options, buildMenu) ->
-    [options, buildMenu] = [{}, options] unless buildMenu?
+    if not buildMenu? and typeof options is 'function'
+      [options, buildMenu] = [{}, options]
+    else if not options?
+      options = {}
     
     @items = []
     @temporary = options.temporary ? false
     
-    buildMenu
-      item: (label, action) =>
-        @items.push {label, action, id: Math.uuid()}
-      separator: =>
-        @items.push label: '-'
+    if buildMenu?
+      buildMenu
+        item: =>
+          @addItem.apply this, arguments
+        separator: =>
+          @addSeparator.apply this, arguments
+  
+  addItem: (label, options, action) ->
+    if not action? and typeof options is 'function'
+      [options, action] = [{}, options]
+    
+    item = $.extend {label, action}, options
+    item.id ?= Math.uuid()
+    
+    if contentElement = @rootElement?.find('.ui-menuContent')
+      this.renderItem contentElement, item
+    
+    @items.push item
+  
+  addSeparator: ->
+    @items.push {}
+  
+  render: ->
+    html = resources.render 'views/ui/menu/menu', this
+    @rootElement = $(html).data(ui: this).hide().appendTo 'body'
+    
+    content = @rootElement.find '.ui-menuContent'
+    this.renderItem(content, item) for item in @items
+  
+  renderItem: (content, item)->
+    html = resources.render 'views/ui/menu/item', item
+    $(html).bind 'click', (event) =>
+      item.action.call event.target, event
+      this.hide()
+    .appendTo content
   
   toggle: (x, y) ->
     if @rootElement?.is(':visible')
@@ -21,14 +54,7 @@ exports = class UIMenu
   
   show: (x, y) ->
     unless @rootElement?
-      html = resources.render 'views/ui/menu', this
-      @rootElement = $(html).data(ui: this).hide().appendTo 'body'
-      for item in @items then do (item) =>
-        item.element = @rootElement
-        .find(".ui-menuItem##{item.id}")
-        .bind 'click', (event) =>
-          this.hide()
-          item.action?.call event.target, event
+      this.render()
     
     pos = {top: '', right: '', bottom: '', left: ''}
     height = @rootElement.outerHeight()

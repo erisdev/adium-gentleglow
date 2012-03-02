@@ -1,0 +1,4 @@
+- if @label?
+  %li.ui-menuItem{id: @id}= @label
+- else
+  %li.ui-menuSeparator
