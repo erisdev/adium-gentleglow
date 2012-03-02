@@ -55,6 +55,10 @@ $(window).bind 'adium:message', (event) ->
   if message.isMention()
     mentions.remember message
     flash message.rootElement
+    
+    toolbar.getButton('mentions').tap (button) ->
+      button.icon = 'mailopened'
+      button.badge = +button.badge + 1
   
   # dirty hax. action message body and sender name get crammed together for
   # some reason when jQuery parses them.
@@ -89,6 +93,8 @@ $ ->
   Console.instance.hide()
   
   toolbar.addButton 'Mentions', icon: 'mailclosed', (event) ->
+    this.icon = 'mailclosed'
+    this.badge = ''
     mentions.menu.toggle event.clientX, event.clientY
   
   toolbar.addButton 'Preferences', icon: 'preferences', ->
