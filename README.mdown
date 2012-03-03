@@ -16,8 +16,8 @@ These are the gems that are absolutely required to compile.
 * coffee-script
 * json
 * rake
-* sass (for 1.5.0 and newer)
-* less (for v1.4.1 and older)
+* sass
+* tilt
 
 ### Test-driving your changes
 
