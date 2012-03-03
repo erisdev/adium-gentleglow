@@ -19,8 +19,6 @@ These are the gems that are absolutely required to compile.
 * sass (for 1.5.0 and newer)
 * less (for v1.4.1 and older)
 
-You'll also need a copy of rsync, but that has come bundled with Mac OS X for as long as I can remember.
-
 ### Test-driving your changes
 
 You'll probably want to install Sinatra if you plan to do any extensive hacking, because your choices are basically either that or run `rake install` and restart Adium every time you change something.
@@ -29,7 +27,7 @@ Start the server with `rake mockup` and visit <http://localhost:4567> in your fa
 
 ### Building and installing
 
-To build a tarball suitable for passing around to your friends, just run `rake package` and look in `build/` for the result.
+To build a tarball suitable for passing around to your friends, just run `rake package` and look in `dist/` for the result.
 
 To install the message style automatically, use `rake install`.
 
@@ -39,27 +37,32 @@ A quick `rake -T` will show the other available tasks.
 
 Support for Embed.ly is now included in the source, but—in the interest of
 _not_ spreading around an API key—is disabled by default. To enable it, you
-will need to get an Embed.ly API key then run the following command to
-compile.
+will need to get an Embed.ly API key and add it to `package.yaml` under
+`api-keys`. It should look something like this:
 
-    EMBEDLY_KEY='your_api_key' rake clean package
+    api-keys:
+      tumblr: yourtumblrkeypleasedontusemineoriwillcomeandfindyou
+      embedly: yourembedlykeybecauseimnotsureicandistributemine
 
 ## Credits & Acknowledgements
-Gentle Glow is loosely based on Ayumi Yonosa's [1337][] message style. It
-started life as a modification to support proportional fonts, but it ended up
-being a total refactor. All that really survives from the original is the
-colors and the glow effect. Still, I am grateful for the groundwork.
+
+Gentle Glow began life as a heavily modified version of Ayumi Yonosa's
+[1337][] message style with support for proportional fonts, but it quickly
+evolved into a whole different animal. I'd be surprised if any vestige of the
+original remains, but the inspiration is still there. Thank you, Ayumi!
 
 Color hashing uses the Unix ELF hash algorithm, adapted from Ruby 1.8's
 implementation in `rb_str_hash`.
 
-JavaScript magic is provided by [jQuery][] and [jQuery UI][].
+JavaScript magic is provided by [jQuery][].
 
 Select graphics taken from [app-bits][] iPhone toolbar icon set.
 
 ## License
-Since the source material is released under a rather permissive license, it
-would only be fair to release a derivative work under similarly liberal terms.
+
+Since the base I started from was released under a rather permissive license,
+it would only be right to release a derivative work under similarly liberal
+terms.
 
 Consider this CC-BY-NC-SA. As with those who came before, I would appreciate
 acknowledgement if this style is used as a jumping off point for your own
@@ -67,6 +70,7 @@ project. Don't try to sell it. If you to make derivative works, be liberal in
 your terms as well.
 
 ### app-bits iPhone toolbar icons
+
 This license applies to the following files.
 
 * `files/Incoming_icon.png`
@@ -78,12 +82,14 @@ modified in any way. We would appreciate if app-bits could be mentioned when
 the icons are used!
 
 ### Steven Levithan's parseUri
+
 The following is based on code by Steven Levithan and as such is available
 under the terms of the MIT license.
 
 * `scripts/uri.coffee`
 
 ### My Reddit Ponies
+
 The pony emotes have been taken more-or-less wholesale from
 [r/mylittlepony][]. I claim no authorship rights for this stylesheet; it was
 created by one or more of that subreddit's admins.
@@ -95,6 +101,5 @@ created by one or more of that subreddit's admins.
 [1337]: http://www.adiumxtras.com/index.php?a=xtras&xtra_id=4042
 [app-bits]: http://app-bits.com/
 [jQuery]: http://jquery.com
-[jQuery UI]: http://jqueryui.com
 [ponythread]: http://www.reddit.com/r/mylittlepony/comments/km0gz/rmylittlepony_admins_under_what_terms_am_i/
 [r/mylittlepony]: http://www.reddit.com/r/mylittlepony
