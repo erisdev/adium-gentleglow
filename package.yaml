@@ -1,7 +1,7 @@
 ---
 display-name: 'Gentle Glow'
 package-name: GentleGlow
-package-version: '1.5.0'
+package-version: '1.5.1'
 
 api-keys:
   # If you fork, please use your own API keys.

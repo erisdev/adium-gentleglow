@@ -1,5 +1,13 @@
 # Changes
 
+## Version 1.5.1: (2 March 2012)
+And a comparatively small update to follow the big one. Fixes some minor
+oversights from 1.5.0.
+
+* fixed Reddit previews always having the default thumbnail
+* added a border and background to the side toolbar
+* added the missing date to the previous changelog entry--how meta
+
 ## Version 1.5.0: (2 March 2012)
 Good lord, everything has changed. Many changes are things behind the scenes
 that users won't notice, and many of them are new or updated features. This is
