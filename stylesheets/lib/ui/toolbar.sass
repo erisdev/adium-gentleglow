@@ -8,7 +8,14 @@
   
   list-style : none
   
-  color : $ui-text-color
+  background : rgba(0, 0, 0, 0.7)
+  color      : $ui-text-color
+  
+  border  : $ui-border
+    right : none
+    
+    top-left-radius    : 0.5em
+    bottom-left-radius : 0.5em
   
 .ui-toolbarButton
   position : relative
@@ -28,17 +35,23 @@
 .ui-toolbarButtonLabel
   position : absolute
   top      : 0.25em
-  right    : 2em
+  right    : 3em
   width    : 0
   overflow : hidden
   
-  white-space   : nowrap
-  text-align    : right
+  white-space : nowrap
+  text-align  : right
   
-  -webkit-transition : width 200ms ease-in-out
+  opacity : 0
   
-  *:hover > &
-    width : 10em
+  -webkit-transition:
+    property        : width,       opacity
+    duration        : 200ms,       200ms
+    timing-function : ease-in-out, linear
+  
+  *:hover > &:not(:hover)
+    width   : 10em
+    opacity : 1
 
 .ui-toolbarButtonBadge
   position  : absolute
