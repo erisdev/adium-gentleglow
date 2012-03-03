@@ -30,8 +30,8 @@ exports = class RedditScraper extends BasicScraper
     
     thumbnail =
     if post.thumbnail of DEFAULT_THUMBNAILS
-      "#{base}/"
-    if post.thumbnail.charAt(0) is '/'
+      DEFAULT_THUMBNAILS[post.thumbnail]
+    else if post.thumbnail.charAt(0) is '/'
       "#{base}#{post.thumbnail}"
     else
       post.thumbnail
