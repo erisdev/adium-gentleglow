@@ -44,6 +44,9 @@ will need to get an Embed.ly API key and add it to `package.yaml` under
       tumblr: yourtumblrkeypleasedontusemineoriwillcomeandfindyou
       embedly: yourembedlykeybecauseimnotsureicandistributemine
 
+You will also need to uncomment the `enableEmbedly` section in
+`resources/data/preferences.yaml`.
+
 ## Credits & Acknowledgements
 
 Gentle Glow began life as a heavily modified version of Ayumi Yonosa's

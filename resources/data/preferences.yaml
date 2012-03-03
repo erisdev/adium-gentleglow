@@ -10,21 +10,21 @@ enablePreviews:
   more: >
     <p>By enabling this option, links to supported sites may result in a call
       call to that site's public API.</p>
-enableEmbedly:
-  type: boolean
-  default: false
-  label: 'Enable Embed.ly previews for other sites'
-  more: >
-    <img src="images/embedly.png"
-         alt="Powered by Embed.ly"
-         style="float: right; margin: 0 0 1em 1em">
-    
-    <p>By enabling this option, any links sent or received may also be sent to
-      a third party (Embedly) in order to get more information, including
-      thumbnails, text descriptions and summaries.</p>
-    
-    <p>This option has no effect on links to supported sites that offer their
-      own API.</p>
+# enableEmbedly:
+#   type: boolean
+#   default: false
+#   label: 'Enable Embed.ly previews for other sites'
+#   more: >
+#     <img src="images/embedly.png"
+#          alt="Powered by Embed.ly"
+#          style="float: right; margin: 0 0 1em 1em">
+#     
+#     <p>By enabling this option, any links sent or received may also be sent to
+#       a third party (Embedly) in order to get more information, including
+#       thumbnails, text descriptions and summaries.</p>
+#     
+#     <p>This option has no effect on links to supported sites that offer their
+#       own API.</p>
 danbooruSites:
   # TODO support some kind of proper array preference type
   type: 'string'
