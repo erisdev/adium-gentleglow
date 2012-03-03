@@ -1,6 +1,6 @@
 # Changes
 
-## Version 1.5.0: (TBA)
+## Version 1.5.0: (2 March 2012)
 Good lord, everything has changed. Many changes are things behind the scenes
 that users won't notice, and many of them are new or updated features. This is
 a huge update whether it looks like it or not.
