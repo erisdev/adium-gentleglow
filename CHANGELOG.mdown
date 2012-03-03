@@ -1,5 +1,59 @@
 # Changes
 
+## Version 1.5.0: (TBA)
+Good lord, everything has changed. Many changes are things behind the scenes
+that users won't notice, and many of them are new or updated features. This is
+a huge update whether it looks like it or not.
+
+### FIXES & IMPROVEMENTS
+* auto-scrolling works a little better now, but it's still wonky kong with
+  link previews
+* mentions in group chats are collected in a menu for easy viewing
+  * clicking a mention scrolls to that message in the chat buffer
+* timestamps have moved to the previously wasted right margin
+* group chat header isn't fucked up; still not awesome either
+* added a scroll-to-bottom button that appears when it's needed
+* preferences!!! finally
+  * some animation effects can be disabled
+  * link previews can be disabled
+* cleaned up a lot of old cruft
+* fixes and regressions too numerous to list
+* the ugly "session settings" menu has been replaced with an awesome toolbar
+* support for more oEmbed providers, sourced mostly from oohEmbed's own list
+  * **Clikthrough**, some kind of video site
+  * **dotSUB**, a video site with a focus on user-made subtitles
+  * **Kinomap**, crowd-sourced geolocated video
+  * **National Film Board of Canada**!!!
+  * **Scribd**, "social reading and publishing" according to their site
+  * **yFrog**, yet another shortlink image hosting service
+* Danbooru support leveraging the new preferences system so users can add
+  their own Danbooru sites
+
+### BEHIND THE CURTAIN
+* brand new Sinatra-based web app for easily testing the message style in a
+  reasonable facsimile of Adium
+  * includes a Markov chainer-based "bot" that will respond to messages with
+    gibberish sourced from the readme and changelog
+* event-based message processing
+* scripts are divided into modules for better dependency organisation and
+  combined into a single file at compile time
+* mostly reworked CSS class and id names, including clearer, more consistent
+  names and namespacing for non-Adium-owned names
+* animations are gradually moving away from jQuery's JavaScript- and
+  timer-based system to a CSS-based solution
+* stylesheets now use Sass instead of Less
+  * variant-specific styling (colors, etc.) are now separated from everything
+    else.
+  * variants are no longer bleeding massive things hemorrhaging unprecedented
+    amounts of duplicated code.
+* certain resources, including templates and non-code, non-markup data are
+  compiled into a module and retrieved with a simple `get()` call
+  * static files are moved to `files/` in the source tree; `resources/` is now
+    home to, well, resources
+  * many places that originally used inline HTML or jQuery calls to build HTML
+    now call Haml Coffee template resources instead.
+* compiled JavaScript can be "uglified" as part of the build process
+
 ## Version 1.4.1: (19 January 2012)
 * fix URI parser misinterpreting URIs with @ in the path
   * scraping for Flickr links should actually work now
