@@ -2,14 +2,23 @@
   @extend .ui-panel
   
   z-index : $ui-z-menu
+
+.ui-menuContent
+  @extend .ui-panelContent
   
-  .ui-menuContent
-    @extend .ui-panelContent
-    list-style : none
-  
-  .ui-menuHeader
-    @extend .ui-panelHeader
-    text-align : right
+  padding    : 0.5em 0
+  list-style : none
+
+.ui-menuHeader
+  @extend .ui-panelHeader
 
 .ui-menuItem
+  margin  : 0
+  padding : 0.2em 0.5em
+  
   cursor : pointer
+  
+  &:hover
+    color      : #000
+    background : $ui-highlight-color
+    box-shadow : 0 0 5px $ui-highlight-color
