@@ -49,9 +49,12 @@
     duration        : 200ms,       200ms
     timing-function : ease-in-out, linear
   
+  *:focus > &,
   *:hover > &:not(:hover)
     width   : 10em
     opacity : 1
+    
+    outline : none
 
 .ui-toolbarButtonBadge
   position  : absolute

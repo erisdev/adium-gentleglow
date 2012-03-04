@@ -80,6 +80,10 @@ $(window).bind 'adium:message adium:status', (event) ->
   # scroll down if appropriate
   alignChat() if message.shouldScroll
 
+# fake click event on return for tabbable non-input elements
+$('*:not(input)[tabindex]').live 'keydown', (event) ->
+  $(this).click() if event.keyCode is 13
+
 # preferences
 $(window).bind 'gg:preferences', (event) ->
   if event.key is 'enableEffects'
