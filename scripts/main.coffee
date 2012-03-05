@@ -27,7 +27,7 @@ shouldAutoScroll = ->
 flash = (el) ->
   $(el).cssAnimate 'fx-flash', duration: 100, delay: 200, iterations: 2
 
-$(window).bind 'adium:file', (event) ->
+$(window).on 'adium:file', (event) ->
   fileTransfer = event.file
   
   fileTransfer
@@ -38,7 +38,7 @@ $(window).bind 'adium:file', (event) ->
   fileTransfer.find('button').click (event) ->
     fileTransfer.cssAnimate 'fx-winkOut', -> fileTransfer.remove()
 
-$(window).bind 'adium:message', (event) ->
+$(window).on 'adium:message', (event) ->
   message = event.message.model()
   
   # colorise sender name
@@ -70,7 +70,7 @@ $(window).bind 'adium:message', (event) ->
   unless message.isHistory() or not preferences.get('enablePreviews')
     message.find('a').each -> preview.loadPreviews event.message, this
 
-$(window).bind 'adium:message adium:status', (event) ->
+$(window).on 'adium:message adium:status', (event) ->
   message = event.message.model()
   message.shouldScroll = shouldAutoScroll()
   
@@ -81,11 +81,11 @@ $(window).bind 'adium:message adium:status', (event) ->
   alignChat() if message.shouldScroll
 
 # fake click event on return for tabbable non-input elements
-$('*:not(input)[tabindex]').live 'keydown', (event) ->
+$(document).on 'keydown', '*:not(input)[tabindex]', (event) ->
   $(this).click() if event.keyCode is 13
 
 # preferences
-$(window).bind 'gg:preferences', (event) ->
+$(window).on 'gg:preferences', (event) ->
   if event.key is 'enableEffects'
     $.fx.off = not event.newValue
 
@@ -121,7 +121,7 @@ $ ->
   
   # set up the quick scroll to bottom button
   scroller = $('#gg-chatQuickScroller').hide()
-  scroller.bind 'click', (event) -> alignChat()
+  scroller.on 'click', (event) -> alignChat()
   
   previousShouldShow = false
   showOrHideScroller = ->
@@ -133,8 +133,8 @@ $ ->
         scroller.cssFadeOut()
     previousShouldShow = shouldShow
   
-  $('#gg-chatBuffer').bind 'scroll', showOrHideScroller
-  $(window).bind 'resize', showOrHideScroller
+  $('#gg-chatBuffer').on 'scroll', showOrHideScroller
+  $(window).on 'resize', showOrHideScroller
   
   # signal that we're ready to start receiving message events
   initialize()

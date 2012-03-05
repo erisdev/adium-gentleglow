@@ -22,7 +22,7 @@ exports.addButton = (label, options, action) ->
   options = $.extend {label}, options
   html = resources.render 'views/ui/toolbar/button', options
   
-  $(html).bind 'click', (event) ->
+  $(html).on 'click', (event) ->
     $(this).model().action? event
   .appendTo('#gg-toolbar')
   .model().tap (button) ->

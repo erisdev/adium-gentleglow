@@ -68,7 +68,7 @@ removeAnimation = (el, name) ->
     animation.onComplete?.call el
   $(el).data({cssAnimations}).css(compileAnimations cssAnimations)
 
-$('*').live jQuery.cssAnimationEvents.animationEnd, (event) ->
+$(document).on jQuery.cssAnimationEvents.animationEnd, '*', (event) ->
   removeAnimation this, event.originalEvent.animationName
 
 jQuery.fn.cssFadeOut = (speed, easing, callback) ->

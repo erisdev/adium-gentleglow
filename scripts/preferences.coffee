@@ -52,11 +52,11 @@ exports.panel = new UIPanel 'views/preferences',
   id: 'gg-preferencePanel'
   parameters: { preferences: exports }
 
-$(exports.panel).bind 'ui:load', (event) ->
+$(exports.panel).on 'ui:load', (event) ->
   event.rootElement
-  .find('input:checkbox').bind 'change', (event) ->
+  .find('input:checkbox').on 'change', (event) ->
     exports.set $(this).attr('name'), $(this).is(':checked')
   .end()
-  .find('input:not(*:checkbox)').bind 'change', (event) ->
+  .find('input:not(*:checkbox)').on 'change', (event) ->
     exports.set $(this).attr('name'), $(this).val()
 

@@ -18,7 +18,7 @@ $.get 'incoming/Content.html', (text) -> templates.message = text
 $.get 'Status.html', (text) -> templates.status = text  
 $.get 'FileTransferRequest.html', (text) -> templates.fileTransfer = text
 
-$('button[data-action]').live 'click', (event) ->
+$(document).on 'click', 'button[data-action]', (event) ->
   actionName = $(this).data('action')
   if actionName of actions
     actions[actionName].apply this, arguments
@@ -26,16 +26,16 @@ $('button[data-action]').live 'click', (event) ->
     console.error "undefined action #{actionName}"
 
 $ ->
-  $('#messageInput').bind 'keydown', (event) ->
+  $('#messageInput').on 'keydown', (event) ->
     if event.which is 13 and not event.altKey
       event.preventDefault()
       sendMessage $(this).val()
       $(this).val ''
   
-  $(messageView).bind 'load', ->
+  $(messageView).on 'load', ->
     $ = jQuery = messageView.jQuery
     
-    $('a').live 'click', (event) -> event.preventDefault()
+    $(document).on 'click', 'a', (event) -> event.preventDefault()
     
     _ajax = jQuery.ajax
     jQuery.ajax = (url, options) ->

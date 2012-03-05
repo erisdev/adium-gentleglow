@@ -42,7 +42,7 @@ exports = class UIMenu
   
   renderItem: (content, item)->
     html = resources.render @itemTemplate, item
-    $(html).bind 'click', (event) =>
+    $(html).on 'click', (event) =>
       item.action.call event.target, event
       this.hide()
     .appendTo content
