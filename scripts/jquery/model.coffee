@@ -1,12 +1,20 @@
 $.model ?= {}
 
 class $.model.BaseModel
-  constructor: (@rootElement) ->
+  constructor: (source, options = {}) ->
+    el = $(source).data(model: this)
+    [@rootElement] = el
+    this.load $.extend({}, el.data('model-options'), options)
+  
+  load: (options) ->
   
   find: (selector) ->
     if selector?
     then $(@rootElement).find selector
     else $(@rootElement)
+  
+  destroy: ->
+    $(@rootElement).remove()
   
   Object.defineProperty @prototype, 'id',
     enumerable: true
@@ -32,12 +40,14 @@ class $.model.BaseModel
     Object.defineProperty @prototype, name, options
 
 wrap = (el) ->
-  unless model = $(el).data 'model'
-    className = $(el).data 'className'
-    return null unless className
-    return null unless className of $.model
-    model = new $.model[className] el
-    $(el).data {model}
+  $el = $(el)
+  unless model = $el.data 'model'
+    className = $el.data 'className'
+    return null unless className? and className of $.model
+    model = Object.create $.model[className].prototype
+    model.rootElement = el
+    model.load $el.data 'model-options'
+    $el.data {model}
   model
 
 $.fn.model = -> wrap this[0]
