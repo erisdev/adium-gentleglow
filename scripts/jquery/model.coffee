@@ -3,7 +3,10 @@ $.model ?= {}
 class $.model.BaseModel
   constructor: (@rootElement) ->
   
-  find: (selector) -> $(@rootElement).find selector
+  find: (selector) ->
+    if selector?
+    then $(@rootElement).find selector
+    else $(@rootElement)
   
   Object.defineProperty @prototype, 'id',
     enumerable: true
