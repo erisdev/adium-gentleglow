@@ -47,31 +47,38 @@ exports = class UIMenu
       this.hide()
     .appendTo content
   
-  toggle: (x, y) ->
+  toggle: (pos) ->
     if @rootElement?.is(':visible')
       this.hide()
     else
-      this.show x, y
+      this.show pos
   
-  show: (x, y) ->
+  show: (targetPos = {}) ->
     unless @rootElement?
       this.render()
     
-    pos = {top: '', right: '', bottom: '', left: ''}
+    cssPos = {}
     height = @rootElement.outerHeight()
     width  = @rootElement.outerWidth()
     
-    if x + width <= window.innerWidth
-      pos.left = x
+    if targetPos.at?
+      # position relative to another element
+      {left: x, top: y} = $(targetPos.at).offset()
+      x += targetPos.x if targetPos.x?
+      y += targetPos.y if targetPos.y?
     else
-      pos.right = window.innerWidth - x
+      # position absolutely
+      {x, y} = targetPos
+    
+    if x + width <= window.innerWidth
+    then [cssPos.left,  cssPos.right] = [x, '']
+    else [cssPos.right, cssPos.left ] = [window.innerWidth - x, '']
     
     if y + height <= window.innerHeight
-      pos.top = y
-    else
-      pos.bottom = window.innerHeight - y
+    then [cssPos.top,    cssPos.bottom] = [y, '']
+    else [cssPos.bottom, cssPos.top   ] = [window.innerHeight - y, '']
     
-    @rootElement.css(pos).cssFadeIn() unless @rootElement.is ':visible'
+    @rootElement.css(cssPos).cssFadeIn() unless @rootElement.is ':visible'
   
   hide: ->
     @rootElement?.cssFadeOut =>

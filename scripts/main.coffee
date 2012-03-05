@@ -100,7 +100,7 @@ $ ->
   toolbar.addButton 'Mentions', icon: 'mailclosed', (event) ->
     this.icon = 'mailclosed'
     this.badge = ''
-    mentions.menu.toggle event.clientX, event.clientY
+    mentions.menu.toggle at: event.target
   
   toolbar.addButton 'Preferences', icon: 'preferences', ->
     preferences.panel.toggle()
@@ -117,7 +117,7 @@ $ ->
         @import url("Variants/#{variant}.css");
       """
   toolbar.addButton 'Variant', icon: 'lightbulb', (event) ->
-    variantsMenu.toggle(event.clientX, event.clientY)
+    variantsMenu.toggle at: event.target
   
   # set up the quick scroll to bottom button
   scroller = $('#gg-chatQuickScroller').hide()
