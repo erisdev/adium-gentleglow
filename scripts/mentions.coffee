@@ -19,4 +19,4 @@ exports.remember = (message) ->
       onAfter: -> flash el
 
 exports.menu = new UIMenu 'Mentions',
-  itemTemplate: 'views/mention'
+  defaults: {template: 'views/mention'}

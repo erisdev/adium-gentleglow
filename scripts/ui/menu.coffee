@@ -1,65 +1,62 @@
 resources = require 'resources'
+UIBase = require 'ui/base'
 
-exports = class UIMenu
-  constructor: (@title, options, buildMenu) ->
+UIMenuSeparator = class $.model.UIMenuSeparator extends UIBase
+  constructor: -> super $('<li class="ui-menuSeparator">')
+
+UIMenuItem = class $.model.UIMenuItem extends UIBase
+  constructor: (options, @action) ->
+    super options.template ? 'views/ui/menu/item', options
+    
+    $(@rootElement).bind 'click', (event) =>
+      this.action?(event)
+      $(event.target).closest('.ui-menu').model().hide()
+
+exports = class $.model.UIMenu extends UIBase
+  @property 'title', '.ui-menuHeader'
+  
+  constructor: (title, options, buildMenu) ->
     if not buildMenu? and typeof options is 'function'
       [options, buildMenu] = [{}, options]
     else if not options?
       options = {}
     
-    @items = []
-    @itemTemplate = options.itemTemplate ? 'views/ui/menu/item'
-    @temporary = options.temporary ? false
+    super 'views/ui/menu', $.extend({title}, options)
     
     if buildMenu?
       buildMenu
+        defaults: (options) =>
+          $.extend @defaults, options
         item: =>
-          @addItem.apply this, arguments
+          this.addItem arguments...
         separator: =>
-          @addSeparator.apply this, arguments
+          this.addSeparator arguments...
+  
+  Object.defineProperty @prototype, 'items',
+    get: -> this.find('.ui-menuItem, .ui-menuSeparator').models()
+  
+  load: (options) ->
+    @defaults = $.extend {}, options.defaults
   
   addItem: (label, options, action) ->
     if not action? and typeof options is 'function'
       [options, action] = [{}, options]
     
-    item = $.extend {label, action}, options
-    item.id ?= Math.uuid()
+    options = $.extend {label}, @defaults, options
     
-    if contentElement = @rootElement?.find('.ui-menuContent')
-      this.renderItem contentElement, item
-    
-    @items.push item
+    this.find('.ui-menuContent').append \
+      new UIMenuItem(options, action).rootElement
   
   addSeparator: ->
-    @items.push {}
-  
-  render: ->
-    html = resources.render 'views/ui/menu/menu', this
-    @rootElement = $(html).data(ui: this).hide().appendTo 'body'
-    
-    content = @rootElement.find '.ui-menuContent'
-    this.renderItem(content, item) for item in @items
-  
-  renderItem: (content, item)->
-    html = resources.render @itemTemplate, item
-    $(html).on 'click', (event) =>
-      item.action.call event.target, event
-      this.hide()
-    .appendTo content
-  
-  toggle: (pos) ->
-    if @rootElement?.is(':visible')
-      this.hide()
-    else
-      this.show pos
+    this.find('.ui-menuContent').append new UIMenuSeparator().rootElement
   
   show: (targetPos = {}) ->
-    unless @rootElement?
-      this.render()
+    el = $(@rootElement)
+    el.appendTo('body') unless @rootElement.parentElement?
     
     cssPos = {}
-    height = @rootElement.outerHeight()
-    width  = @rootElement.outerWidth()
+    height = el.outerHeight()
+    width  = el.outerWidth()
     
     if targetPos.at?
       # position relative to another element
@@ -78,12 +75,4 @@ exports = class UIMenu
     then [cssPos.top,    cssPos.bottom] = [y, '']
     else [cssPos.bottom, cssPos.top   ] = [window.innerHeight - y, '']
     
-    @rootElement.css(cssPos).cssFadeIn() unless @rootElement.is ':visible'
-  
-  hide: ->
-    @rootElement?.cssFadeOut =>
-      this.destroy() if @temporary
-  
-  destroy: ->
-    @rootElement.remove()
-    @rootElement = null
+    el.css(cssPos).cssFadeIn()

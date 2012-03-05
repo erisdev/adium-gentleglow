@@ -24,7 +24,6 @@ exports = class UIPanel
     # promote header, content and footer elements from the content template
     for className in ['ui-panelHeader', 'ui-panelFooter', 'ui-panelContent']
       @rootElement.find(".ui-panelContent > .#{className}").each (i, el) ->
-        console.log ""
         $(el).closest('.ui-panel').children(".#{className}").replaceWith el
     
     $(this).trigger jQuery.Event('ui:load', {ui: this, @rootElement})
