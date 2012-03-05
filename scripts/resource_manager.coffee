@@ -27,7 +27,7 @@ exports = class ResourceManager
       yield: ->
         fn.apply vars, arguments
     
-    this.get(keypath)(vars)
+    template vars
   
   register: (keypath, value) ->
     @resources[keypath] = value
