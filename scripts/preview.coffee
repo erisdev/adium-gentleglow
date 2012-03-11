@@ -1,4 +1,4 @@
-Uri = require 'uri'
+{parse: parseUri} = require 'uri'
 Console = require 'console'
 resources = require 'resources'
 
@@ -11,7 +11,7 @@ exports =
   loadPreviews: (message, link) ->
     scraperQueue = [ ]
     
-    uri = new Uri link.href
+    uri = parseUri link.href
     
     link = $(link)
     title = link.attr('title') ? link.text()

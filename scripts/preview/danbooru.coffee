@@ -1,12 +1,12 @@
 {BasicScraper} = require 'preview'
 preferences = require 'preferences'
-Uri = require 'uri'
+{parse: parseUri} = require 'uri'
 
 exports = class DanbooruScraper extends BasicScraper
   @getSites: ->
     for site in preferences.get('danbooruSites').split(/\s+/) when site isnt ''
       site = "http://#{site}" unless ///^ http:// ///.test(site)
-      new Uri site
+      parseUri site
   
   @doesUriMatch: (uri) ->
     for booru in this.getSites()
