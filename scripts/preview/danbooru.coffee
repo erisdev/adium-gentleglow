@@ -28,7 +28,7 @@ exports = class DanbooruScraper extends BasicScraper
           dimensions: [post.height, post.width]
           size: post.file_size
           score: post.score
-          timestamp: new Date(post.created_at.s)
+          timestamp: new Date(post.created_at.s.seconds() + post.created_at.n.nanoseconds())
           author: {name: post.author, uri: "#{booru}/user/show/#{post.creator_id}"}
           source: {name: post.source?.replace(///^ \w+ :// ///, ''), uri: post.source}
     else
