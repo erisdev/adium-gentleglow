@@ -19,6 +19,12 @@ Number::toPaddedString = (length, base = 10) ->
   string = "0#{string}" while string.length < length
   string
 
+Number::nanoseconds  = -> this / 1000000
+Number::milliseconds = -> this
+Number::seconds      = -> this *    1000
+Number::minutes      = -> this *   60000
+Number::hours        = -> this * 3600000
+
 RegExp.escape = (string) ->
   string.replace /[\/\.\*\+\?\|\(\)\[\]\{\}\\]/g, '\\$&'
 
@@ -62,5 +68,5 @@ hideProperties = (obj, properties...) ->
     Object.defineProperty obj, prop, enumerable: false 
 
 hideProperties Object.prototype, 'tap', 'isEmpty', 'getKeys', 'getOwnKeys'
-hideProperties Number.prototype, 'toPaddedString'
+hideProperties Number.prototype, 'toPaddedString', 'nanoseconds', 'milliseconds', 'seconds', 'minutes', 'hours'
 hideProperties String.prototype, 'template', 'escapeEntities', 'unescapeEntities'
