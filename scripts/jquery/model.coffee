@@ -4,6 +4,9 @@ class $.model.BaseModel
   constructor: (source, options = {}) ->
     el = $(source).data(model: this)
     [@rootElement] = el
+    
+    el.attr id: options.id if options.id?
+    
     this.load $.extend({}, el.data('model-options'), options)
   
   load: (options) ->
