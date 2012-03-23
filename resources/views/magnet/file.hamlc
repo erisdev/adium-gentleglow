@@ -1,0 +1,46 @@
+%div.gg-previewMediaInfo.gg-previewMediaFile
+  - if @displayName?
+    %h2.gg-previewMediaName.gg-previewTitle= $e @displayName
+  - if @exactLength?
+    %p.gg-previewMediaSize= "#{$e @exactLength} bytes"
+  
+  - switch @exactTopic.length
+    - when 0 then null
+    - when 1
+      %p.gg-previewMediaIdentity= $e @exactTopic[0]
+    - else
+      %p.gg-previewLabel identitifiers:
+      %ul.gg-previewMediaIdentityList
+        - for urn in @exactTopic
+          %span.gg-previewMediaIdentity= $e urn
+  
+  - switch @addressTracker.length
+    - when 0 then null
+    - when 1
+      %p tracked by
+        %a.gg-previewMediaProvider{href: @addressTracker[0]}
+          = $e @addressTracker[0]
+    - else
+      %p.gg-previewLabel trackers:
+      %ul.gg-previewMediaProviderList
+        - for tracker in @addressTracker
+          %li
+            %a.gg-previewMediaProvider{href: tracker}= $e tracker
+  
+  - switch @exactSource.length
+    - when 0 then null
+    - when 1
+      %p from
+        %a.gg-previewMediaSource{href: @exactSource[0]}
+          = $e @exactSource[0]
+    - else
+      %p.gg-previewLabel alternative sources:
+      %ul.gg-previewMediaSourceList
+        - for source in @exactSource
+          %li
+            %a.gg-previewMediaSource{href: source}= $e source
+  
+  - if @keywordTopic.length > 0
+    %p keywords:
+      - for keyword in @keywordTopic
+        %span.gg-previewMediaKeyword= $e keyword

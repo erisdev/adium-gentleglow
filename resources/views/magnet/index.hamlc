@@ -1,0 +1,17 @@
+- if @uri.files.length is 1
+  - title = "Magnet link"
+- else
+  - title = "Magnet link (#{@uri.files.length} files)"
+
+%article
+  .gg-previewThumbnail
+    %a{href: @uri}
+      %img{src: 'images/icons/magnet.png', title: title, alt: title}
+  %h1.gg-previewTitle
+    %a{href: @uri}= $e title
+  - if @uri.files.length is 1
+    = this.partial 'views/magnet/file', @uri.files[0]
+  - else
+    %ul.gg-previewMediaList
+      - for file in @uri.files
+        %li= this.partial 'views/magnet/file', file

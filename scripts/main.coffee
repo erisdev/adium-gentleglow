@@ -3,6 +3,7 @@ require 'jquery/css_animation'
 require 'jquery/model/message'
 
 preview = require 'preview'
+preview.register require('preview/magnet')
 preview.register require('preview/danbooru')
 preview.register require('preview/imgur')
 preview.register require('preview/oembed')
