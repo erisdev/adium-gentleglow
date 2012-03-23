@@ -2,7 +2,7 @@
   display : none
 
 .gg-previews
-  margin  : 0 3em
+  margin  : 0 1em
   
   & > *
     clear  : both
@@ -13,9 +13,20 @@
     
     -webkit-mask : -webkit-linear-gradient(bottom, transparent, white 1.5em)
     
+    p
+      margin  : 0
+      padding : 0
+      
+      text-align : justify
+    
+    p + p
+      margin : 0.5em 0 0 0
+      
+      text-indent : 0.5em
+    
     .gg-previewThumbnail
-      float  : left
-      margin : 0 0.5em 0 0
+      float  : right
+      margin : 0 0 1em 1em
       
       img
         max-height : 5em
@@ -24,7 +35,7 @@
         width      : auto
     
     .gg-previewTitle
-      margin : 0 0 0.5em 0
+      margin  : 0 0 0.2em 0
       padding : 0
       
       overflow      : hidden
@@ -34,7 +45,7 @@
       font-size : medium
     
     .gg-previewInfo
-      margin  : 0
+      margin  : 0.2em 1em
       padding : 0
       
       font-size  : small
