@@ -67,7 +67,7 @@ exports = class TumblrScraper extends BasicScraper
       # TODO pick a suitably sized thumbnail image
       thumbnail: thumbnail.url
       snippet: post.caption
-      dimensions: [post.width, post.height]
+      dimensions: [photo.width, photo.height]
   
   # Quote Posts
   ##
