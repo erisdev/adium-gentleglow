@@ -1,26 +1,25 @@
-%ul.ui-panelContent.gg-preferences
-  - @preferences.each values: true, (name, spec, value) ->
-    %li.gg-preference
-      - unless spec.type is 'boolean'
-        / unnngh, special case
+- @preferences.each values: true, (name, spec, value) ->
+  %li.gg-preference
+    - unless spec.type is 'boolean'
+      / unnngh, special case
+      %label.gg-preferenceLabel{for: name}= spec.label
+      %br
+    
+    - switch spec.type
+      - when 'boolean'
+        %input{type: 'checkbox', name: name, checked: value}
         %label.gg-preferenceLabel{for: name}= spec.label
-        %br
-      
-      - switch spec.type
-        - when 'boolean'
-          %input{type: 'checkbox', name: name, checked: value}
-          %label.gg-preferenceLabel{for: name}= spec.label
-        - when 'string'
-          %input{type: 'text', name: name, value: value}
-        - when 'number'
-          %input{type: 'number', name: name, value: value, min: spec.min, max: spec.max}
-        - when 'enum'
-          %select{name: name}
-            - if spec.values instanceof Array
-              - for optionValue in spec.values
-                %option{selected: optionValue is value}= optionValue
-            - else
-              - for optionValue, optionLabel of spec.values
-                %option{value: optionValue, selected: optionValue is value}= optionLabel
-      - if spec.more?
-        %div.gg-preferenceMore= spec.more
+      - when 'string'
+        %input{type: 'text', name: name, value: value}
+      - when 'number'
+        %input{type: 'number', name: name, value: value, min: spec.min, max: spec.max}
+      - when 'enum'
+        %select{name: name}
+          - if spec.values instanceof Array
+            - for optionValue in spec.values
+              %option{selected: optionValue is value}= optionValue
+          - else
+            - for optionValue, optionLabel of spec.values
+              %option{value: optionValue, selected: optionValue is value}= optionLabel
+    - if spec.more?
+      %div.gg-preferenceMore= spec.more

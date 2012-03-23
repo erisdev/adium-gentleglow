@@ -1,52 +1,21 @@
 resources = require 'resources'
+UIBase = require 'ui/base'
 
-exports = class UIPanel
+exports = class UIPanel extends UIBase
+  @property 'title', '.ui-panelHeader'
+  
   constructor: (contentTemplate, options = {}) ->
-    options = $.extend {}, options
+    super 'views/ui/panel', options
     
-    @parameters = options.parameters ? {}
-    @id = options.id ? Math.uuid()
     @title = options.title ? 'Panel'
     
-    @templates =
-      panel: 'views/ui/panel'
-      content: contentTemplate
+    contentHtml = resources.render contentTemplate, options.parameters
+    $(@rootElement).children('.ui-panelContent').html contentHtml
   
-  load: ->
-    parameters = $.extend {@title}, @parameters
-    
-    rootHtml = resources.render @templates.panel, parameters
-    contentHtml = resources.render @templates.content, parameters
-    
-    @rootElement = $(rootHtml).hide().attr({@id}).appendTo 'body'
-    @rootElement.children('.ui-panelContent').html contentHtml
-    
-    # promote header, content and footer elements from the content template
-    for className in ['ui-panelHeader', 'ui-panelFooter', 'ui-panelContent']
-      @rootElement.find(".ui-panelContent > .#{className}").each (i, el) ->
-        $(el).closest('.ui-panel').children(".#{className}").replaceWith el
-    
-    $(this).trigger jQuery.Event('ui:load', {ui: this, @rootElement})
+  show: (options) ->
+    el = $(@rootElement)
+    el.appendTo('body') unless @rootElement.parentElement?
+    el.cssFadeIn()
   
-  isVisible: ->
-    if @rootElement?
-      @rootElement.is(':visible')
-    else
-      false
-  
-  toggle: (options = {}) ->
-    if this.isVisible()
-      this.hide options
-    else
-      this.show options
-  
-  show: ->
-    this.load() unless @rootElement?
-    @rootElement.cssFadeIn()
-  
-  hide: (options = {}) ->
-    panel = this
-    @rootElement?.cssFadeOut ->
-      if options.destroy
-        $(this).remove()
-        panel.rootElement = null
+  hide: ->
+    $(@rootElement).cssFadeOut()
