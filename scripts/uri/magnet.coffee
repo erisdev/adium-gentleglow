@@ -27,7 +27,7 @@ exports = class Magnet extends Generic
       switch param
         when 'dn' then file.displayName = decodeURIComponent value
         when 'xl' then file.exactLength = parseInt value
-        when 'kt' then file.keywordTopic.push value.split('+')...
-        when 'xt' then file.exactTopic.push value
-        when 'xs' then file.exactSource.push value
-        when 'tr' then file.addressTracker.push value
+        when 'kt' then file.keywordTopic.push decodeURIComponent(value).split('+')...
+        when 'xt' then file.exactTopic.push decodeURIComponent value
+        when 'xs' then file.exactSource.push decodeURIComponent value
+        when 'tr' then file.addressTracker.push decodeURIComponent value
