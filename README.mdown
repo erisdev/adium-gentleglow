@@ -49,28 +49,37 @@ You will also need to uncomment the `enableEmbedly` section in
 
 ## Credits & Acknowledgements
 
-Gentle Glow began life as a heavily modified version of Ayumi Yonosa's
+~~Gentle Glow began life as a heavily modified version of Ayumi Yonosa's
 [1337][] message style with support for proportional fonts, but it quickly
 evolved into a whole different animal. I'd be surprised if any vestige of the
-original remains, but the inspiration is still there. Thank you, Ayumi!
+original remains, but the inspiration is still there. Thank you, Ayumi!~~
+There is nothing left of 1337 in here. So long and thanks for all the blurry
+edges.
 
 Color hashing uses the Unix ELF hash algorithm, adapted from Ruby 1.8's
 implementation in `rb_str_hash`.
 
-JavaScript magic is provided by [jQuery][].
+JavaScript magic is provided by [jQuery][], unfortunately.
 
 Select graphics taken from [app-bits][] iPhone toolbar icon set.
 
 ## License
 
-Since the base I started from was released under a rather permissive license,
+~~Since the base I started from was released under a rather permissive license,
 it would only be right to release a derivative work under similarly liberal
-terms.
+terms.~~
 
-Consider this CC-BY-NC-SA. As with those who came before, I would appreciate
+~~Consider this CC-BY-NC-SA. As with those who came before, I would appreciate
 acknowledgement if this style is used as a jumping off point for your own
 project. Don't try to sell it. If you to make derivative works, be liberal in
-your terms as well.
+your terms as well.~~
+
+### Original Materials
+
+All HTML, CSS and JavaScript are covered by the terms of the GNU Affero General
+Public License. See [LICENSE](LICENSE) for details.
+
+All other assets are CC-BY-NC-SA, as ever.
 
 ### app-bits iPhone toolbar icons
 
